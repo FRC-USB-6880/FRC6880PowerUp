@@ -25,8 +25,8 @@ How to setup your Desktop/Laptop to work on FRC Java software
 
     Windows download: https://www.kauailabs.com/public_files/navx-mxp/navx-mxp.zip
 
-    Run the Setup executable to install Navx libraries on your windows machine.  After the installation, you will find the navx_frc.jar under the install directory (usually C:\Program Files
-    
+    Run the Setup executable to install Navx libraries on your windows machine.    
+
     Mac download: https://www.kauailabs.com/public_files/navx-mxp/navx-mxp-libs.zip
     
     Unzip the zip file and you will see navx_frc.jar file.
