@@ -49,11 +49,16 @@ How to setup your Desktop/Laptop to work on FRC Java software
 4)  Clone FRC6880PowerUp repository into your Eclipse workspace.  This can be done in several ways.
 
     a)  File -> Import... -> Repositories from GitHub -> Enter "FRC6880PowerUp" and search.
+
     b)  Instead of the above method, you can use git bash to clone the repository.
+
         i)  Open Git Bash from Windows Start menu.
+
         ii) cd to your workspace directory.  This should be typically /c/Users/<username>/My Documents/workspace/
+
         iii) Enter the following command:
             git clone https://github.com/FRC-USB-6880/FRC6880PowerUp.git
+
     c)  You can also use "Git Repositories" view in Eclipse to clone a git repository.
 
 5)  If the FRC6880PowerUp project does not show up in your "Package Explorer" view,
