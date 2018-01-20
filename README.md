@@ -13,9 +13,9 @@ How to setup your Desktop/Laptop to work on FRC Java software
 2) After you have successfully installed the WPI plugin for Eclipse,
     you should see the following directory:
 
-    Windows:  C:\Users'AccountName'\wpilib\user\java\lib\
+    Windows:  C:\Users\[AccountName]\wpilib\user\java\lib\
 
-    Mac:  /Users/<username>/wpilib/user/java/lib/
+    Mac:  /Users/[AccountName]/wpilib/user/java/lib/
     
 3)  Download the following jar files and copy them to the directory specified in step 2.
 
@@ -25,6 +25,8 @@ How to setup your Desktop/Laptop to work on FRC Java software
 
     Windows download: https://www.kauailabs.com/public_files/navx-mxp/navx-mxp.zip
 
+    Run the Setup executable to install Navx libraries on your windows machine.  After the installation, you will find the navx_frc.jar under the install directory (usually C:\Program Files
+    
     Mac download: https://www.kauailabs.com/public_files/navx-mxp/navx-mxp-libs.zip
     
     Unzip the zip file and you will see navx_frc.jar file.
