@@ -54,6 +54,7 @@ How to setup your Desktop/Laptop to work on FRC Java software
         Mac download:
         http://www.ctr-electronics.com//downloads/lib/CTRE_Phoenix_FRCLibs_NON-WINDOWS_v5.2.1.1.zip
 
+
 4)  Clone FRC6880PowerUp repository into your Eclipse workspace.  This can be done in several ways.
 
     a)  File -> Import... -> Repositories from GitHub -> Enter "FRC6880PowerUp" and search.
