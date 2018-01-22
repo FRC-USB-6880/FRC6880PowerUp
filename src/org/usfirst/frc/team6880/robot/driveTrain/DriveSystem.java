@@ -23,7 +23,7 @@ public class DriveSystem {
 	private static final double WHEEL_DIAMETER = 6.0 * 0.0254;
 	/**Wheel circumference in meters*/
 	private static final double WHEEL_CIRCUMFERENCE = Math.PI * WHEEL_DIAMETER;
-	private static final double COUNTS_PER_ROTATION = 1440.0;
+	private static final double COUNTS_PER_ROTATION = 360.0;
 	private static final double DISTANCE_PER_PULSE = WHEEL_CIRCUMFERENCE / COUNTS_PER_ROTATION;
 	
 	public DriveSystem(FRCRobot robot)
@@ -60,7 +60,9 @@ public class DriveSystem {
 	
 	public double getDist()
 	{
-		return (leftEnc.getDistance() + rightEnc.getDistance()) / 2.0;
+		double curDist = (Math.abs(leftEnc.getDistance()) + Math.abs(rightEnc.getDistance())) / 2.0;
+		System.out.println("frc6880: Cur Dist: " + curDist);
+		return curDist;
 	}
 	//TODO: Basically everything to do with moving
 }

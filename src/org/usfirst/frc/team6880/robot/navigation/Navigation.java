@@ -14,7 +14,7 @@ public class Navigation {
 	
 	public void driveDirection(double speed, double direction)
 	{
-		robot.driveSys.arcadeDrive(speed, GYRO_KP * (gyro.getYaw() - direction));
+		robot.driveSys.arcadeDrive(speed, direction);
 	}
 	
 	//TODO: Coordinate System?

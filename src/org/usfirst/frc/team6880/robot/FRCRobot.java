@@ -10,7 +10,7 @@ public class FRCRobot {
 	public Navigation navigation;
 	
 	RobotTask curTask;
-	RobotTask tasks [] = {new TaskMoveForward20m(this)};
+	RobotTask tasks [] = {new TaskSpinCCW90deg(this), new TaskMoveForward20m(this)};
 	int taskNum;
 	boolean tasksDone;
 	
@@ -18,6 +18,7 @@ public class FRCRobot {
 	{
 		this.wpilibrobot = wpilibrobot;
 		this.driveSys = new DriveSystem(this);
+		navigation = new Navigation(this);
 	}
 	
 	public void runTeleOp()
@@ -32,6 +33,7 @@ public class FRCRobot {
 		driveSys.resetEncoders();
 		//Start with first task
 		curTask = tasks[0];
+		curTask.initTask();
 		taskNum = 0;
 		tasksDone = false;
 	}

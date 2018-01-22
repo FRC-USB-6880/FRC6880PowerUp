@@ -14,18 +14,20 @@ public class TaskMoveForward20m implements RobotTask {
 	public void initTask()
 	{
 		//Set target distance to robot's current distance + 20m
-		endDist = robot.driveSys.getDist() + 2;
+		endDist = robot.driveSys.getDist() + 1;
 		//Get the direction we want to travel
-		direction = robot.navigation.gyro.getYaw();
+//		direction = robot.navigation.gyro.getYaw();
 	}
 	
 	public boolean runTask()
 	{
+		System.out.println("frc6880: Running task");
 		//If robot hasn't traveled 20m
 		if (robot.driveSys.getDist() < endDist)
 		{
 			//Go straight at half speed
-			robot.navigation.driveDirection(0.5, direction);
+			robot.navigation.driveDirection(0.5, 0);
+			System.out.println("frc6880: After driveDirection");
 			return false;
 		}
 		//Else stop the robot and tell robot to go to next task
