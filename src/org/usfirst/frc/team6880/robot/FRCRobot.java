@@ -9,10 +9,7 @@ public class FRCRobot {
 	public DriveSystem driveSys;
 	public Navigation navigation;
 	
-	RobotTask curTask;
-	RobotTask tasks [] = {new TaskMoveForward20m(this)};
-	int taskNum;
-	boolean tasksDone;
+	AutonomousTasks autonTasks;
 	
 	public FRCRobot(Robot wpilibrobot)
 	{
@@ -30,32 +27,12 @@ public class FRCRobot {
 	{
 		//Resent encoders
 		driveSys.resetEncoders();
-		//Start with first task
-		curTask = tasks[0];
-		taskNum = 0;
-		tasksDone = false;
+		autonTasks = new AutonomousTasks(this, "TaskSet1");		
 	}
 	
 	public void runAutonomous()
 	{
-		//Run the current task. If current task ended
-		if (!tasksDone && curTask.runTask())
-		{
-			//If there are still tasks to run
-			if (taskNum + 1 < tasks.length)
-			{
-				System.out.println("Finished running task number " + taskNum);
-				//Go to next task
-				curTask = tasks[++taskNum];
-				//Begin the next task
-				curTask.initTask();
-			}
-			else
-			{
-				tasksDone = true;
-				System.out.println("Robot has finished running the autonomous tasks");
-			}
-		}
+	    autonTasks.runNextTask();
 	}
 		
 	public boolean isEnabled()
