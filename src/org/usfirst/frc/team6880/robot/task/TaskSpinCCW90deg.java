@@ -19,7 +19,7 @@ public class TaskSpinCCW90deg implements RobotTask {
 		endDirection = Math.IEEEremainder(robot.navigation.gyro.getYaw() - 90.0, 360);
 
 		//Start turning at half speed
-		robot.driveSys.arcadeDrive(0.5, -1.0);
+//		robot.driveSys.arcadeDrive(0, -0.5);
 	}
 	
 	public boolean runTask()
@@ -27,7 +27,8 @@ public class TaskSpinCCW90deg implements RobotTask {
 		//If robot hasn't turned 90 deg
 		if (Math.IEEEremainder(endDirection - robot.navigation.gyro.getYaw(), 360) < 0)		{
 			//Keep on turning by leaving motors at their current values
-			return false;
+		    robot.driveSys.tankDrive(-0.5, 0.5);
+		    return false;
 		}
 		//Else stop the robot and tell robot to go to next task
 		robot.driveSys.tankDrive(0.0, 0.0);

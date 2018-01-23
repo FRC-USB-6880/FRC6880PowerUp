@@ -44,6 +44,10 @@ public class DriveTrainReader extends JsonReader {
         }
         return (channelNum);
     }
+    
+    // ToDo
+    // Create getEncoderChannels(String encoderLocation) method which will 
+    // return an interger array contain 2 channel number for left or right encoder.
 
     public String getWheelType(){
         String wheelType = null;

@@ -15,13 +15,15 @@ public class Navigation {
 		NavOptionsReader configReader = new NavOptionsReader(JsonReader.navigationFile, navOptStr);
 		if(configReader.imuExists())
 			this.gyro = new NavxMXP(robot);
-		gyro_GoStraight_KP = configReader.getIMUVariableDouble("KP");
+		gyro_GoStraight_KP = configReader.getIMUVariableDouble("Kp");
 	}
 	
+	// ToDo:  This method is implements a PID loop; rename it to indicate that information.
 	public void driveDirection(double speed, double direction)
 	{
 		robot.driveSys.arcadeDrive(speed, gyro_GoStraight_KP * (gyro.getYaw() - direction));
 	}
+
 	//TODO Create driveStraightToDistance()
 	
 	
@@ -29,6 +31,7 @@ public class Navigation {
 	
 	
 	//TODO Create turnToHeading()	
+
 	//TODO: Coordinate System?
 	//TODO: Computer Vision?
 }

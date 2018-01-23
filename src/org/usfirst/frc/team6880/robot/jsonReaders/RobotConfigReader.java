@@ -36,7 +36,6 @@ public class RobotConfigReader extends JsonReader {
 
     public String getNavigationOption(String autoOrTeleop) {
         String navigationOption = null;
-        String key=null;
         try{
             if (autoOrTeleop.equalsIgnoreCase("Autonomous"))
                 navigationOption = getString(robotObj, "autonomous_navigation");

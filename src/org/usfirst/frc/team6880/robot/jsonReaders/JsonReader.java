@@ -38,7 +38,7 @@ public class JsonReader {
 		FileReader fileReader = null;
         // If the given file path does not exist, give an error
         try {
-            fileReader = new FileReader(filePath);
+            fileReader = new FileReader(this.filePath);
         }
         catch (IOException except) {
             System.out.println("frc6880: Error while trying to open "+filePath+". Error: "+except.getMessage());

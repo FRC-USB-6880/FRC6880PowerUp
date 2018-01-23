@@ -22,9 +22,20 @@ public class DriveSystem {
 	DriveTrainReader configReader;
 	WheelSpecsReader wheelSpecsReader;
 	
-	private static double WHEEL_DIAMETER;
-	private static double WHEEL_CIRCUMFERENCE;
-	private static double DISTANCE_PER_PULSE;
+	private double wheelDiameter;
+	private double wheelCircumference;
+	private double distancePerCount;
+	
+	/*
+	 *  TODO
+	 *  We will need to support at least 2 different drive trains:
+	 *  1) 4 Motor 4 VictorSP controller drive train (this is what the current off season robot uses)
+	 *  2) 4 Motor 4 Talon SRX controller drive train (this is what the new competition robot will use)
+	 *  
+	 *  The goal is to use object oriented concepts to organize the driveTrain package in 
+	 *  such a way that the users of DriveSystem class (Navigation, FRCRobot, Tasks, etc.)
+	 *  do not have to know which specific drive train is being currently used.
+	 */
 	
 	public DriveSystem(FRCRobot robot, String driveSysName)
 	{
@@ -33,10 +44,13 @@ public class DriveSystem {
         String wheelType = configReader.getWheelType();
         wheelSpecsReader = new WheelSpecsReader(JsonReader.wheelSpecsFile, wheelType);
 		
-		WHEEL_DIAMETER = wheelSpecsReader.getDiameter();
-		WHEEL_CIRCUMFERENCE = Math.PI * WHEEL_DIAMETER;
-		DISTANCE_PER_PULSE = WHEEL_CIRCUMFERENCE / configReader.getEncoderValue("LeftEncoder", "PPR");
+		wheelDiameter = wheelSpecsReader.getDiameter();
+		wheelCircumference = Math.PI * wheelDiameter;
+		// We will assume that the same encoder is used on both left and right sides of the drive train. 
+		distancePerCount = wheelCircumference / configReader.getEncoderValue("LeftEncoder", "CPR");
 		
+		// TODO  Use configReader.getChannelNum() method to identify the
+		//   channel numbers where each motor controller is plugged in
 		motorL1 = new VictorSP(0);
 		motorL2 = new VictorSP(1);
 		motorLeft = new SpeedControllerGroup(motorL1, motorL2);
@@ -45,9 +59,9 @@ public class DriveSystem {
 		motorRight = new SpeedControllerGroup(motorR1, motorR2);
 		drive = new DifferentialDrive(motorLeft, motorRight);
 		leftEnc = new Encoder(0, 1, false, Encoder.EncodingType.k4X);
-		leftEnc.setDistancePerPulse(DISTANCE_PER_PULSE);
+		leftEnc.setDistancePerPulse(distancePerCount);
 		rightEnc = new Encoder(2, 3, true, Encoder.EncodingType.k4X);
-		rightEnc.setDistancePerPulse(DISTANCE_PER_PULSE);
+		rightEnc.setDistancePerPulse(distancePerCount);
 	}
 	
 	public void tankDrive(double leftSpeed, double rightSpeed)

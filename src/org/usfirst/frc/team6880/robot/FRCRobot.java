@@ -16,11 +16,12 @@ public class FRCRobot {
 	public FRCRobot(Robot wpilibrobot)
 	{
 		this.wpilibrobot = wpilibrobot;
-		configReader = new RobotConfigReader("/robots.json", "2018_Robot"); 
+		
+		// Important:  Base directory has to be set before trying to read any JSON file
+		JsonReader.setBaseDir(JsonReader.baseDir);
+		
+		configReader = new RobotConfigReader(JsonReader.robotsFile, "2018_Robot"); 
 		driveSys = new DriveSystem(this, configReader.getDriveTrainName());
-		navigation = new Navigation(this, configReader.getNavigationOption("NavxMXP"));
-		
-		
 	}
 	
 	public void initTeleOp()
@@ -37,8 +38,9 @@ public class FRCRobot {
 	public void initAutonomous()
 	{
 		//Resent encoders
+        navigation = new Navigation(this, configReader.getNavigationOption("Autonomous"));
 		driveSys.resetEncoders();
-		autonTasks = new AutonomousTasks(this, "TaskSet1");		
+		autonTasks = new AutonomousTasks(this, "TaskList1");		
 	}
 	
 	public void runAutonomous()

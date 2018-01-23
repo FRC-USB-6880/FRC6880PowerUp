@@ -20,13 +20,13 @@ public class AutonomousTasks {
     /**
      * 
      */
-    public AutonomousTasks(FRCRobot robot, String taskSet) {
+    public AutonomousTasks(FRCRobot robot, String taskList) {
         this.robot = robot;
         // TODO Initialize a tasks array depending on the taskSet specified.
-        if (taskSet.equalsIgnoreCase("TaskSet1")) {
+        if (taskList.equalsIgnoreCase("TaskList1")) {
             tasks = new RobotTask[1];
             tasks[0] = new TaskMoveForward20m(robot);
-        } else if (taskSet.equalsIgnoreCase("TaskSet2")) {
+        } else if (taskList.equalsIgnoreCase("TaskList2")) {
             tasks = new RobotTask[7];
             int i = 0;
             tasks[i++] = new TaskMoveForward(this.robot, 20);
@@ -38,8 +38,9 @@ public class AutonomousTasks {
             tasks[i++] = new TaskMoveForward(this.robot, 20);
         }
         //Start with first task
-        curTask = tasks[0];
         taskNum = 0;
+        curTask = tasks[0];
+        curTask.initTask();
         tasksDone = false;
     }
     
