@@ -24,11 +24,18 @@ public class AutonomousTasks {
         this.robot = robot;
         // TODO Initialize a tasks array depending on the taskSet specified.
         if (taskSet.equalsIgnoreCase("TaskSet1")) {
-            // TODO
             tasks = new RobotTask[1];
             tasks[0] = new TaskMoveForward20m(robot);
         } else if (taskSet.equalsIgnoreCase("TaskSet2")) {
-            // TODO
+            tasks = new RobotTask[7];
+            int i = 0;
+            tasks[i++] = new TaskMoveForward(this.robot, 20);
+            tasks[i++] = new TaskTurnLeft(this.robot, 90);
+            tasks[i++] = new TaskMoveForward(this.robot, 20);
+            tasks[i++] = new TaskTurnLeft(this.robot, 90);
+            tasks[i++] = new TaskMoveForward(this.robot, 20);
+            tasks[i++] = new TaskTurnLeft(this.robot, 90);
+            tasks[i++] = new TaskMoveForward(this.robot, 20);
         }
         //Start with first task
         curTask = tasks[0];

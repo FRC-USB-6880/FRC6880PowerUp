@@ -13,38 +13,47 @@ How to setup your Desktop/Laptop to work on FRC Java software
 2) After you have successfully installed the WPI plugin for Eclipse,
     you should see the following directory:
 
-    Windows:  C:\Users'AccountName'\wpilib\user\java\lib\
+    Windows:  C:\Users\[AccountName]\wpilib\user\java\lib\
 
-    Mac:  /Users/<username>/wpilib/user/java/lib/
+    Mac:  /Users/[AccountName]/wpilib/user/java/lib/
     
 3)  Download the following jar files and copy them to the directory specified in step 2.
 
+    UPDATE:  You can download all the required external libraries from the repository:
+    
+        https://github.com/FRC-USB-6880/PowerUpLibraries
+
+    You can also download the external libraries individually as given below:
+
     a) navx_frc.jar
     
-    General Instructions: https://www.pdocs.kauailabs.com/navx-mxp/software/roborio-libraries/java/
+        General Instructions: https://www.pdocs.kauailabs.com/navx-mxp/software/roborio-libraries/java/
 
-    Windows download: https://www.kauailabs.com/public_files/navx-mxp/navx-mxp.zip
+        Windows download: https://www.kauailabs.com/public_files/navx-mxp/navx-mxp.zip
 
-    Mac download: https://www.kauailabs.com/public_files/navx-mxp/navx-mxp-libs.zip
+       Run the Setup executable to install Navx libraries on your windows machine.    
+
+        Mac download: https://www.kauailabs.com/public_files/navx-mxp/navx-mxp-libs.zip
     
-    Unzip the zip file and you will see navx_frc.jar file.
+        Unzip the zip file and you will see navx_frc.jar file.
 
     b) json-simple-1.1.1.jar
     
-    Windows and Mac download: 
+        Windows and Mac download: 
 
-    https://storage.googleapis.com/google-code-archive-downloads/v2/code.google.com/json-simple/json-simple-1.1.1.jar
+        https://storage.googleapis.com/google-code-archive-downloads/v2/code.google.com/json-simple/json-simple-1.1.1.jar
     
     c) CTRE_Phoenix.jar, CTRE_Phoenix-sources.jar, libCTRE_PhoenixCCI.so
     
-    General Instructions:
-    https://github.com/CrossTheRoadElec/Phoenix-Documentation
-    
-    Windows download:  
-    http://www.ctr-electronics.com/downloads/installers/CTRE%20Phoenix%20Framework%20v5.2.1.1.zip
-    
-    Mac download:
-    http://www.ctr-electronics.com//downloads/lib/CTRE_Phoenix_FRCLibs_NON-WINDOWS_v5.2.1.1.zip
+        General Instructions:
+        https://github.com/CrossTheRoadElec/Phoenix-Documentation
+        
+        Windows download:  
+        http://www.ctr-electronics.com/downloads/installers/CTRE%20Phoenix%20Framework%20v5.2.1.1.zip
+        
+        Mac download:
+        http://www.ctr-electronics.com//downloads/lib/CTRE_Phoenix_FRCLibs_NON-WINDOWS_v5.2.1.1.zip
+
 
 4)  Clone FRC6880PowerUp repository into your Eclipse workspace.  This can be done in several ways.
 

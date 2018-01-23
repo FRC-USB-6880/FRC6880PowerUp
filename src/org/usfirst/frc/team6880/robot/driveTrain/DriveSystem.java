@@ -1,6 +1,7 @@
 package org.usfirst.frc.team6880.robot.driveTrain;
 
 import org.usfirst.frc.team6880.robot.FRCRobot;
+import org.usfirst.frc.team6880.robot.jsonReaders.*;
 
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.SpeedControllerGroup;
@@ -18,17 +19,24 @@ public class DriveSystem {
 	DifferentialDrive drive;
 	Encoder leftEnc;
 	Encoder rightEnc;
+	DriveTrainReader configReader;
+	WheelSpecsReader wheelSpecsReader;
 	
-	/**Wheel diameter in meters*/
-	private static final double WHEEL_DIAMETER = 6.0 * 0.0254;
-	/**Wheel circumference in meters*/
-	private static final double WHEEL_CIRCUMFERENCE = Math.PI * WHEEL_DIAMETER;
-	private static final double COUNTS_PER_ROTATION = 1440.0;
-	private static final double DISTANCE_PER_PULSE = WHEEL_CIRCUMFERENCE / COUNTS_PER_ROTATION;
+	private static double WHEEL_DIAMETER;
+	private static double WHEEL_CIRCUMFERENCE;
+	private static double DISTANCE_PER_PULSE;
 	
-	public DriveSystem(FRCRobot robot)
+	public DriveSystem(FRCRobot robot, String driveSysName)
 	{
 		this.robot = robot;
+        configReader = new DriveTrainReader(JsonReader.driveTrainsFile, driveSysName);
+        String wheelType = configReader.getWheelType();
+        wheelSpecsReader = new WheelSpecsReader(JsonReader.wheelSpecsFile, wheelType);
+		
+		WHEEL_DIAMETER = wheelSpecsReader.getDiameter();
+		WHEEL_CIRCUMFERENCE = Math.PI * WHEEL_DIAMETER;
+		DISTANCE_PER_PULSE = WHEEL_CIRCUMFERENCE / configReader.getEncoderValue("LeftEncoder", "PPR");
+		
 		motorL1 = new VictorSP(0);
 		motorL2 = new VictorSP(1);
 		motorLeft = new SpeedControllerGroup(motorL1, motorL2);
@@ -47,9 +55,9 @@ public class DriveSystem {
 		drive.tankDrive(leftSpeed, rightSpeed);
 	}
 	
-	public void arcadeDrive(double speed, double rotation)
+	public void arcadeDrive(double speed, double rotationRate)
 	{
-		drive.arcadeDrive(speed, rotation);
+		drive.arcadeDrive(speed, rotationRate);
 	}
 	
 	public void resetEncoders()
@@ -58,7 +66,7 @@ public class DriveSystem {
 		rightEnc.reset();
 	}
 	
-	public double getDist()
+	public double getEncoderDist()
 	{
 		return (leftEnc.getDistance() + rightEnc.getDistance()) / 2.0;
 	}
