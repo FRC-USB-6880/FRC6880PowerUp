@@ -3,7 +3,8 @@
     "IMU": {
       "name" : "NavxMXP",
       "porttype": "kMXP",
-      "angleTolerance": 3.0
+      "angleTolerance": 3.0,
+      "Kp" : 0.2
     },
     "DriveSysParameters" : {
       "TurningMaxSpeed" : 0.3,

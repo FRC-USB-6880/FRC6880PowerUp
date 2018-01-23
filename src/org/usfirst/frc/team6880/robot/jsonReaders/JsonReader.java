@@ -4,6 +4,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.nio.file.InvalidPathException;
 import java.util.Iterator;
+import java.util.Set;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -139,13 +140,17 @@ public class JsonReader {
     }
     
     public static String getKeyIgnoreCase(JSONObject obj, String key) throws Exception {
-        Iterator<String> iter = obj.keySet().iterator();
-        while (iter.hasNext()) {
-            String key1 = iter.next();
-            if (key1.equalsIgnoreCase(key)) {
-                return (key1);
-            }
-        }
-        return null;
+//         Set set = obj.keySet();
+//         Iterator iter = set.iterator();
+//        while (iter.hasNext()) {
+//            String key1 = (String)iter.next();
+//            if (key1.equalsIgnoreCase(key)) {
+//                return (key1);
+//            }
+//        }
+    	
+//    	if(obj.containsKey(key))
+    		return key;
+//        return null;
     }
 }

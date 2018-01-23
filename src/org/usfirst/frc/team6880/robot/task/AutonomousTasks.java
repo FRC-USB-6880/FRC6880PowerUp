@@ -25,7 +25,7 @@ public class AutonomousTasks {
         // TODO Initialize a tasks array depending on the taskSet specified.
         if (taskList.equalsIgnoreCase("TaskList1")) {
             tasks = new RobotTask[1];
-            tasks[0] = new TaskMoveForward20m(robot);
+            tasks[0] = new TaskMoveForward(this.robot, -12);
         } else if (taskList.equalsIgnoreCase("TaskList2")) {
             tasks = new RobotTask[7];
             int i = 0;

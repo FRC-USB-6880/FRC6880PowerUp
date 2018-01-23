@@ -22,7 +22,8 @@ public class FRCRobot {
 		// Important:  Base directory has to be set before trying to read any JSON file
 		JsonReader.setBaseDir(JsonReader.baseDir);
 		
-		configReader = new RobotConfigReader(JsonReader.robotsFile, "2018_Robot"); 
+		configReader = new RobotConfigReader(JsonReader.robotsFile, "2017-offseason-robot");
+		System.out.println("frc6880: Config reader: " + configReader);
 		driveSys = new DriveSystem(this, configReader.getDriveTrainName());
 		gamepad = new LogitechF310(0);
 	}

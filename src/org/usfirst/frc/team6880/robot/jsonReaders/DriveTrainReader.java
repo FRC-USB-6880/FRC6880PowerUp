@@ -52,7 +52,7 @@ public class DriveTrainReader extends JsonReader {
     public String getWheelType(){
         String wheelType = null;
         try {
-            wheelType = getString(driveTrainObj, "WheelType");
+            wheelType = getString(driveTrainObj, "wheelType");
         } catch (Exception e){
             e.printStackTrace();
         }

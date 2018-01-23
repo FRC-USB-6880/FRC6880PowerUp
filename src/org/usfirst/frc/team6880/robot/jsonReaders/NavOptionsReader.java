@@ -11,8 +11,9 @@ public class NavOptionsReader extends JsonReader {
 
     public NavOptionsReader(String filePath, String navOptStr) {
         super(filePath);
+        String key="";
         try {
-            String key = JsonReader.getKeyIgnoreCase(rootObj, navOptStr);
+            key = JsonReader.getKeyIgnoreCase(rootObj, navOptStr);
             this.navOptObj =(JSONObject) rootObj.get(key);
             key = JsonReader.getKeyIgnoreCase(navOptObj, "IMU");
             if (key != null) {
@@ -27,7 +28,8 @@ public class NavOptionsReader extends JsonReader {
                 encoderVarsObj = (JSONObject) navOptObj.get(key);
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            System.out.println("frc6880: key: "+key);
+        	e.printStackTrace();
         }
     }
 
