@@ -7,7 +7,7 @@ public class TaskMoveForward implements RobotTask {
 	double endDist;
 	double travelDist;
 	double direction;
-	private static final double SPEED_KP = 0.2;
+	private static final double SPEED_KP = 0.5;
 	
 	public TaskMoveForward(FRCRobot robot, double travelDist) {
 		this.robot = robot;

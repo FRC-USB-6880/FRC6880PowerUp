@@ -20,7 +20,7 @@ public class DriveSystem {
 	Encoder rightEnc;
 	
 	/**Wheel diameter in meters*/
-	private static final double WHEEL_DIAMETER = 6.0 * 0.0254;
+	private static final double WHEEL_DIAMETER = 6.0;
 	/**Wheel circumference in meters*/
 	private static final double WHEEL_CIRCUMFERENCE = Math.PI * WHEEL_DIAMETER;
 	private static final double COUNTS_PER_ROTATION = 360.0;

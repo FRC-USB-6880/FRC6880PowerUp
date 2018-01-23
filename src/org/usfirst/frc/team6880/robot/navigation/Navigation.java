@@ -19,7 +19,7 @@ public class Navigation {
 	 */
 	public void driveDirection(double speed, double targetDirection)
 	{
-		robot.driveSys.arcadeDrive(speed, GYRO_KP * Math.IEEEremainder(targetDirection - gyro.getYaw(), 360) / 180);
+		robot.driveSys.arcadeDrive(Math.max(speed, 0.1), GYRO_KP * Math.IEEEremainder(targetDirection - gyro.getYaw(), 360) / 180);
 	}
 	
 	/**
@@ -28,7 +28,7 @@ public class Navigation {
 	 */
 	public void spinToDirection(double targetDirection)
 	{
-		robot.driveSys.arcadeDrive(GYRO_KP * Math.IEEEremainder(targetDirection - gyro.getYaw(), 360) / 180, 1);
+		robot.driveSys.arcadeDrive(0, GYRO_KP * Math.IEEEremainder(targetDirection - gyro.getYaw(), 360) / 180);
 	}
 	//TODO: Coordinate System?
 	//TODO: Computer Vision?

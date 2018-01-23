@@ -10,7 +10,7 @@ public class FRCRobot {
 	public Navigation navigation;
 	
 	RobotTask curTask;
-	RobotTask tasks [] = {new TaskMoveForward(this, 1),
+	RobotTask tasks [] = {new TaskMoveForward(this, 12),
 						  new TaskSpinAngle(this, -90)};
 	int taskNum;
 	boolean tasksDone;
