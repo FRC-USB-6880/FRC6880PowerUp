@@ -12,11 +12,24 @@ public class Navigation {
 		this.gyro = new NavxMXP(robot);
 	}
 	
-	public void driveDirection(double speed, double direction)
+	/**
+	 * This method makes the robot drive facing a target direction
+	 * @param speed The speed for the robot to drive at
+	 * @param targetDirection The desired direction for the robot to drive
+	 */
+	public void driveDirection(double speed, double targetDirection)
 	{
-		robot.driveSys.arcadeDrive(speed, direction);
+		robot.driveSys.arcadeDrive(speed, GYRO_KP * Math.IEEEremainder(targetDirection - gyro.getYaw(), 360) / 180);
 	}
 	
+	/**
+	 * This method makes the robot drive spin to a target orientation
+	 * @param targetDirection The desired direction for the robot to point
+	 */
+	public void spinToDirection(double targetDirection)
+	{
+		robot.driveSys.arcadeDrive(GYRO_KP * Math.IEEEremainder(targetDirection - gyro.getYaw(), 360) / 180, 1);
+	}
 	//TODO: Coordinate System?
 	//TODO: Computer Vision?
 }

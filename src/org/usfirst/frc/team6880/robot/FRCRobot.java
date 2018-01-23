@@ -10,7 +10,8 @@ public class FRCRobot {
 	public Navigation navigation;
 	
 	RobotTask curTask;
-	RobotTask tasks [] = {new TaskSpinCCW90deg(this), new TaskMoveForward20m(this)};
+	RobotTask tasks [] = {new TaskMoveForward(this, 1),
+						  new TaskSpinAngle(this, -90)};
 	int taskNum;
 	boolean tasksDone;
 	
@@ -40,23 +41,33 @@ public class FRCRobot {
 	
 	public void runAutonomous()
 	{
-		//Run the current task. If current task ended
-		if (!tasksDone && curTask.runTask())
+		//If we still need to run tasks
+		if (!tasksDone) {
+			//Run the current task. If current task ended
+			if (curTask.runTask())
+			{
+				//Check if there are still tasks to run
+				if (taskNum + 1 < tasks.length)
+				{
+					System.out.println("Finished running task number " + taskNum);
+					//Go to next task
+					curTask = tasks[++taskNum];
+					//Begin the next task
+					curTask.initTask();
+				}
+				//Else we're done running tasks
+				else
+				{
+					//Keep track that we're done running tasks
+					tasksDone = true;
+					System.out.println("Robot has finished running the autonomous tasks");
+				}
+			}
+		}
+		//We're done running tasks, stop the robot
+		else
 		{
-			//If there are still tasks to run
-			if (taskNum + 1 < tasks.length)
-			{
-				System.out.println("Finished running task number " + taskNum);
-				//Go to next task
-				curTask = tasks[++taskNum];
-				//Begin the next task
-				curTask.initTask();
-			}
-			else
-			{
-				tasksDone = true;
-				System.out.println("Robot has finished running the autonomous tasks");
-			}
+			driveSys.tankDrive(0, 0);
 		}
 	}
 		
