@@ -10,7 +10,7 @@ import edu.wpi.first.wpilibj.SpeedControllerGroup;
 import edu.wpi.first.wpilibj.VictorSP;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 
-public class TalonSRXDriveSystem {
+public class TalonSRXDriveSystem implements DriveSystem {
 	FRCRobot robot;
 	TalonSRX motorL1;
 	TalonSRX motorL2;

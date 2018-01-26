@@ -8,7 +8,7 @@ import edu.wpi.first.wpilibj.SpeedControllerGroup;
 import edu.wpi.first.wpilibj.VictorSP;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 
-public class VictorSPDriveSystem {
+public class VictorSPDriveSystem implements DriveSystem {
 	FRCRobot robot;
 	VictorSP motorL1;
 	VictorSP motorL2;
