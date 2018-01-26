@@ -1,15 +1,21 @@
 package org.usfirst.frc.team6880.robot.navigation;
 
 import org.usfirst.frc.team6880.robot.FRCRobot;
+import org.usfirst.frc.team6880.robot.jsonReaders.*;
+
+
 
 public class Navigation {
 	FRCRobot robot;
 	public Gyro gyro;
-	private static final double GYRO_KP = 0.2;
+	private double gyro_GoStraight_KP = 0.2;
 	
-	public Navigation(FRCRobot robot) {
+	public Navigation(FRCRobot robot, String navOptStr) {
 		this.robot = robot;
-		this.gyro = new NavxMXP(robot);
+		NavOptionsReader configReader = new NavOptionsReader(JsonReader.navigationFile, navOptStr);
+		if(configReader.imuExists())
+			this.gyro = new NavxMXP(robot);
+		gyro_GoStraight_KP = configReader.getIMUVariableDouble("Kp");
 	}
 	
 	/**
@@ -19,8 +25,10 @@ public class Navigation {
 	 */
 	public void driveDirection(double speed, double targetDirection)
 	{
-		robot.driveSys.arcadeDrive(Math.max(speed, 0.1), GYRO_KP * Math.IEEEremainder(targetDirection - gyro.getYaw(), 360) / 180);
+		robot.driveSys.arcadeDrive(Math.max(speed, 0.1), gyro_GoStraight_KP * Math.IEEEremainder(targetDirection - gyro.getYaw(), 360));
 	}
+
+	//TODO Create driveStraightToDistance()
 	
 	/**
 	 * This method makes the robot drive spin to a target orientation
@@ -28,8 +36,14 @@ public class Navigation {
 	 */
 	public void spinToDirection(double targetDirection)
 	{
-		robot.driveSys.arcadeDrive(0, GYRO_KP * Math.IEEEremainder(targetDirection - gyro.getYaw(), 360) / 180);
+		robot.driveSys.arcadeDrive(0, gyro_GoStraight_KP * Math.IEEEremainder(targetDirection - gyro.getYaw(), 360) / 180);
 	}
+	
+	//TODO Create turnForDegrees()
+	
+	
+	//TODO Create turnToHeading()	
+
 	//TODO: Coordinate System?
 	//TODO: Computer Vision?
 }

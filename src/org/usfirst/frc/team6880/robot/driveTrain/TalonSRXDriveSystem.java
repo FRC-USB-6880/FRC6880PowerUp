@@ -1,14 +1,16 @@
 package org.usfirst.frc.team6880.robot.driveTrain;
 
 import org.usfirst.frc.team6880.robot.FRCRobot;
+import org.usfirst.frc.team6880.robot.jsonReaders.*;
 
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.SpeedControllerGroup;
+import edu.wpi.first.wpilibj.VictorSP;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 
-public class TalonSRXDriveSystem implements DriveSystem {
+public class TalonSRXDriveSystem {
 	FRCRobot robot;
 	TalonSRX motorL1;
 	TalonSRX motorL2;
@@ -19,17 +21,38 @@ public class TalonSRXDriveSystem implements DriveSystem {
 	DifferentialDrive drive;
 	Encoder leftEnc;
 	Encoder rightEnc;
+	DriveTrainReader configReader;
+	WheelSpecsReader wheelSpecsReader;
 	
-	/**Wheel diameter in meters*/
-	private static final double WHEEL_DIAMETER = 6.0;
-	/**Wheel circumference in meters*/
-	private static final double WHEEL_CIRCUMFERENCE = Math.PI * WHEEL_DIAMETER;
-	private static final double COUNTS_PER_ROTATION = 360.0;
-	private static final double DISTANCE_PER_PULSE = WHEEL_CIRCUMFERENCE / COUNTS_PER_ROTATION;
+	private double wheelDiameter;
+	private double wheelCircumference;
+	private double distancePerCount;
 	
-	public TalonSRXDriveSystem(FRCRobot robot)
+	/*
+	 *  TODO
+	 *  We will need to support at least 2 different drive trains:
+	 *  1) 4 Motor 4 VictorSP controller drive train (this is what the current off season robot uses)
+	 *  2) 4 Motor 4 Talon SRX controller drive train (this is what the new competition robot will use)
+	 *  
+	 *  The goal is to use object oriented concepts to organize the driveTrain package in 
+	 *  such a way that the users of DriveSystem class (Navigation, FRCRobot, Tasks, etc.)
+	 *  do not have to know which specific drive train is being currently used.
+	 */
+	
+	public TalonSRXDriveSystem(FRCRobot robot, String driveSysName)
 	{
 		this.robot = robot;
+        configReader = new DriveTrainReader(JsonReader.driveTrainsFile, driveSysName);
+        String wheelType = configReader.getWheelType();
+        wheelSpecsReader = new WheelSpecsReader(JsonReader.wheelSpecsFile, wheelType);
+		
+		wheelDiameter = wheelSpecsReader.getDiameter();
+		wheelCircumference = Math.PI * wheelDiameter;
+		// We will assume that the same encoder is used on both left and right sides of the drive train. 
+		distancePerCount = wheelCircumference / configReader.getEncoderValue("LeftEncoder", "CPR");
+		
+		// TODO  Use configReader.getChannelNum() method to identify the
+		//   channel numbers where each motor controller is plugged in
 		motorL1 = new TalonSRX(0);
 		motorL2 = new TalonSRX(1);
 		motorLeft = new SpeedControllerGroup(motorL1, motorL2);
@@ -38,9 +61,9 @@ public class TalonSRXDriveSystem implements DriveSystem {
 		motorRight = new SpeedControllerGroup(motorR1, motorR2);
 		drive = new DifferentialDrive(motorLeft, motorRight);
 		leftEnc = new Encoder(0, 1, false, Encoder.EncodingType.k4X);
-		leftEnc.setDistancePerPulse(DISTANCE_PER_PULSE);
+		leftEnc.setDistancePerPulse(distancePerCount);
 		rightEnc = new Encoder(2, 3, true, Encoder.EncodingType.k4X);
-		rightEnc.setDistancePerPulse(DISTANCE_PER_PULSE);
+		rightEnc.setDistancePerPulse(distancePerCount);
 	}
 	
 	public void tankDrive(double leftSpeed, double rightSpeed)
@@ -48,9 +71,9 @@ public class TalonSRXDriveSystem implements DriveSystem {
 		drive.tankDrive(leftSpeed, rightSpeed);
 	}
 	
-	public void arcadeDrive(double speed, double rotation)
+	public void arcadeDrive(double speed, double rotationRate)
 	{
-		drive.arcadeDrive(speed, rotation);
+		drive.arcadeDrive(speed, rotationRate);
 	}
 	
 	public void resetEncoders()
@@ -59,11 +82,8 @@ public class TalonSRXDriveSystem implements DriveSystem {
 		rightEnc.reset();
 	}
 	
-	public double getDist()
+	public double getEncoderDist()
 	{
-		double curDist = (Math.abs(leftEnc.getDistance()) + Math.abs(rightEnc.getDistance())) / 2.0;
-		System.out.println("frc6880: Cur Dist: " + curDist);
-		return curDist;
+		return (leftEnc.getDistance() + rightEnc.getDistance()) / 2.0;
 	}
-	//TODO: Basically everything to do with moving
 }

@@ -4,5 +4,5 @@ public interface DriveSystem {
 	public void tankDrive(double leftSpeed, double rightSpeed);
 	public void arcadeDrive(double speed, double rotation);
 	public void resetEncoders();
-	public double getDist();
+	public double getEncoderDist();
 }

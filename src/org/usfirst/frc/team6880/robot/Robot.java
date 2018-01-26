@@ -45,6 +45,11 @@ public class Robot extends TimedRobot {
 		//Basic wrapper to FRCRobot
 		robot.initAutonomous();
 	}
+	
+	@Override
+	public void teleopInit() {
+	    robot.initTeleOp();
+	}
 
 	/**
 	 * This function is called periodically during autonomous.

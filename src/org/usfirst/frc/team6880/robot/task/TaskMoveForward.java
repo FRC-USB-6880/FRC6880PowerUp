@@ -17,14 +17,14 @@ public class TaskMoveForward implements RobotTask {
 	public void initTask()
 	{
 		//Set target distance to robot's current distance + the distance we will travel
-		endDist = robot.driveSys.getDist() + travelDist;
+		endDist = robot.driveSys.getEncoderDist() + travelDist;
 		//Get the direction we want to travel
 		direction = robot.navigation.gyro.getYaw();
 	}
 	
 	public boolean runTask()
 	{
-		double remainingDist = endDist - robot.driveSys.getDist();
+		double remainingDist = endDist - robot.driveSys.getEncoderDist();
 		//If robot still has remaining distance
 		if (remainingDist > 0)
 		{
