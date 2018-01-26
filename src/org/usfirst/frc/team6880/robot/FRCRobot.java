@@ -19,8 +19,6 @@ public class FRCRobot {
 	public FRCRobot(Robot wpilibrobot)
 	{
 		this.wpilibrobot = wpilibrobot;
-		this.driveSys = new VictorSPDriveSystem(this);
-		navigation = new Navigation(this);
 		
 		// Important:  Base directory has to be set before trying to read any JSON file
 		JsonReader.setBaseDir(JsonReader.baseDir);
@@ -33,7 +31,7 @@ public class FRCRobot {
 	
 	public void initTeleOp()
 	{
-		navigation = new Navigation(this, configReader.getNavigationOption("Teleop"));
+		navigation = new Navigation(this, configReader.getNavigationOption("teleop_navigation"));
 	}
 	
 	public void runTeleOp()
@@ -45,8 +43,8 @@ public class FRCRobot {
 	
 	public void initAutonomous()
 	{
-		//Resent encoders
-        navigation = new Navigation(this, configReader.getNavigationOption("Autonomous"));
+		navigation = new Navigation(this, configReader.getNavigationOption("autonomous_navigation"));
+		//Reset encoders
 		driveSys.resetEncoders();
 		autonTasks = new AutonomousTasks(this, "TaskList1");		
 	}
