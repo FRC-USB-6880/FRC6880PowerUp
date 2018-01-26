@@ -3,20 +3,19 @@ package org.usfirst.frc.team6880.robot.driveTrain;
 import org.usfirst.frc.team6880.robot.FRCRobot;
 import org.usfirst.frc.team6880.robot.jsonReaders.*;
 
-import com.ctre.phoenix.motorcontrol.can.TalonSRX;
+import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.SpeedControllerGroup;
-import edu.wpi.first.wpilibj.VictorSP;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 
 public class TalonSRXDriveSystem implements DriveSystem {
 	FRCRobot robot;
-	TalonSRX motorL1;
-	TalonSRX motorL2;
+	WPI_TalonSRX motorL1;
+	WPI_TalonSRX motorL2;
 	SpeedControllerGroup motorLeft;
-	TalonSRX motorR1;
-	TalonSRX motorR2;
+	WPI_TalonSRX motorR1;
+	WPI_TalonSRX motorR2;
 	SpeedControllerGroup motorRight;
 	DifferentialDrive drive;
 	Encoder leftEnc;
@@ -53,11 +52,11 @@ public class TalonSRXDriveSystem implements DriveSystem {
 		
 		// TODO  Use configReader.getChannelNum() method to identify the
 		//   channel numbers where each motor controller is plugged in
-		motorL1 = new TalonSRX(0);
-		motorL2 = new TalonSRX(1);
+		motorL1 = new WPI_TalonSRX(0);
+		motorL2 = new WPI_TalonSRX(1);
 		motorLeft = new SpeedControllerGroup(motorL1, motorL2);
-		motorR1 = new TalonSRX(2);
-		motorR2 = new TalonSRX(3);
+		motorR1 = new WPI_TalonSRX(2);
+		motorR2 = new WPI_TalonSRX(3);
 		motorRight = new SpeedControllerGroup(motorR1, motorR2);
 		drive = new DifferentialDrive(motorLeft, motorRight);
 		leftEnc = new Encoder(0, 1, false, Encoder.EncodingType.k4X);
