@@ -1,6 +1,7 @@
 package org.usfirst.frc.team6880.robot;
 
 import org.usfirst.frc.team6880.robot.driveTrain.DriveSystem;
+import org.usfirst.frc.team6880.robot.driveTrain.VictorSPDriveSystem;
 import org.usfirst.frc.team6880.robot.navigation.Navigation;
 import org.usfirst.frc.team6880.robot.task.*;
 
@@ -18,7 +19,7 @@ public class FRCRobot {
 	public FRCRobot(Robot wpilibrobot)
 	{
 		this.wpilibrobot = wpilibrobot;
-		this.driveSys = new DriveSystem(this);
+		this.driveSys = new VictorSPDriveSystem(this);
 		navigation = new Navigation(this);
 	}
 	
@@ -76,4 +77,3 @@ public class FRCRobot {
 		return wpilibrobot.isEnabled();
 	}
 }
-// Test push to see if I have write permission
