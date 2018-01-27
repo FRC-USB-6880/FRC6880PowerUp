@@ -2,17 +2,17 @@ package org.usfirst.frc.team6880.robot.task;
 
 import org.usfirst.frc.team6880.robot.FRCRobot;
 
-public class TaskMoveForward implements RobotTask {
+public class TaskMoveDist implements RobotTask {
 	FRCRobot robot;
+	double speed;
 	double endDist;
 	double direction;
 	double targetDist;
-	boolean moveForward;
 	
-	public TaskMoveForward(FRCRobot robot, double targetDist) {
+	public TaskMoveDist(FRCRobot robot, double speed, double targetDist) {
 		this.robot = robot;
 		this.targetDist = targetDist;
-		moveForward = (targetDist<0) ? false : true;
+		this.speed = speed;
 	}
 	
 	public void initTask()
@@ -27,7 +27,6 @@ public class TaskMoveForward implements RobotTask {
 		if (Math.abs(robot.driveSys.getEncoderDist()) < Math.abs(endDist))
 		{
 			//Go straight at half speed
-			double speed = (moveForward) ? 0.5 : -0.5;
 			robot.driveSys.tankDrive(speed, speed);
 			return false;
 		}
