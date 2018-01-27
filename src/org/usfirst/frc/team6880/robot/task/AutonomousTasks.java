@@ -3,7 +3,11 @@
  */
 package org.usfirst.frc.team6880.robot.task;
 
+import java.util.ArrayList;
+
 import org.usfirst.frc.team6880.robot.FRCRobot;
+import org.usfirst.frc.team6880.robot.jsonReaders.AutonomousOptionsReader;
+import org.usfirst.frc.team6880.robot.jsonReaders.JsonReader;
 import org.usfirst.frc.team6880.robot.task.*;
 
 /**
@@ -14,14 +18,17 @@ public class AutonomousTasks {
     RobotTask curTask;
     int taskNum;
     boolean tasksDone;
-    RobotTask[] tasks;
+    ArrayList<RobotTask> tasks;
     FRCRobot robot;
+    AutonomousOptionsReader configReader;
     
     /**
      * 
      */
-    public AutonomousTasks(FRCRobot robot, String taskList) {
+    public AutonomousTasks(FRCRobot robot, String autoSelection) {
         this.robot = robot;
+        configReader = new AutonomousOptionsReader(JsonReader.autonomousOptFile);
+        tasks = new ArrayList<RobotTask>();
         // TODO Initialize a tasks array depending on the taskSet specified.
         if (taskList.equalsIgnoreCase("TaskList1")) {
             tasks = new RobotTask[1];
