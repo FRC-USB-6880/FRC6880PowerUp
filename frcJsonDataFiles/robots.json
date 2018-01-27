@@ -6,7 +6,8 @@
         "DriveTrain" : "4VictorSP-1spd-WestCoastDrive",
         "Attachments" : [],
         "autonomous_navigation" : "IMU_DriveSysEncoders",
-        "teleop_navigation" : "IMU_DriveSysEncoders"
+        "teleop_navigation" : "IMU_DriveSysEncoders",
+        "autonomous_option" : "testing"
     },
     "2018-robot" : {
         "RobotWidth" : 23.0,

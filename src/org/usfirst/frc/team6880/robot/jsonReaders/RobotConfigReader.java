@@ -48,6 +48,20 @@ public class RobotConfigReader extends JsonReader {
         }
         return (navigationOption);
     }
+    
+    public String getAutoOption()
+    {
+    	String autoOption= "";
+    	try
+    	{
+    		autoOption = getString(robotObj, "autonomous_option");
+    	} catch(Exception e)
+    	{
+    		e.printStackTrace();
+    		System.out.println("frc6880: Autonomous key not found for the robot named "+robotName);
+    	}
+    	return autoOption;
+    }
 
     public String[] getAttachments(String autoOrTeleop) {
         int len = 0;
