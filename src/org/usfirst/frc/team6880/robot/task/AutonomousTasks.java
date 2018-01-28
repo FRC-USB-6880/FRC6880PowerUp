@@ -17,9 +17,9 @@ import org.usfirst.frc.team6880.robot.task.*;
  *
  */
 public class AutonomousTasks {
-    RobotTask curTask;
-    int taskNum;
-    boolean tasksDone;
+    RobotTask curTask=null;
+    int taskNum=-1;
+    boolean tasksDone=false;
     ArrayList<RobotTask> tasks;
     FRCRobot robot;
     AutonomousOptionsReader configReader;
@@ -32,7 +32,7 @@ public class AutonomousTasks {
         configReader = new AutonomousOptionsReader(JsonReader.autonomousOptFile, autoSelection);
         tasks = new ArrayList<RobotTask>();
         JSONArray taskArray = configReader.getAllTasks();
-        
+
         for(int i=0;i<taskArray.size();i++)
         {
         	try{
@@ -40,7 +40,7 @@ public class AutonomousTasks {
 	        	String key = JsonReader.getKeyIgnoreCase(obj, "name");
 	        	switch((String)obj.get(key))
 	        	{
-	        		case "MoveDist":
+	        		case "MoveDistance":
 	        			key = JsonReader.getKeyIgnoreCase(obj, "distance");
 	        			double dist = (double)obj.get(key);
 	        			key = JsonReader.getKeyIgnoreCase(obj, "speed");
@@ -82,14 +82,17 @@ public class AutonomousTasks {
         }
         
         //Start with first task
-        taskNum = 0;
-        curTask = tasks.get(0);
-        tasksDone = false;
+        if (!tasks.isEmpty()) {
+            taskNum = 0;
+            curTask = tasks.get(0);
+            tasksDone = false;
+        }
     }
     
     public void initFirstTask()
     {
-    	curTask.initTask();
+        if (curTask != null)
+            curTask.initTask();
     }
     
     public void runNextTask() {

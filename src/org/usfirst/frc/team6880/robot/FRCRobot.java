@@ -55,7 +55,8 @@ public class FRCRobot {
 	{
 		//Reset encoders
 		driveSys.resetEncoders();
-		autonTasks = new AutonomousTasks(this, configReader.getAutoOption());		
+		autonTasks = new AutonomousTasks(this, configReader.getAutoOption());	
+		autonTasks.initFirstTask();
 	}
 	
 	public void runAutonomous()

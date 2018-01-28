@@ -78,27 +78,27 @@
         "Motor_L1" : {
             "Controller" : "TalonSRX",
             "MotorType" : "CIM",
-            "DeviceID" : 12,
+            "DeviceID" : 11,
             "Follower" : false
         },
         "Motor_L2" : {
             "Controller" : "TalonSRX",
             "MotorType" : "CIM",
-            "DeviceID" : 13,
-            "Follower" : true,
+            "DeviceID" : 14,
+            "Follower" : false,
             "LeadController" : "Motor_L1"
         },
         "Motor_R1" : {
             "Controller" : "TalonSRX",
             "MotorType" : "CIM",
-            "DeviceID" : 11,
+            "DeviceID" : 12,
             "Follower" : false
         },
         "Motor_R2" : {
             "Controller" : "TalonSRX",
             "MotorType" : "CIM",
-            "DeviceID" : 14,
-            "Follower" : true,
+            "DeviceID" : 13,
+            "Follower" : false,
             "LeadController" : "Motor_R1"
         },
         "gearRatioL" : 10.71,

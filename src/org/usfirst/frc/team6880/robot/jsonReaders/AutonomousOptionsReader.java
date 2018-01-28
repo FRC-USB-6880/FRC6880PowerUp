@@ -19,6 +19,7 @@ public class AutonomousOptionsReader extends JsonReader {
         } catch (Exception e) {
             e.printStackTrace();
         }
+        System.out.println("autonomousOption = " + autonomousOption + ", tasks = " + tasks);
     }
     public AutonomousOptionsReader(String filePath){
         super(filePath);
@@ -63,7 +64,7 @@ public class AutonomousOptionsReader extends JsonReader {
 
     public JSONArray getAllTasks()
     {
-    	return tasks;
+    	return this.tasks;
     }
     
     public List<String> getAll(){
