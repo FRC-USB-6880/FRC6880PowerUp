@@ -3,6 +3,7 @@ package org.usfirst.frc.team6880.robot.jsonReaders;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -60,13 +61,18 @@ public class AutonomousOptionsReader extends JsonReader {
         return (methodName);
     }
 
-
+    public JSONArray getAllTasks()
+    {
+    	return tasks;
+    }
+    
     public List<String> getAll(){
-        Iterator<String> keysIterator = rootObj.keySet().iterator();
-        ArrayList<String> rootObjNames = new ArrayList<String>();
-        while (keysIterator.hasNext()){
-            rootObjNames.add(keysIterator.next());
-        }
+    	@SuppressWarnings("unchecked")
+		Set<String> keySet = rootObj.keySet();
+    	ArrayList<String> rootObjNames = new ArrayList<String>();
+        keySet.stream().forEach((key) -> {
+        	rootObjNames.add(key);
+        });
         return rootObjNames;
     }
 }
