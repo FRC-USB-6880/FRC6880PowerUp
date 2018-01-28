@@ -6,8 +6,8 @@ public class TaskMoveForward implements RobotTask {
 	FRCRobot robot;
 	double endDist;
 	double travelDist;
-	double direction;
-	private static final double SPEED_KP = 0.5;
+	double angleToMaintain;
+	private static final double SPEED_KF = 0.5;
 	
 	public TaskMoveForward(FRCRobot robot, double travelDist) {
 		this.robot = robot;
@@ -19,17 +19,21 @@ public class TaskMoveForward implements RobotTask {
 		//Set target distance to robot's current distance + the distance we will travel
 		endDist = robot.driveSys.getEncoderDist() + travelDist;
 		//Get the direction we want to travel
-		direction = robot.navigation.gyro.getYaw();
+		angleToMaintain = robot.navigation.gyro.getYaw();
+		System.out.format("angleToMaintain = %f, endDist = %f\n", angleToMaintain, endDist);
 	}
 	
 	public boolean runTask()
 	{
-		double remainingDist = endDist - robot.driveSys.getEncoderDist();
+		double remainingDist = Math.abs(endDist) - Math.abs(robot.driveSys.getEncoderDist());
+		System.out.format("remaining distance = %f\n", remainingDist);
 		//If robot still has remaining distance
 		if (remainingDist > 0)
 		{
 			//Go straight and slow down before we reach out target distance
-			robot.navigation.driveDirection(SPEED_KP * remainingDist / travelDist, direction);
+		    double speed = SPEED_KF * remainingDist / travelDist;
+		    speed = Math.max(Math.min(speed, 0.3), 0.7);
+			robot.navigation.driveDirection(speed, angleToMaintain);
 			return false;
 		}
 		//Else stop the robot and tell robot to go to next task

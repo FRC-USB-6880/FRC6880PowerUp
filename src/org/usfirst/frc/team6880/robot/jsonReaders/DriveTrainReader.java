@@ -1,5 +1,6 @@
 package org.usfirst.frc.team6880.robot.jsonReaders;
 
+import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
 public class DriveTrainReader extends JsonReader {
@@ -40,14 +41,78 @@ public class DriveTrainReader extends JsonReader {
             key = JsonReader.getKeyIgnoreCase(obj, "Channel");
             channelNum = this.getInt(obj, key);
         }catch (Exception e){
+            System.err.println("Failed to get the Channel for " + motorLocation);
             e.printStackTrace();
         }
         return (channelNum);
     }
     
+    public int getDeviceID(String motorLocation) {
+        int deviceID = 0;
+        try {
+            String key = JsonReader.getKeyIgnoreCase(driveTrainObj, motorLocation);
+            JSONObject obj = (JSONObject) driveTrainObj.get(key);
+            key = JsonReader.getKeyIgnoreCase(obj, "DeviceID");
+            deviceID = this.getInt(obj, key);
+        }catch (Exception e){
+            System.err.println("Failed to get the device ID for " + motorLocation);
+            e.printStackTrace();
+        }
+        
+        return (deviceID);
+    }
+    
+    public boolean isFollower(String motorLocation) {
+        boolean followerMotor = false;
+        try {
+            String key = JsonReader.getKeyIgnoreCase(driveTrainObj, motorLocation);
+            JSONObject obj = (JSONObject) driveTrainObj.get(key);
+            key = JsonReader.getKeyIgnoreCase(obj, "Follower");
+            followerMotor = this.getBoolean(obj, key);
+        }catch (Exception e){
+            System.err.println("Failed to get the follower info for " + motorLocation);
+            e.printStackTrace();
+        }
+        
+        return (followerMotor);
+    }
+    
+    public String getLeadController(String motorLocation) {
+        String leadController=null;
+
+        try {
+            String key = JsonReader.getKeyIgnoreCase(driveTrainObj, motorLocation);
+            JSONObject obj = (JSONObject) driveTrainObj.get(key);
+            key = JsonReader.getKeyIgnoreCase(obj, "LeadController");
+            leadController = this.getString(obj, key);
+        }catch (Exception e){
+            System.err.println("Failed to get the LeadController for " + motorLocation);
+            e.printStackTrace();
+        }
+
+        return (leadController);
+    }
+    
     // ToDo
     // Create getEncoderChannels(String encoderLocation) method which will 
-    // return an interger array contain 2 channel number for left or right encoder.
+    // return an integer array contain 2 channel number for left or right encoder.
+    public int[] getEncoderChannels(String encoderLocation) {
+        int[] encoderChannels = {0,1};
+        JSONArray channelListJson=null;
+
+        try {
+            String key = JsonReader.getKeyIgnoreCase(driveTrainObj, encoderLocation);
+            JSONObject obj = (JSONObject) driveTrainObj.get(key);
+            key = JsonReader.getKeyIgnoreCase(obj, "encoderChannels");
+            channelListJson = this.getArray(obj, key);
+            encoderChannels[0] = (int) ((Long)channelListJson.get(0)).intValue(); 
+            encoderChannels[1] = (int) ((Long)channelListJson.get(1)).intValue(); 
+        }catch (Exception e){
+            System.err.println("Failed to get the Channels array for " + encoderLocation);
+            e.printStackTrace();
+        }        
+        return (encoderChannels);
+    }
 
     public String getWheelType(){
         String wheelType = null;

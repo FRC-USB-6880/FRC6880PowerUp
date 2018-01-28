@@ -49,20 +49,56 @@ public class TalonSRXDriveSystem implements DriveSystem {
 		wheelCircumference = Math.PI * wheelDiameter;
 		// We will assume that the same encoder is used on both left and right sides of the drive train. 
 		distancePerCount = wheelCircumference / configReader.getEncoderValue("LeftEncoder", "CPR");
+		System.out.format("distancePerCount = %f\n", distancePerCount);
 		
 		// TODO  Use configReader.getChannelNum() method to identify the
 		//   channel numbers where each motor controller is plugged in
-		motorL1 = new WPI_TalonSRX(0);
-		motorL2 = new WPI_TalonSRX(1);
-		motorLeft = new SpeedControllerGroup(motorL1, motorL2);
-		motorR1 = new WPI_TalonSRX(2);
-		motorR2 = new WPI_TalonSRX(3);
-		motorRight = new SpeedControllerGroup(motorR1, motorR2);
-		drive = new DifferentialDrive(motorLeft, motorRight);
-		leftEnc = new Encoder(0, 1, false, Encoder.EncodingType.k4X);
-		leftEnc.setDistancePerPulse(distancePerCount);
-		rightEnc = new Encoder(2, 3, true, Encoder.EncodingType.k4X);
-		rightEnc.setDistancePerPulse(distancePerCount);
+		motorL1 = new WPI_TalonSRX(configReader.getDeviceID("Motor_L1"));
+		motorL2 = new WPI_TalonSRX(configReader.getDeviceID("Motor_L2"));
+		if (configReader.isFollower("Motor_L1"))
+		{
+		    motorL1.follow(motorL2);
+		    motorLeft = new SpeedControllerGroup(motorL2);
+		    System.out.println("Leader: Motor_L2, Follower: Motor_L1");
+		}
+		else if (configReader.isFollower("Motor_L2")) 
+		{
+		    motorL2.follow(motorL1);
+		    motorLeft = new SpeedControllerGroup(motorL1);
+            System.out.println("Leader: Motor_L1, Follower: Motor_L2");
+		}
+		else
+		    motorLeft = new SpeedControllerGroup(motorL1, motorL2);
+
+		motorR1 = new WPI_TalonSRX(configReader.getDeviceID("Motor_R1"));
+		motorR2 = new WPI_TalonSRX(configReader.getDeviceID("Motor_R2"));
+        if (configReader.isFollower("Motor_R1"))
+        {
+            motorR1.follow(motorR2);
+            motorRight = new SpeedControllerGroup(motorR2);
+            System.out.println("Leader: Motor_R2, Follower: Motor_R1");
+        }
+        else if (configReader.isFollower("Motor_R2")) 
+        {
+            motorR2.follow(motorR1);
+            motorRight = new SpeedControllerGroup(motorR1);
+            System.out.println("Leader: Motor_R1, Follower: Motor_R2");
+        }
+        else
+            motorRight = new SpeedControllerGroup(motorR1, motorR2);
+
+        drive = new DifferentialDrive(motorLeft, motorRight);
+
+        int[] encoderChannelsLeft = configReader.getEncoderChannels("LeftEncoder");
+        System.out.format("Left encoder channels = [%d, %d]\n", encoderChannelsLeft[0], encoderChannelsLeft[1]);
+        leftEnc = new Encoder(encoderChannelsLeft[0], encoderChannelsLeft[1], false, Encoder.EncodingType.k4X);
+//        leftEnc = new Encoder(0, 1, false, Encoder.EncodingType.k4X);
+        leftEnc.setDistancePerPulse(distancePerCount);
+        int[] encoderChannelsRight = configReader.getEncoderChannels("RightEncoder");
+        System.out.format("Right encoder channels = [%d, %d]\n", encoderChannelsRight[0], encoderChannelsRight[1]);
+        rightEnc = new Encoder(encoderChannelsRight[0], encoderChannelsRight[1], true, Encoder.EncodingType.k4X);
+//        rightEnc = new Encoder(2, 3, true, Encoder.EncodingType.k4X);
+        rightEnc.setDistancePerPulse(distancePerCount);
 	}
 	
 	public void tankDrive(double leftSpeed, double rightSpeed)

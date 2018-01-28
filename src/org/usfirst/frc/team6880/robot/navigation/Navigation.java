@@ -16,6 +16,7 @@ public class Navigation {
 		if(configReader.imuExists())
 			this.gyro = new NavxMXP(robot);
 		gyro_GoStraight_KP = configReader.getIMUVariableDouble("Kp");
+		System.out.format("gyro_GoStraight_Kp = %f\n", gyro_GoStraight_KP);
 	}
 	
 	/**
@@ -25,7 +26,7 @@ public class Navigation {
 	 */
 	public void driveDirection(double speed, double targetDirection)
 	{
-		robot.driveSys.arcadeDrive(Math.max(speed, 0.1), gyro_GoStraight_KP * Math.IEEEremainder(targetDirection - gyro.getYaw(), 360));
+		robot.driveSys.arcadeDrive(speed, gyro_GoStraight_KP * Math.IEEEremainder(targetDirection - gyro.getYaw(), 360));
 	}
 
 	//TODO Create driveStraightToDistance()

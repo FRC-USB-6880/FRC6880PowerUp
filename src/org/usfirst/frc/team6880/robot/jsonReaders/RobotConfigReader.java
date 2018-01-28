@@ -34,14 +34,10 @@ public class RobotConfigReader extends JsonReader {
         return name;
     }
 
-    public String getNavigationOption(String autoOrTeleop) {
+    public String getNavigationOption() {
         String navigationOption = null;
         try{
-            if (autoOrTeleop.equalsIgnoreCase("Autonomous"))
-                navigationOption = getString(robotObj, "autonomous_navigation");
-            else if (autoOrTeleop.equalsIgnoreCase("Teleop"))
-            	navigationOption = getString(robotObj, "teleop_navigation");
-          
+            navigationOption = getString(robotObj, "Navigation");          
         }catch (Exception e){
             e.printStackTrace();
             System.out.println("frc6880: navigation key not found for the robot named "+robotName);
