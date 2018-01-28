@@ -47,7 +47,7 @@ public class AutonomousTasks {
 	        			double speed = (double)obj.get(key);
 	        			tasks.add(new TaskMoveDist(robot, speed, dist));
 	        			break;
-	//        		case "TurnDegrees":
+	//        		case "SpinDegrees":
 	//        			key = JsonReader.getKeyIgnoreCase(obj, "angle");
 	//        			double angle = (double)obj.get(key);
 	//        			key = JsonReader.getKeyIgnoreCase(obj, "speed");

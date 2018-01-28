@@ -37,7 +37,10 @@ public class Navigation {
 	 */
 	public void spinToDirection(double targetDirection)
 	{
-		robot.driveSys.arcadeDrive(0, gyro_GoStraight_KP * Math.IEEEremainder(targetDirection - gyro.getYaw(), 360) / 180);
+	    double turnValue = gyro_GoStraight_KP * Math.IEEEremainder(targetDirection - gyro.getYaw(), 360) / 180;
+	    System.out.format("frc6880: turnValue=%f, targetDirection=%f, curYaw=%f\n", 
+	            turnValue, targetDirection, gyro.getYaw());
+		robot.driveSys.arcadeDrive(0, turnValue);
 	}
 	
 	//TODO Create turnForDegrees()

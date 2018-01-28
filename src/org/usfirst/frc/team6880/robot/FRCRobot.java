@@ -7,6 +7,9 @@ import org.usfirst.frc.team6880.robot.jsonReaders.*;
 import org.usfirst.frc.team6880.robot.navigation.Navigation;
 import org.usfirst.frc.team6880.robot.task.*;
 import org.usfirst.frc.team6880.robot.util.LogitechF310;
+import org.usfirst.frc.team6880.robot.util.PowerMonitor;
+
+import edu.wpi.first.wpilibj.PowerDistributionPanel;
 
 public class FRCRobot {
 	Robot wpilibrobot;
@@ -14,6 +17,8 @@ public class FRCRobot {
 	public Navigation navigation;
 	RobotConfigReader configReader;
 	public LogitechF310 gamepad;
+	public PowerDistributionPanel pdp;
+	PowerMonitor powerMon;
 	
 	AutonomousTasks autonTasks;
 	
@@ -22,6 +27,7 @@ public class FRCRobot {
 	    String driveTrainName;
 
 	    this.wpilibrobot = wpilibrobot;
+	    this.pdp = new PowerDistributionPanel();
 		
 		// Important:  Base directory has to be set before trying to read any JSON file
 		JsonReader.setBaseDir(JsonReader.baseDir);
@@ -38,6 +44,8 @@ public class FRCRobot {
         navigation = new Navigation(this, configReader.getNavigationOption());
 
         gamepad = new LogitechF310(0);
+        
+        powerMon = new PowerMonitor(this);
 	}
 	
 	public void initTeleOp()
@@ -62,6 +70,7 @@ public class FRCRobot {
 	public void runAutonomous()
 	{
 	    autonTasks.runNextTask();
+	    powerMon.displayCurrentPower();
 	}
 		
 	public boolean isEnabled()

@@ -4,30 +4,32 @@ import org.usfirst.frc.team6880.robot.FRCRobot;
 
 public class TaskSpinAngle implements RobotTask {
 	FRCRobot robot;
-	double endDirection;
+	double endOrientation;
 	double angle;
-	double currentDirection;
+	double currentOrientation;
 	boolean wrapNegYaw;
 	
 	public TaskSpinAngle(FRCRobot robot, double angle)
 	{
 		this.robot = robot;
 		this.angle = angle;
+		System.out.format("frc6880: Created TaskSpinAngle task. angle = %f\n", angle);
 	}
 	
 	public void initTask()
 	{
 		//Calculate the end direction
-		endDirection = Math.IEEEremainder(robot.navigation.gyro.getYaw() + angle, 360);
+		endOrientation = Math.IEEEremainder(robot.navigation.gyro.getYaw() + angle, 360);
+        System.out.format("frc6880: endOrientation = %f\n", endOrientation);
 	}
 	
 	public boolean runTask()
 	{
 		//If robot isn't facing the end direction
-		if (Math.abs(Math.IEEEremainder(endDirection - robot.navigation.gyro.getYaw(), 360)) > 0.001)
+		if (Math.abs(Math.IEEEremainder(endOrientation - robot.navigation.gyro.getYaw(), 360)) > 0.001)
 		{
 			//Keep on spinning towards the end direction
-			robot.navigation.spinToDirection(endDirection);
+			robot.navigation.spinToDirection(endOrientation);
 			return false;
 		}
 		//Else stop the robot and tell robot to go to next task
