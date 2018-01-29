@@ -62,10 +62,10 @@ public class AutonomousOptionsReader extends JsonReader {
 
 
     public List<String> getAll(){
-        Iterator<String> keysIterator = rootObj.keySet().iterator();
+        Iterator<?> keysIterator = rootObj.keySet().iterator();
         ArrayList<String> rootObjNames = new ArrayList<String>();
         while (keysIterator.hasNext()){
-            rootObjNames.add(keysIterator.next());
+            rootObjNames.add((String) keysIterator.next());
         }
         return rootObjNames;
     }
