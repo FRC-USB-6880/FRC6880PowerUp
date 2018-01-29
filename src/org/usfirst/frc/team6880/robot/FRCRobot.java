@@ -70,7 +70,7 @@ public class FRCRobot {
 	public void runAutonomous()
 	{
 	    autonTasks.runNextTask();
-	    powerMon.displayCurrentPower();
+//	    powerMon.displayCurrentPower();
 	}
 		
 	public boolean isEnabled()

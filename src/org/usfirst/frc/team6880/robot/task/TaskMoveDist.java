@@ -33,7 +33,7 @@ public class TaskMoveDist implements RobotTask {
 	public boolean runTask()
 	{
         double distTravelled = robot.driveSys.getEncoderDist() - startingLocation;
-        System.out.format("distance travelled = %f, totalDistToTravel=%f\n", distTravelled, travelDist);
+//        System.out.format("distance travelled = %f, totalDistToTravel=%f\n", distTravelled, travelDist);
         //If robot still has remaining distance
         if (Math.abs(distTravelled) < Math.abs(travelDist) )
         {
@@ -41,7 +41,7 @@ public class TaskMoveDist implements RobotTask {
             double curSpeed = this.speed * (1 - Math.abs(distTravelled / travelDist));
             curSpeed = Math.max(Math.min(curSpeed, 0.1), this.speed);
             curSpeed = movingForward ? curSpeed : -curSpeed;
-            System.out.format("frc6880: Calling navigation.driveDirection(%f,%f)\n", curSpeed, angleToMaintain);
+//            System.out.format("frc6880: Calling navigation.driveDirection(%f,%f)\n", curSpeed, angleToMaintain);
             robot.navigation.driveDirection(curSpeed, angleToMaintain);
 //            robot.driveSys.tankDrive(curSpeed, curSpeed);
             return false;
