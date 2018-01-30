@@ -13,7 +13,7 @@ import org.json.simple.parser.JSONParser;
 public class JsonReader {
 	public static String baseDir = new String("/home/lvuser/team6880/");
 	public static String sensorSpecsFile, wheelSpecsFile, motorSpecsFile, encoderSpecsFile;
-	public static String robotsFile, attachmentsFile, driveTrainsFile, navigationFile;
+	public static String robotsFile, attachmentsFile, driveTrainsFile, navigationFile, coordSysFile;
 	public static String autonomousRedDir, autonomousBlueDir, autonomousOptFile;
 //    private static String sensorSpecsFile = new String(baseDir + "specs/sensor_specs.json");
 //    private static String wheelSpecsFile = new String(baseDir + "specs/wheel_specs.json");
@@ -69,6 +69,7 @@ public class JsonReader {
 	    JsonReader.motorSpecsFile = new String(baseDir + "specs/motor_specs.json");
 	    JsonReader.attachmentsFile = new String(baseDir + "attachments.json");
 	    JsonReader.navigationFile = new String(baseDir + "navigation_options.json");
+	    JsonReader.coordSysFile = new String(baseDir + "coordsys_options.json");
 	    JsonReader.autonomousOptFile = new String(baseDir + "autonomous_options.json");
 	    JsonReader.driveTrainsFile = new String(baseDir + "drive_trains.json");
 //	    JsonReader.opModesDir = new String(baseDir + "/opmodes/");

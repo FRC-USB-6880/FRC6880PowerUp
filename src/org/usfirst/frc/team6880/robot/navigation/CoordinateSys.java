@@ -1,12 +1,7 @@
-/**
- * 
- */
 package org.usfirst.frc.team6880.robot.navigation;
 
-/**
- * TODO
- *
- */
+import org.usfirst.frc.team6880.robot.FRCRobot;
+
 public class CoordinateSys {
     
     double starting_x, starting_y, starting_theta;
@@ -15,8 +10,7 @@ public class CoordinateSys {
     /**
      * 
      */
-    public CoordinateSys(double starting_x, double starting_y, double starting_theta) {
-        // TODO Auto-generated constructor stub
+    public CoordinateSys(FRCRobot robot, double[] startingPos) {
         // This will be invoked during robotInit()
     }
     

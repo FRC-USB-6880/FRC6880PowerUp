@@ -4,6 +4,7 @@ import org.usfirst.frc.team6880.robot.driveTrain.DriveSystem;
 import org.usfirst.frc.team6880.robot.driveTrain.TalonSRXDriveSystem;
 import org.usfirst.frc.team6880.robot.driveTrain.VictorSPDriveSystem;
 import org.usfirst.frc.team6880.robot.jsonReaders.*;
+import org.usfirst.frc.team6880.robot.navigation.CoordinateSys;
 import org.usfirst.frc.team6880.robot.navigation.Navigation;
 import org.usfirst.frc.team6880.robot.task.*;
 import org.usfirst.frc.team6880.robot.util.LogitechF310;
@@ -15,6 +16,7 @@ public class FRCRobot {
 	Robot wpilibrobot;
 	public DriveSystem driveSys;
 	public Navigation navigation;
+	public CoordinateSys coordSys;
 	RobotConfigReader configReader;
 	public LogitechF310 gamepad;
 	public PowerDistributionPanel pdp;
@@ -42,6 +44,8 @@ public class FRCRobot {
 		    driveSys = new TalonSRXDriveSystem(this, driveTrainName);
 
         navigation = new Navigation(this, configReader.getNavigationOption());
+        
+        coordSys = new CoordinateSys(this, configReader.getCoordSysOption);
 
         gamepad = new LogitechF310(0);
         
