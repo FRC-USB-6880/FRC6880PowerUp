@@ -3,6 +3,7 @@ package org.usfirst.frc.team6880.robot.jsonReaders;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -18,6 +19,7 @@ public class AutonomousOptionsReader extends JsonReader {
         } catch (Exception e) {
             e.printStackTrace();
         }
+        System.out.println("autonomousOption = " + autonomousOption + ", tasks = " + tasks);
     }
     public AutonomousOptionsReader(String filePath){
         super(filePath);
@@ -60,13 +62,26 @@ public class AutonomousOptionsReader extends JsonReader {
         return (methodName);
     }
 
-
+    public JSONArray getAllTasks()
+    {
+    	return this.tasks;
+    }
+    
     public List<String> getAll(){
+<<<<<<< HEAD
         Iterator<?> keysIterator = rootObj.keySet().iterator();
         ArrayList<String> rootObjNames = new ArrayList<String>();
         while (keysIterator.hasNext()){
             rootObjNames.add((String) keysIterator.next());
         }
+=======
+    	@SuppressWarnings("unchecked")
+		Set<String> keySet = rootObj.keySet();
+    	ArrayList<String> rootObjNames = new ArrayList<String>();
+        keySet.stream().forEach((key) -> {
+        	rootObjNames.add(key);
+        });
+>>>>>>> refs/heads/week4_coordinatesys
         return rootObjNames;
     }
 }

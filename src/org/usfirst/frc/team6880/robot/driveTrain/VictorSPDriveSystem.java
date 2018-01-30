@@ -51,16 +51,18 @@ public class VictorSPDriveSystem implements DriveSystem {
 		
 		// TODO  Use configReader.getChannelNum() method to identify the
 		//   channel numbers where each motor controller is plugged in
-		motorL1 = new VictorSP(0);
-		motorL2 = new VictorSP(1);
+		motorL1 = new VictorSP(configReader.getChannelNum("Motor_L1"));
+		motorL2 = new VictorSP(configReader.getChannelNum("Motor_L2"));
 		motorLeft = new SpeedControllerGroup(motorL1, motorL2);
-		motorR1 = new VictorSP(2);
-		motorR2 = new VictorSP(3);
+		motorR1 = new VictorSP(configReader.getChannelNum("Motor_R1"));
+		motorR2 = new VictorSP(configReader.getChannelNum("Motor_R2"));
 		motorRight = new SpeedControllerGroup(motorR1, motorR2);
 		drive = new DifferentialDrive(motorLeft, motorRight);
-		leftEnc = new Encoder(0, 1, false, Encoder.EncodingType.k4X);
+		int[] encoderChannelsLeft = configReader.getEncoderChannels("LeftEncoder");
+		leftEnc = new Encoder(encoderChannelsLeft[0], encoderChannelsLeft[1], false, Encoder.EncodingType.k4X);
 		leftEnc.setDistancePerPulse(distancePerCount);
-		rightEnc = new Encoder(2, 3, true, Encoder.EncodingType.k4X);
+        int[] encoderChannelsRight = configReader.getEncoderChannels("RightEncoder");
+		rightEnc = new Encoder(encoderChannelsRight[0], encoderChannelsRight[1], true, Encoder.EncodingType.k4X);
 		rightEnc.setDistancePerPulse(distancePerCount);
 	}
 	

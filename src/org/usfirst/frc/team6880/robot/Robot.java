@@ -25,7 +25,7 @@ public class Robot extends TimedRobot {
 	 */
 	@Override
 	public void robotInit() {
-		setPeriod(.02);
+		setPeriod(.01);
 		robot = new FRCRobot(this);
 	}
 
