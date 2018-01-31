@@ -8,13 +8,21 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
 public class AutonomousOptionsReader extends JsonReader {
+	public JSONObject conditions;
+	public JSONArray startingPos;
 	public JSONArray tasks;
     public AutonomousOptionsReader(String filePath, String autonomousOption) {
 
         super(filePath);
         try {
             String key = getKeyIgnoreCase(rootObj, autonomousOption);
-            tasks = (JSONArray) rootObj.get(key);
+            conditions = (JSONObject) rootObj.get(key);
+
+            key = getKeyIgnoreCase(conditions, "starting-pos");
+            startingPos = (JSONArray) getArray(conditions, key);
+
+            key = getKeyIgnoreCase(conditions, "tasks");
+            tasks = (JSONArray) getArray(conditions, key);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -35,32 +43,10 @@ public class AutonomousOptionsReader extends JsonReader {
         return jsonObject;
     }
 
-    public String getTaskType(int taskNum) {
-        String taskType = null;
-        JSONObject obj = null;
-
-        try {
-            obj = (JSONObject) tasks.get(taskNum);
-            taskType = getString(obj, "type");
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return (taskType);
+    public JSONArray getStartingPos() {
+    	return startingPos;
     }
-
-    public String getMethodName(int taskNum) {
-        JSONObject obj = null;
-        String methodName = null;
-
-        try {
-            obj = (JSONObject) tasks.get(taskNum);
-            methodName = getString(obj, "method");
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return (methodName);
-    }
-
+    
     public JSONArray getAllTasks()
     {
     	return this.tasks;
