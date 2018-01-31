@@ -31,8 +31,13 @@ public class AutonomousTasks {
         this.robot = robot;
         configReader = new AutonomousOptionsReader(JsonReader.autonomousOptFile, autoSelection);
         tasks = new ArrayList<RobotTask>();
+        JSONArray startingPos = configReader.getStartingPos();
         JSONArray taskArray = configReader.getAllTasks();
 
+        robot.coordSys.setCurrentPos((double) startingPos.get(0),
+        							 (double) startingPos.get(1),
+        							 (double) startingPos.get(2));
+        
         for(int i=0;i<taskArray.size();i++)
         {
         	try{

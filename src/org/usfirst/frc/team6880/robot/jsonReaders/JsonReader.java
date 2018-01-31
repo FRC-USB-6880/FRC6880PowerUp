@@ -69,7 +69,6 @@ public class JsonReader {
 	    JsonReader.motorSpecsFile = new String(baseDir + "specs/motor_specs.json");
 	    JsonReader.attachmentsFile = new String(baseDir + "attachments.json");
 	    JsonReader.navigationFile = new String(baseDir + "navigation_options.json");
-	    JsonReader.coordSysFile = new String(baseDir + "coordsys_options.json");
 	    JsonReader.autonomousOptFile = new String(baseDir + "autonomous_options.json");
 	    JsonReader.driveTrainsFile = new String(baseDir + "drive_trains.json");
 //	    JsonReader.opModesDir = new String(baseDir + "/opmodes/");

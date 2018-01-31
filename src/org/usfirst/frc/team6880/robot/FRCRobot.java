@@ -45,6 +45,8 @@ public class FRCRobot {
 
         navigation = new Navigation(this, configReader.getNavigationOption());
         
+        coordSys = new CoordinateSys(this);
+
         gamepad = new LogitechF310(0);
         
         powerMon = new PowerMonitor(this);
@@ -65,7 +67,7 @@ public class FRCRobot {
 	{
 		//Reset encoders
 		driveSys.resetEncoders();
-		autonTasks = new AutonomousTasks(this, configReader.getAutoOption());
+		autonTasks = new AutonomousTasks(this, configReader.getAutoOption());	
 		autonTasks.initFirstTask();
 	}
 	

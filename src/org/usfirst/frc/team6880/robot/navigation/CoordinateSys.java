@@ -4,14 +4,19 @@ import org.usfirst.frc.team6880.robot.FRCRobot;
 
 public class CoordinateSys {
     
-    double starting_x, starting_y, starting_theta;
     double current_x, current_y, current_theta;
 
     /**
      * 
      */
-    public CoordinateSys(FRCRobot robot, double[] startingPos) {
+    public CoordinateSys(FRCRobot robot) {
         // This will be invoked during robotInit()
+    }
+    
+    public void setCurrentPos(double x, double y, double theta) {
+    	current_x = x;
+    	current_y = y;
+    	current_theta = theta;
     }
     
     public void setOrigin() {
