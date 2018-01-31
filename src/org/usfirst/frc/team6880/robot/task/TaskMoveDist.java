@@ -23,7 +23,8 @@ public class TaskMoveDist implements RobotTask {
 	
 	public void initTask()
 	{
-        //Set starting location of the encoders
+        robot.driveSys.resetEncoders();
+		//Set starting location of the encoders
         startingLocation = robot.driveSys.getEncoderDist();
         //Get the direction we want to travel
         angleToMaintain = robot.navigation.gyro.getYaw();
@@ -42,8 +43,8 @@ public class TaskMoveDist implements RobotTask {
             curSpeed = Math.max(Math.min(curSpeed, 0.1), this.speed);
             curSpeed = movingForward ? curSpeed : -curSpeed;
 //            System.out.format("frc6880: Calling navigation.driveDirection(%f,%f)\n", curSpeed, angleToMaintain);
-            robot.navigation.driveDirection(curSpeed, angleToMaintain);
-//            robot.driveSys.tankDrive(curSpeed, curSpeed);
+//            robot.navigation.driveDirection(curSpeed, angleToMaintain);
+            robot.driveSys.tankDrive(curSpeed, curSpeed);
             return false;
         }
         //Else stop the robot and tell robot to go to next task
