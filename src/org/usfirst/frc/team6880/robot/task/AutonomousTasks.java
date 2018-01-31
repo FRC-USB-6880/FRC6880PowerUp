@@ -38,7 +38,7 @@ public class AutonomousTasks {
         	try{
 	        	JSONObject obj = (JSONObject) taskArray.get(i);
 	        	String key = JsonReader.getKeyIgnoreCase(obj, "name");
-	        	double speed, tolerance;
+	        	double speed, tolerance, targetYaw;
 	        	switch((String)obj.get(key))
 	        	{
 	        		case "MoveDistance":
@@ -46,11 +46,13 @@ public class AutonomousTasks {
 	        			double dist = (double)obj.get(key);
 	        			key = JsonReader.getKeyIgnoreCase(obj, "speed");
 	        			speed = (double)obj.get(key);
-	        			tasks.add(new TaskMoveDist(robot, speed, dist));
+	        			key = JsonReader.getKeyIgnoreCase(obj, "targetYaw");
+	        			targetYaw = (double)obj.get(key);
+	        			tasks.add(new TaskMoveDist(robot, speed, dist, targetYaw));
 	        			break;
 	        		case "SetOrientation":
 	        		    key = JsonReader.getKeyIgnoreCase(obj, "targetYaw");
-	        		    double targetYaw = (double)obj.get(key);
+	        		    targetYaw = (double)obj.get(key);
                         key = JsonReader.getKeyIgnoreCase(obj, "speed");
                         speed = (double)obj.get(key);
                         key = JsonReader.getKeyIgnoreCase(obj, "tolerance");
