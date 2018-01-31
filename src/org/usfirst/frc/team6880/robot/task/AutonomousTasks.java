@@ -35,8 +35,7 @@ public class AutonomousTasks {
         JSONArray taskArray = configReader.getAllTasks();
 
         robot.coordSys.setCurrentPos((double) startingPos.get(0),
-        							 (double) startingPos.get(1),
-        							 (double) startingPos.get(2));
+        							 (double) startingPos.get(1));
         
         for(int i=0;i<taskArray.size();i++)
         {

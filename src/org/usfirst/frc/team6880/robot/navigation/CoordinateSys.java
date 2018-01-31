@@ -13,17 +13,9 @@ public class CoordinateSys {
         // This will be invoked during robotInit()
     }
     
-    public void setCurrentPos(double x, double y, double theta) {
+    public void setCurrentPos(double x, double y) {
     	current_x = x;
     	current_y = y;
-    	current_theta = theta;
-    }
-    
-    public void setOrigin() {
-        // TODO
-        // Set the current pose as (x = 0, y = 0, theta = 0)
-        // Get the gyro reading and encoder counts
-        // This will be called during autonomousInit()
     }
     
     public void displayCurrentPose() {
