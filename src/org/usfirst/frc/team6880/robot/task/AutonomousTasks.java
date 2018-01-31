@@ -30,6 +30,7 @@ public class AutonomousTasks {
     public AutonomousTasks(FRCRobot robot, String autoSelection) {
         this.robot = robot;
         configReader = new AutonomousOptionsReader(JsonReader.autonomousOptFile, autoSelection);
+        System.out.println("frc6880: Autonomous option: " + autoSelection);
         tasks = new ArrayList<RobotTask>();
         JSONArray taskArray = configReader.getAllTasks();
 

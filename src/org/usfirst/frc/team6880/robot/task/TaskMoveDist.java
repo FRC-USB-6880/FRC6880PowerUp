@@ -25,7 +25,8 @@ public class TaskMoveDist implements RobotTask {
 	
 	public void initTask()
 	{
-        //Set starting location of the encoders
+        robot.driveSys.resetEncoders();
+		//Set starting location of the encoders
         startingLocation = robot.driveSys.getEncoderDist();
         //Get the direction we want to travel
 //        angleToMaintain = robot.navigation.gyro.getYaw();
