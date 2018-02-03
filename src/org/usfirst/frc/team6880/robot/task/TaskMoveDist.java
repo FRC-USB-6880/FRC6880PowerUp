@@ -8,17 +8,19 @@ public class TaskMoveDist implements RobotTask {
     double startingLocation;
     double travelDist;
     double angleToMaintain;
-	boolean movingForward;
+	boolean driveBackwards;
 	
-	public TaskMoveDist(FRCRobot robot, double speed, double travelDist) {
+	public TaskMoveDist(FRCRobot robot, double speed, double travelDist, double angleToMaintain) {
 		this.robot = robot;
 		this.travelDist = travelDist;
 		this.speed = speed;
+		this.angleToMaintain = angleToMaintain;
 		if (travelDist >= 0)
-		    movingForward = true;
+		    driveBackwards = false;
 		else
-		    movingForward = false;
-		System.out.format("frc6880: TaskMoveDist created: speed=%f, targetDist=%f\n", speed, travelDist);
+		    driveBackwards = true;
+		System.out.format("frc6880: TaskMoveDist created: speed=%f, targetDist=%f, angleToMaintain=%f\n", 
+		        speed, travelDist, angleToMaintain);
 	}
 	
 	public void initTask()
@@ -27,8 +29,8 @@ public class TaskMoveDist implements RobotTask {
 		//Set starting location of the encoders
         startingLocation = robot.driveSys.getEncoderDist();
         //Get the direction we want to travel
-        angleToMaintain = robot.navigation.gyro.getYaw();
-        System.out.format("frc6880: angleToMaintain = %f, startingLocation = %f\n", angleToMaintain, startingLocation);
+//        angleToMaintain = robot.navigation.gyro.getYaw();
+        System.out.format("frc6880: startingLocation = %f\n", startingLocation);
 	}
 	
 	public boolean runTask()
@@ -41,7 +43,7 @@ public class TaskMoveDist implements RobotTask {
             //Go straight and slow down before we reach out target distance
             double curSpeed = this.speed * (1 - Math.abs(distTravelled / travelDist));
             curSpeed = Math.max(Math.min(curSpeed, 0.1), this.speed);
-            curSpeed = movingForward ? curSpeed : -curSpeed;
+//            curSpeed = movingForward ? curSpeed : -curSpeed;
 //            System.out.format("frc6880: Calling navigation.driveDirection(%f,%f)\n", curSpeed, angleToMaintain);
 //            robot.navigation.driveDirection(curSpeed, angleToMaintain);
             robot.driveSys.tankDrive(curSpeed, curSpeed);
