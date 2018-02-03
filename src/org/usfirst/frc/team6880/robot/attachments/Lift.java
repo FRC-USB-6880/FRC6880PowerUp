@@ -1,7 +1,7 @@
 /**
  * 
  */
-package attachments;
+package org.usfirst.frc.team6880.robot.attachments;
 
 /**
  * TODO
