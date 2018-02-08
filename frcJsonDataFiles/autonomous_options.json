@@ -13,5 +13,28 @@
     ],
 	"testing2" : [
 		{"name" : "MoveForward", "speed" : 0.5, "distance" : 1.0}
+	],
+	"blue1" : [
+		{"name" : "MoveForward", "speed" : 0.4, "distance" : 152.0, "targetYaw" : 0.0},
+		{"name" : "SetOrientation", "speed" : 0.3, "targetYaw" : 90.0, "tolerance" : 3.0},
+		{"name" : "MoveForward", "speed" : 0.4, "distance" : 15.0, "targetYaw" : 90.0},
+		{"name" : "MoveForward", "speed" : 0.4, "distance" : -15.0, "targetYaw" : 90.0},
+		{"name" : "SetOrientation", "speed" : 0.3, "targetYaw" : 0.0, "tolerance" : 3.0},
+		{"name" : "MoveForward", "speed" : 0.4, "distance" : 66.0, "targetYaw" : 0.0},
+		{"name" : "SetOrientation", "speed" : 0.3, "targetYaw" : 90.0, "tolerance" : 3.0},
+		{"name" : "MoveForward", "speed" : 0.4, "distance" : 44.5, "targetYaw" : 90.0},
+		{"name" : "SetOrientation", "speed" : 0.3, "targetYaw" : 180.0, "tolerance" : 3.0},
+		{"name" : "MoveForward", "speed" : 0.4, "distance" : 11, "targetYaw" : 180.0}
+	],
+	"blue2" : [
+		{"name" : "MoveForward", "speed" : 0.4, "distance" : 52.5, "targetYaw" : 0.0},
+		{"name" : "SetOrientation", "speed" : 0.3, "targetYaw" : 90.0, "tolerance" : 3.0},
+		{"name" : "MoveForward", "speed" : 0.4, "distance" : 31.0, "targetYaw" : 90.0},
+		{"name" : "SetOrientation", "speed" : 0.3, "targetYaw" : 0.0, "tolerance" : 3.0},
+		{"name" : "MoveForward", "speed" : 0.4, "distance" : 57.0, "targetYaw" : 0.0},
+		{"name" : "SetOrientation", "speed" : 0.3, "targetYaw" : -180.0, "tolerance" : 3.0},
+		{"name" : "MoveForward", "speed" : 0.4, "distance" : 57.0, "targetYaw" : -180.0},
+		{"name" : "SetOrientation", "speed" : 0.3, "targetYaw" : -90.0, "tolerance" : 3.0},
+		{"name" : "MoveForward", "speed" : 0.4, "distance" : 57.0, "targetYaw" : -90.0}
 	]
 }
