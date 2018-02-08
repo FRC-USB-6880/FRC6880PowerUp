@@ -29,10 +29,18 @@ public class Navigation {
 	 */
 	public void driveDirection(double speed, double targetYaw, boolean driveBackwards)
 	{
-	    double error = getDegreesToTurn(gyro.getYaw(), targetYaw);
-	    double correction = Math.abs(error) * gyro_GoStraight_KP / 2;
-	    double leftSpeed = ClipRange.clip(speed-correction, 0.0, 1.0);
-        double rightSpeed = ClipRange.clip(speed+correction, 0.0, 1.0);
+	    double error, correction, leftSpeed, rightSpeed;
+	    error = getDegreesToTurn(gyro.getYaw(), targetYaw);
+	    correction = error * gyro_GoStraight_KP / 2;
+	    if (driveBackwards) {
+            leftSpeed = ClipRange.clip(speed-correction, -0.5, 0.5);
+            rightSpeed = ClipRange.clip(speed+correction, -0.5, 0.5);	        
+	    } else {
+	        leftSpeed = ClipRange.clip(speed+correction, -0.5, 0.5);
+	        rightSpeed = ClipRange.clip(speed-correction, -0.5, 0.5);
+	    }
+//        System.out.format("error=%f, correction=%f, leftSpeed=%f, rightSpeed=%f\n",
+//                error, correction, leftSpeed, rightSpeed);
         if (driveBackwards)
             robot.driveSys.tankDrive(-leftSpeed, -rightSpeed);
         else

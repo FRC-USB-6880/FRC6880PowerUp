@@ -139,6 +139,22 @@ public class DriveTrainReader extends JsonReader {
         return (maxMotorSpeed);
     }
     
+    public String getEncoderType(String encoderLoc) {
+        String encoderType=null;
+        JSONObject encoderLocObj;
+        try{
+            String key = JsonReader.getKeyIgnoreCase(driveTrainObj, encoderLoc);
+            encoderLocObj = (JSONObject) driveTrainObj.get(key);
+            key = JsonReader.getKeyIgnoreCase(encoderLocObj, "encoderType");
+            encoderType = this.getString(encoderLocObj, key);
+        } catch(Exception e){
+            System.out.println("Cannot find the encode type for " + encoderLoc);
+            e.printStackTrace();
+        }
+        
+        return (encoderType);
+    }
+    
     // encoderKey can be "PPR" (Pulses Per Rotation) or "CPR" (Counts Per Rotation) or MaxRPM
     public int getEncoderValue(String encoderLoc, String encoderKey)
     {
@@ -158,6 +174,21 @@ public class DriveTrainReader extends JsonReader {
     		e.printStackTrace();
     	}
     	return counts;
+    }
+
+    public double getGearRatio(String leftOrRight) {
+        double ratio = 10.71; // default gear ratio for KoP chassis
+        try{
+            String key;
+            if (leftOrRight.equals("Left"))
+                key = JsonReader.getKeyIgnoreCase(driveTrainObj, "gearRatioL");
+            else
+                key = JsonReader.getKeyIgnoreCase(driveTrainObj, "gearRatioR");
+            ratio = getDouble(driveTrainObj, key);
+        } catch(Exception e){
+            e.printStackTrace();
+        }
+        return (ratio);
     }
     
     public void printForDebug() {

@@ -1,8 +1,8 @@
 {
 	"testing" : [
-		{"name" : "MoveDistance", "speed" : 0.3, "distance" : 12.0},
-		{"name" : "MoveDistance", "speed" : 0.3, "distance" : -12.0},
-		{"name" : "SetOrientation", "speed" : 0.3, "targetYaw" : -90.0, "tolerance" : 3.0}
+        {"name" : "SetOrientation", "speed" : 0.4, "targetYaw" : -90.0, "tolerance" : 3.0},
+		{"name" : "MoveDistance", "speed" : 0.4, "distance" : 12.0, "targetYaw" : -90.0},
+		{"name" : "MoveDistance", "speed" : 0.4, "distance" : -12.0, "targetYaw" : -90.0}
 	],
 	"testing1" : [
         {"name" : "MoveDistance", "speed" : 0.4, "distance" : 40.0, "targetYaw" : 0.0},

@@ -2,6 +2,7 @@ package org.usfirst.frc.team6880.robot.driveTrain;
 
 import org.usfirst.frc.team6880.robot.FRCRobot;
 import org.usfirst.frc.team6880.robot.jsonReaders.*;
+import org.usfirst.frc.team6880.robot.util.ClipRange;
 
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
@@ -55,6 +56,8 @@ public class TalonSRXDriveSystem implements DriveSystem {
 		//   channel numbers where each motor controller is plugged in
 		motorL1 = new WPI_TalonSRX(configReader.getDeviceID("Motor_L1"));
 		motorL2 = new WPI_TalonSRX(configReader.getDeviceID("Motor_L2"));
+		motorL1.setInverted(true);
+		motorL2.setInverted(true);
 		if (configReader.isFollower("Motor_L1"))
 		{
 		    motorL1.follow(motorL2);
@@ -72,6 +75,9 @@ public class TalonSRXDriveSystem implements DriveSystem {
 
 		motorR1 = new WPI_TalonSRX(configReader.getDeviceID("Motor_R1"));
 		motorR2 = new WPI_TalonSRX(configReader.getDeviceID("Motor_R2"));
+		motorR1.setInverted(true);
+		motorR2.setInverted(true);
+
         if (configReader.isFollower("Motor_R1"))
         {
             motorR1.follow(motorR2);
@@ -93,12 +99,27 @@ public class TalonSRXDriveSystem implements DriveSystem {
         System.out.format("Left encoder channels = [%d, %d]\n", encoderChannelsLeft[0], encoderChannelsLeft[1]);
         leftEnc = new Encoder(encoderChannelsLeft[0], encoderChannelsLeft[1], false, Encoder.EncodingType.k4X);
 //        leftEnc = new Encoder(0, 1, false, Encoder.EncodingType.k4X);
-        leftEnc.setDistancePerPulse(distancePerCount);
+        String encoderType;
+        encoderType = configReader.getEncoderType("LeftEncoder");
+        if (encoderType.equals("GreyHill-63R128")) {
+            double gearRatio = configReader.getGearRatio("Left");
+            System.out.println("Left gear ratio = " + gearRatio);
+            leftEnc.setDistancePerPulse(distancePerCount / gearRatio);
+        } else {
+            leftEnc.setDistancePerPulse(distancePerCount);            
+        }
         int[] encoderChannelsRight = configReader.getEncoderChannels("RightEncoder");
         System.out.format("Right encoder channels = [%d, %d]\n", encoderChannelsRight[0], encoderChannelsRight[1]);
         rightEnc = new Encoder(encoderChannelsRight[0], encoderChannelsRight[1], true, Encoder.EncodingType.k4X);
 //        rightEnc = new Encoder(2, 3, true, Encoder.EncodingType.k4X);
-        rightEnc.setDistancePerPulse(distancePerCount);
+        encoderType = configReader.getEncoderType("RightEncoder");
+        if (encoderType.equals("GreyHill-63R128")) {
+            double gearRatio = configReader.getGearRatio("Right");
+            System.out.println("Right gear ratio = " + gearRatio);
+            rightEnc.setDistancePerPulse(distancePerCount / gearRatio);
+        } else {
+            rightEnc.setDistancePerPulse(distancePerCount);
+        }
 	}
 	
 	public void tankDrive(double leftSpeed, double rightSpeed)

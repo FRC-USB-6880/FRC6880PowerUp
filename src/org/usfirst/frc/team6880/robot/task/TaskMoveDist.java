@@ -1,6 +1,7 @@
 package org.usfirst.frc.team6880.robot.task;
 
 import org.usfirst.frc.team6880.robot.FRCRobot;
+import org.usfirst.frc.team6880.robot.util.ClipRange;
 
 public class TaskMoveDist implements RobotTask {
 	FRCRobot robot;
@@ -19,8 +20,8 @@ public class TaskMoveDist implements RobotTask {
 		    driveBackwards = false;
 		else
 		    driveBackwards = true;
-		System.out.format("frc6880: TaskMoveDist created: speed=%f, targetDist=%f, angleToMaintain=%f\n", 
-		        speed, travelDist, angleToMaintain);
+		System.out.format("frc6880: TaskMoveDist created: speed=%f, targetDist=%f, angleToMaintain=%f, curYaw=%f\n", 
+		        speed, travelDist, angleToMaintain, robot.navigation.gyro.getYaw());
 	}
 	
 	public void initTask()
@@ -40,11 +41,11 @@ public class TaskMoveDist implements RobotTask {
         if (Math.abs(distTravelled) < Math.abs(travelDist) )
         {
             //Go straight and slow down before we reach out target distance
-            double curSpeed = this.speed * (1 - Math.abs(distTravelled / travelDist));
-            curSpeed = Math.max(Math.min(curSpeed, 0.1), this.speed);
-//            curSpeed = movingForward ? curSpeed : -curSpeed;
+//            double curSpeed = this.speed * (1 - Math.abs(distTravelled / travelDist));
+//            curSpeed = ClipRange.clip(curSpeed, 0.2, this.speed);
 //            System.out.format("frc6880: Calling navigation.driveDirection(%f,%f)\n", curSpeed, angleToMaintain);
-            robot.navigation.driveDirection(curSpeed, angleToMaintain, driveBackwards);
+//            robot.navigation.driveDirection(curSpeed, angleToMaintain, driveBackwards);
+              robot.navigation.driveDirection(this.speed, angleToMaintain, driveBackwards);
 //            robot.driveSys.tankDrive(curSpeed, curSpeed);
             return false;
         }
