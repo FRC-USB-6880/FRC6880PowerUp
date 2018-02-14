@@ -179,13 +179,33 @@ public class DriveTrainReader extends JsonReader {
     public double getGearRatio(String leftOrRight) {
         double ratio = 10.71; // default gear ratio for KoP chassis
         try{
-            String key;
-            if (leftOrRight.equals("Left"))
+            String key=null;
+            switch (leftOrRight)
+            {
+            case "Left": 
                 key = JsonReader.getKeyIgnoreCase(driveTrainObj, "gearRatioL");
-            else
+                break;
+            case "Right":
                 key = JsonReader.getKeyIgnoreCase(driveTrainObj, "gearRatioR");
+                break;
+            case "Left_LoSpeed":
+                key = JsonReader.getKeyIgnoreCase(driveTrainObj, "gearRatioL_loSpd");
+                break;
+            case "Left_HiSpeed":
+                key = JsonReader.getKeyIgnoreCase(driveTrainObj, "gearRatioL_hiSpd");
+                break;
+            case "Right_LoSpeed":
+                key = JsonReader.getKeyIgnoreCase(driveTrainObj, "gearRatioR_loSpd");
+                break;
+            case "Right_HiSpeed":
+                key = JsonReader.getKeyIgnoreCase(driveTrainObj, "gearRatioR_hiSpd");
+                break;
+            default:
+                key = JsonReader.getKeyIgnoreCase(driveTrainObj, "gearRatioL");
+            }
             ratio = getDouble(driveTrainObj, key);
         } catch(Exception e){
+            System.err.println("frc6880: Could not get teh gear ration for " + leftOrRight);
             e.printStackTrace();
         }
         return (ratio);

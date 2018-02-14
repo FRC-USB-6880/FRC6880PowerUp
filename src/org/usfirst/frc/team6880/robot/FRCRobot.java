@@ -7,6 +7,7 @@ import org.usfirst.frc.team6880.robot.jsonReaders.*;
 import org.usfirst.frc.team6880.robot.navigation.Navigation;
 import org.usfirst.frc.team6880.robot.task.*;
 import org.usfirst.frc.team6880.robot.util.LogitechF310;
+import org.usfirst.frc.team6880.robot.util.PneumaticController;
 import org.usfirst.frc.team6880.robot.util.PowerMonitor;
 
 import edu.wpi.first.wpilibj.PowerDistributionPanel;
@@ -19,6 +20,7 @@ public class FRCRobot {
 	public LogitechF310 gamepad;
 	public PowerDistributionPanel pdp;
 	PowerMonitor powerMon;
+	public PneumaticController pcmObj;
 	
 	AutonomousTasks autonTasks;
 	
@@ -34,6 +36,11 @@ public class FRCRobot {
 		
 		configReader = new RobotConfigReader(JsonReader.robotsFile, "TalonSRX-test-robot");
 		System.out.println("frc6880: Config reader: " + configReader);
+		
+		// TODO Instantiate PneumaticController object before instantiating driveTrain
+		//  or any other attachment.
+		pcmObj = new PneumaticController(20);
+
 		driveTrainName = configReader.getDriveTrainName();
         System.out.println("frc6880: driveTrainName: " + driveTrainName);
 		if (driveTrainName.equals("4VictorSP-1spd-WestCoastDrive"))

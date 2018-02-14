@@ -50,7 +50,7 @@ public class TalonSRXDriveSystem implements DriveSystem {
 		wheelCircumference = Math.PI * wheelDiameter;
 		// We will assume that the same encoder is used on both left and right sides of the drive train. 
 		distancePerCount = wheelCircumference / configReader.getEncoderValue("LeftEncoder", "CPR");
-		System.out.format("distancePerCount = %f\n", distancePerCount);
+		System.out.format("frc6880: distancePerCount = %f\n", distancePerCount);
 		
 		// TODO  Use configReader.getChannelNum() method to identify the
 		//   channel numbers where each motor controller is plugged in
@@ -96,26 +96,26 @@ public class TalonSRXDriveSystem implements DriveSystem {
         drive = new DifferentialDrive(motorLeft, motorRight);
 
         int[] encoderChannelsLeft = configReader.getEncoderChannels("LeftEncoder");
-        System.out.format("Left encoder channels = [%d, %d]\n", encoderChannelsLeft[0], encoderChannelsLeft[1]);
+        System.out.format("frc6880: Left encoder channels = [%d, %d]\n", encoderChannelsLeft[0], encoderChannelsLeft[1]);
         leftEnc = new Encoder(encoderChannelsLeft[0], encoderChannelsLeft[1], false, Encoder.EncodingType.k4X);
 //        leftEnc = new Encoder(0, 1, false, Encoder.EncodingType.k4X);
         String encoderType;
         encoderType = configReader.getEncoderType("LeftEncoder");
         if (encoderType.equals("GreyHill-63R128")) {
             double gearRatio = configReader.getGearRatio("Left");
-            System.out.println("Left gear ratio = " + gearRatio);
+            System.out.println("frc6880: Left gear ratio = " + gearRatio);
             leftEnc.setDistancePerPulse(distancePerCount / gearRatio);
         } else {
             leftEnc.setDistancePerPulse(distancePerCount);            
         }
         int[] encoderChannelsRight = configReader.getEncoderChannels("RightEncoder");
-        System.out.format("Right encoder channels = [%d, %d]\n", encoderChannelsRight[0], encoderChannelsRight[1]);
+        System.out.format("frc6880: Right encoder channels = [%d, %d]\n", encoderChannelsRight[0], encoderChannelsRight[1]);
         rightEnc = new Encoder(encoderChannelsRight[0], encoderChannelsRight[1], true, Encoder.EncodingType.k4X);
 //        rightEnc = new Encoder(2, 3, true, Encoder.EncodingType.k4X);
         encoderType = configReader.getEncoderType("RightEncoder");
         if (encoderType.equals("GreyHill-63R128")) {
             double gearRatio = configReader.getGearRatio("Right");
-            System.out.println("Right gear ratio = " + gearRatio);
+            System.out.println("frc6880: Right gear ratio = " + gearRatio);
             rightEnc.setDistancePerPulse(distancePerCount / gearRatio);
         } else {
             rightEnc.setDistancePerPulse(distancePerCount);
