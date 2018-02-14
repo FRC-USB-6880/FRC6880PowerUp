@@ -8,12 +8,14 @@ package org.usfirst.frc.team6880.robot.attachments;
  * add methods grabCube(), releaseCube(), ....
  *
  */
-public class CubeHandler {
+public class CubeHandler
+{
 
     /**
      * 
      */
-    public CubeHandler() {
+    public CubeHandler()
+    {
         // TODO Auto-generated constructor stub
     }
 
