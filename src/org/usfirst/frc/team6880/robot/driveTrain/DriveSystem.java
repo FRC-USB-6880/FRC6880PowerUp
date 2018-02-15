@@ -5,4 +5,6 @@ public interface DriveSystem {
 	public void arcadeDrive(double speed, double rotation);
 	public void resetEncoders();
 	public double getEncoderDist();
+	public void setLoSpd();
+	public void setHiSpd();
 }

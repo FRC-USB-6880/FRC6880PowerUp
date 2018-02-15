@@ -3,6 +3,7 @@ package org.usfirst.frc.team6880.robot;
 import org.usfirst.frc.team6880.robot.attachments.CubeHandler;
 import org.usfirst.frc.team6880.robot.attachments.Lift;
 import org.usfirst.frc.team6880.robot.driveTrain.DriveSystem;
+import org.usfirst.frc.team6880.robot.driveTrain.TalonSRX2spdDriveSystem;
 import org.usfirst.frc.team6880.robot.driveTrain.TalonSRXDriveSystem;
 import org.usfirst.frc.team6880.robot.driveTrain.VictorSPDriveSystem;
 import org.usfirst.frc.team6880.robot.jsonReaders.*;
@@ -39,7 +40,7 @@ public class FRCRobot {
 		// Important:  Base directory has to be set before trying to read any JSON file
 		JsonReader.setBaseDir(JsonReader.baseDir);
 		
-		configReader = new RobotConfigReader(JsonReader.robotsFile, "TalonSRX-test-robot");
+		configReader = new RobotConfigReader(JsonReader.robotsFile, "2018-robot");
 		System.out.println("frc6880: Config reader: " + configReader);
 		
 		// TODO Instantiate PneumaticController object before instantiating driveTrain
@@ -52,6 +53,8 @@ public class FRCRobot {
 		    driveSys = new VictorSPDriveSystem(this, driveTrainName);
 		else if (driveTrainName.equals("CAN-4TalonSRX-1spd-WestCoastDrive"))
 		    driveSys = new TalonSRXDriveSystem(this, driveTrainName);
+		else if(driveTrainName.equals("CAN-4TalonSRX-2spd-WestCoastDrive"))
+			driveSys = new TalonSRX2spdDriveSystem(this, driveTrainName);
 
         navigation = new Navigation(this, configReader.getNavigationOption());
 
@@ -65,6 +68,7 @@ public class FRCRobot {
 	
 	public void initTeleOp()
 	{
+		driveSys.setLoSpd();
 	}
 	
 	public void runTeleOp()
@@ -88,6 +92,11 @@ public class FRCRobot {
 	    {
 	    	cubeHandler.releaseCube();
 	    }
+	    
+	    if(joystick.getRawButton(5))
+	    	driveSys.setHiSpd();
+	    if(joystick.getRawButton(3))
+	    	driveSys.setLoSpd();
 	}
 	
 	public void initAutonomous()
