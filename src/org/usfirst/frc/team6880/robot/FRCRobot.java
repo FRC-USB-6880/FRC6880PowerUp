@@ -1,12 +1,13 @@
 package org.usfirst.frc.team6880.robot;
 
+import org.usfirst.frc.team6880.robot.attachments.CubeHandler;
+import org.usfirst.frc.team6880.robot.attachments.Lift;
 import org.usfirst.frc.team6880.robot.driveTrain.DriveSystem;
 import org.usfirst.frc.team6880.robot.driveTrain.TalonSRXDriveSystem;
 import org.usfirst.frc.team6880.robot.driveTrain.VictorSPDriveSystem;
 import org.usfirst.frc.team6880.robot.jsonReaders.*;
 import org.usfirst.frc.team6880.robot.navigation.Navigation;
 import org.usfirst.frc.team6880.robot.task.*;
-import org.usfirst.frc.team6880.robot.util.LogitechF310;
 import org.usfirst.frc.team6880.robot.util.PneumaticController;
 import org.usfirst.frc.team6880.robot.util.PowerMonitor;
 
@@ -23,7 +24,8 @@ public class FRCRobot {
 	public PowerDistributionPanel pdp;
 	PowerMonitor powerMon;
 	public PneumaticController pcmObj;
-	Compressor compressor;
+	public Lift lift;
+	public CubeHandler cubeHandler;
 	
 	AutonomousTasks autonTasks;
 	
@@ -56,20 +58,36 @@ public class FRCRobot {
         joystick = new Joystick(0);
         
         powerMon = new PowerMonitor(this);
+        
+        lift = new Lift(this);
+        cubeHandler = new CubeHandler(this);
 	}
 	
 	public void initTeleOp()
 	{
-		compressor.setClosedLoopControl(true);
 	}
 	
 	public void runTeleOp()
 	{
 		//TODO: Map controller sticks to drive system
 		//Possible: map misc. controller buttons to tasks?
-	    driveSys.arcadeDrive(joystick.getY(), joystick.getX());
-	    if(joystick.getButton(6))
-	    	
+	    driveSys.arcadeDrive(-joystick.getY(), joystick.getX());
+	    
+	    if(joystick.getRawButton(6))
+	    {
+	    	lift.moveWithPower(0.5);
+	    }
+	    else if(joystick.getRawButton(4))
+	    	lift.moveWithPower(-0.3);
+	    else
+	    	lift.stop();
+	    
+	    if(joystick.getTrigger())
+	    	cubeHandler.grabCube();
+	    else if(joystick.getRawButton(2))
+	    {
+	    	cubeHandler.releaseCube();
+	    }
 	}
 	
 	public void initAutonomous()

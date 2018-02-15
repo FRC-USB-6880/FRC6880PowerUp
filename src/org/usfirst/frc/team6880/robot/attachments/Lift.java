@@ -3,7 +3,6 @@
  */
 package org.usfirst.frc.team6880.robot.attachments;
 import org.usfirst.frc.team6880.robot.FRCRobot;
-import org.usfirst.frc.team6880.robot.jsonReaders.WheelSpecsReader;
 
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
@@ -30,13 +29,13 @@ public class Lift
     {
         // TODO Auto-generated constructor stub
     	this.robot = robot;
-    	liftMotor = new WPI_TalonSRX(4);
+    	liftMotor = new WPI_TalonSRX(15);
     	height = 0;
-    	liftEncoder = new Encoder(4, 5, true, Encoder.EncodingType.k4X);
+//    	liftEncoder = new Encoder(4, 5, true, Encoder.EncodingType.k4X);
     	spoolDiameter = 2;
     	spoolCircumference = Math.PI * spoolDiameter;
     	distancePerCount = spoolCircumference / 360;
-    	liftEncoder.setDistancePerPulse(distancePerCount);
+//    	liftEncoder.setDistancePerPulse(distancePerCount);
     }
     
     public void stop()
@@ -49,16 +48,16 @@ public class Lift
     	liftMotor.set(power);
     }
     
-    public void moveToHeight(double targetHeight, double power)
-    {
-    	double amountRaise = targetHeight - height;
-    	if(liftEncoder.getDistance() != amountRaise)
-    	{
-    		if(amountRaise < 0) moveWithPower(-power);
-    		else moveWithPower(power);
-    	}
-    	else stop();
-    	height += liftEncoder.getDistance();
-    }
+//    public void moveToHeight(double targetHeight, double power)
+//    {
+//    	double amountRaise = targetHeight - height;
+//    	if(liftEncoder.getDistance() != amountRaise)
+//    	{
+//    		if(amountRaise < 0) moveWithPower(-power);
+//    		else moveWithPower(power);
+//    	}
+//    	else stop();
+//    	height += liftEncoder.getDistance();
+//    }
 
 }

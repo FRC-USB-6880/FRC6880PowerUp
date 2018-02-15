@@ -139,7 +139,7 @@ public class TalonSRX2spdDriveSystem implements DriveSystem {
         }
         
         // Initialize the Double Solenoid 
-        gearShifter = robot.pcmObj.initializeDoubleSolenoid(0, 1);
+        gearShifter = robot.pcmObj.initializeDoubleSolenoid(4, 5);
         gearShifter.set(Value.kOff);
 
     }
