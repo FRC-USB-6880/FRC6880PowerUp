@@ -11,6 +11,7 @@ import org.usfirst.frc.team6880.robot.util.PneumaticController;
 import org.usfirst.frc.team6880.robot.util.PowerMonitor;
 
 import edu.wpi.first.wpilibj.Compressor;
+import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.PowerDistributionPanel;
 
 public class FRCRobot {
@@ -18,7 +19,7 @@ public class FRCRobot {
 	public DriveSystem driveSys;
 	public Navigation navigation;
 	RobotConfigReader configReader;
-	public LogitechF310 gamepad;
+	public Joystick joystick;
 	public PowerDistributionPanel pdp;
 	PowerMonitor powerMon;
 	public PneumaticController pcmObj;
@@ -52,7 +53,7 @@ public class FRCRobot {
 
         navigation = new Navigation(this, configReader.getNavigationOption());
 
-        gamepad = new LogitechF310(0);
+        joystick = new Joystick(0);
         
         powerMon = new PowerMonitor(this);
 	}
@@ -66,7 +67,9 @@ public class FRCRobot {
 	{
 		//TODO: Map controller sticks to drive system
 		//Possible: map misc. controller buttons to tasks?
-	    driveSys.arcadeDrive(gamepad.leftStickY(), gamepad.rightStickX());
+	    driveSys.arcadeDrive(joystick.getY(), joystick.getX());
+	    if(joystick.getButton(6))
+	    	
 	}
 	
 	public void initAutonomous()
