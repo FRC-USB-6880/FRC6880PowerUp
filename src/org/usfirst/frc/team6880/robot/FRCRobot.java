@@ -10,6 +10,7 @@ import org.usfirst.frc.team6880.robot.util.LogitechF310;
 import org.usfirst.frc.team6880.robot.util.PneumaticController;
 import org.usfirst.frc.team6880.robot.util.PowerMonitor;
 
+import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.PowerDistributionPanel;
 
 public class FRCRobot {
@@ -21,6 +22,7 @@ public class FRCRobot {
 	public PowerDistributionPanel pdp;
 	PowerMonitor powerMon;
 	public PneumaticController pcmObj;
+	Compressor compressor;
 	
 	AutonomousTasks autonTasks;
 	
@@ -57,6 +59,7 @@ public class FRCRobot {
 	
 	public void initTeleOp()
 	{
+		compressor.setClosedLoopControl(true);
 	}
 	
 	public void runTeleOp()
