@@ -38,6 +38,8 @@ public class TalonSRX2spdDriveSystem implements DriveSystem {
     private double wheelDiameter;
     private double wheelCircumference;
     private double distancePerCountLoSpd, distancePerCountHiSpd;
+    private double currentLeftPower;
+    private double currentRightPower;
 
     /**
      * 
@@ -51,7 +53,8 @@ public class TalonSRX2spdDriveSystem implements DriveSystem {
         
         wheelDiameter = wheelSpecsReader.getDiameter();
         wheelCircumference = Math.PI * wheelDiameter;
-        
+        currentLeftPower = 0;
+        currentRightPower = 0;
         // TODO  Use configReader.getChannelNum() method to identify the
         //   channel numbers where each motor controller is plugged in
         motorL1 = new WPI_TalonSRX(configReader.getDeviceID("Motor_L1"));
@@ -173,5 +176,19 @@ public class TalonSRX2spdDriveSystem implements DriveSystem {
     public void setHiSpd() {
         gearShifter.set(Value.kReverse);
         leftEnc.setDistancePerPulse(distancePerCountHiSpd);
+    }
+    
+    public double getCurrentLeftPower()
+	{
+		return currentLeftPower;
+	}
+	
+	public double getCurrentRightPower()
+	{
+		return currentRightPower;
+	}
+	public boolean isMoving() {
+		if((currentLeftPower != 0) && (currentRightPower != 0)) return true;
+    	return false;
     }
 }

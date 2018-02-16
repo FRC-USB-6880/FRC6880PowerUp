@@ -25,7 +25,8 @@ public class VictorSPDriveSystem implements DriveSystem {
 	private double wheelDiameter;
 	private double wheelCircumference;
 	private double distancePerCount;
-	
+	private double currentLeftPower;
+	private double currentRightPower;
 	/*
 	 *  TODO
 	 *  We will need to support at least 2 different drive trains:
@@ -48,7 +49,8 @@ public class VictorSPDriveSystem implements DriveSystem {
 		wheelCircumference = Math.PI * wheelDiameter;
 		// We will assume that the same encoder is used on both left and right sides of the drive train. 
 		distancePerCount = wheelCircumference / configReader.getEncoderValue("LeftEncoder", "CPR");
-		
+		currentLeftPower = 0;
+		currentRightPower = 0;
 		// TODO  Use configReader.getChannelNum() method to identify the
 		//   channel numbers where each motor controller is plugged in
 		motorL1 = new VictorSP(configReader.getChannelNum("Motor_L1"));
@@ -85,5 +87,19 @@ public class VictorSPDriveSystem implements DriveSystem {
 	public double getEncoderDist()
 	{
 		return (leftEnc.getDistance() + rightEnc.getDistance()) / 2.0;
+	}
+	
+	public double getCurrentLeftPower()
+	{
+		return currentLeftPower;
+	}
+	
+	public double getCurrentRightPower()
+	{
+		return currentRightPower;
+	}
+	public boolean isMoving() {
+		if((currentLeftPower != 0) && (currentRightPower != 0)) return true;
+    	return false;
 	}
 }

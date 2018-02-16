@@ -60,5 +60,10 @@ public class Lift
     	else stop();
     	height += liftEncoder.getDistance();
     }
+    
+    public double getHeight()
+    {
+    	return height;
+    }
 
 }

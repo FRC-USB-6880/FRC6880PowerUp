@@ -2,7 +2,7 @@ package org.usfirst.frc.team6880.robot.driveTrain;
 
 import org.usfirst.frc.team6880.robot.FRCRobot;
 import org.usfirst.frc.team6880.robot.jsonReaders.*;
-import org.usfirst.frc.team6880.robot.util.ClipRange;
+//import org.usfirst.frc.team6880.robot.util.ClipRange;
 
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
@@ -27,6 +27,8 @@ public class TalonSRXDriveSystem implements DriveSystem {
 	private double wheelDiameter;
 	private double wheelCircumference;
 	private double distancePerCount;
+	private double currentLeftPower;
+	private double currentRightPower;
 	
 	/*
 	 *  TODO
@@ -51,7 +53,8 @@ public class TalonSRXDriveSystem implements DriveSystem {
 		// We will assume that the same encoder is used on both left and right sides of the drive train. 
 		distancePerCount = wheelCircumference / configReader.getEncoderValue("LeftEncoder", "CPR");
 		System.out.format("frc6880: distancePerCount = %f\n", distancePerCount);
-		
+		currentLeftPower = 0;
+		currentRightPower = 0;
 		// TODO  Use configReader.getChannelNum() method to identify the
 		//   channel numbers where each motor controller is plugged in
 		motorL1 = new WPI_TalonSRX(configReader.getDeviceID("Motor_L1"));
@@ -141,5 +144,19 @@ public class TalonSRXDriveSystem implements DriveSystem {
 	public double getEncoderDist()
 	{
 		return (leftEnc.getDistance() + rightEnc.getDistance()) / 2.0;
+	}
+	
+	public double getCurrentLeftPower()
+	{
+		return currentLeftPower;
+	}
+	
+	public double getCurrentRightPower()
+	{
+		return currentRightPower;
+	}
+	public boolean isMoving() {
+		if((currentLeftPower != 0) && (currentRightPower != 0)) return true;
+    	return false;
 	}
 }
