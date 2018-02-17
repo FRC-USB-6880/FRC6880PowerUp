@@ -12,6 +12,7 @@ import org.usfirst.frc.team6880.robot.task.*;
 import org.usfirst.frc.team6880.robot.util.PneumaticController;
 import org.usfirst.frc.team6880.robot.util.PowerMonitor;
 
+import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.PowerDistributionPanel;
@@ -27,6 +28,7 @@ public class FRCRobot {
 	public PneumaticController pcmObj;
 	public Lift lift;
 	public CubeHandler cubeHandler;
+	private double invertMult;
 	
 	AutonomousTasks autonTasks;
 	
@@ -54,7 +56,10 @@ public class FRCRobot {
 		else if (driveTrainName.equals("CAN-4TalonSRX-1spd-WestCoastDrive"))
 		    driveSys = new TalonSRXDriveSystem(this, driveTrainName);
 		else if(driveTrainName.equals("CAN-4TalonSRX-2spd-WestCoastDrive"))
+		{
 			driveSys = new TalonSRX2spdDriveSystem(this, driveTrainName);
+			driveSys.setHiSpd();
+		}
 
         navigation = new Navigation(this, configReader.getNavigationOption());
 
@@ -64,6 +69,9 @@ public class FRCRobot {
         
         lift = new Lift(this);
         cubeHandler = new CubeHandler(this);
+        
+        CameraServer.getInstance().startAutomaticCapture();
+        
 	}
 	
 	public void initTeleOp()
@@ -75,7 +83,8 @@ public class FRCRobot {
 	{
 		//TODO: Map controller sticks to drive system
 		//Possible: map misc. controller buttons to tasks?
-	    driveSys.arcadeDrive(-joystick.getY(), joystick.getX());
+		invertMult = -joystick.getThrottle();
+	    driveSys.arcadeDrive(-invertMult*joystick.getY(), joystick.getTwist());
 	    
 	    if(joystick.getRawButton(6))
 	    {
@@ -103,6 +112,7 @@ public class FRCRobot {
 	{
 		//Reset encoders
 		driveSys.resetEncoders();
+		driveSys.setHiSpd();
 		autonTasks = new AutonomousTasks(this, configReader.getAutoOption());	
 		autonTasks.initFirstTask();
 	}

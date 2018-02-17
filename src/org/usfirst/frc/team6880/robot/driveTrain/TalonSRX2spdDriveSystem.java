@@ -168,10 +168,23 @@ public class TalonSRX2spdDriveSystem implements DriveSystem {
     public void setLoSpd() {
         gearShifter.set(Value.kForward);
         leftEnc.setDistancePerPulse(distancePerCountLoSpd);
+        rightEnc.setDistancePerPulse(distancePerCountLoSpd);
+        System.out.println("frc6880: Setting low speed");
+        System.out.println("frc6880: Dist per count: " + distancePerCountLoSpd);
     }
 
     public void setHiSpd() {
         gearShifter.set(Value.kReverse);
         leftEnc.setDistancePerPulse(distancePerCountHiSpd);
+        rightEnc.setDistancePerPulse(distancePerCountHiSpd);
+        System.out.println("frc6880: Setting high speed");
+        System.out.println("frc6880: Dist per count: " + distancePerCountHiSpd);
+    }
+    
+    public boolean isMoving()
+    {
+    	if(drive.isAlive())
+    		return true;
+    	return false;
     }
 }
