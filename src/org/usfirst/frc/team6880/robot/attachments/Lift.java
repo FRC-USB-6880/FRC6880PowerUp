@@ -22,6 +22,7 @@ public class Lift
 	private double spoolDiameter;
 	private double spoolCircumference;
 	private double distancePerCount;
+	private boolean moving;
     /**
      * 
      */
@@ -35,6 +36,7 @@ public class Lift
     	spoolDiameter = 2;
     	spoolCircumference = Math.PI * spoolDiameter;
     	distancePerCount = spoolCircumference / 360;
+    	moving = false;
 //    	liftEncoder.setDistancePerPulse(distancePerCount);
     }
     
@@ -48,16 +50,26 @@ public class Lift
     	liftMotor.set(power);
     }
     
-//    public void moveToHeight(double targetHeight, double power)
-//    {
-//    	double amountRaise = targetHeight - height;
-//    	if(liftEncoder.getDistance() != amountRaise)
-//    	{
-//    		if(amountRaise < 0) moveWithPower(-power);
-//    		else moveWithPower(power);
-//    	}
-//    	else stop();
-//    	height += liftEncoder.getDistance();
-//    }
+    public void moveToHeight(double targetHeight, double power)
+    {
+    	double amountRaise = targetHeight - height;
+    	if(liftEncoder.getDistance() != amountRaise)
+    	{
+    		if(amountRaise < 0) moveWithPower(-power);
+    		else moveWithPower(power);
+    	}
+    	else stop();
+    	height += liftEncoder.getDistance();
+    }
+    
+    public double getHeight()
+    {
+    	return height;
+    }
+    
+    public boolean isMoving()
+    {
+    	return moving;
+    }
 
 }

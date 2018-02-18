@@ -8,4 +8,6 @@ public interface DriveSystem {
 	public void setLoSpd();
 	public void setHiSpd();
 	public boolean isMoving();
+	public String getCurrentGear();
+	public void changeMultiplier(double aMultiplier);
 }

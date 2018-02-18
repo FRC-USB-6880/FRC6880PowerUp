@@ -38,6 +38,9 @@ public class TalonSRX2spdDriveSystem implements DriveSystem {
     private double wheelDiameter;
     private double wheelCircumference;
     private double distancePerCountLoSpd, distancePerCountHiSpd;
+    private boolean moving;
+    private String currentGear;
+    private double multiplier;
 
     /**
      * 
@@ -51,6 +54,9 @@ public class TalonSRX2spdDriveSystem implements DriveSystem {
         
         wheelDiameter = wheelSpecsReader.getDiameter();
         wheelCircumference = Math.PI * wheelDiameter;
+        moving = false;
+        currentGear = null;
+        multiplier = 1;
         
         // TODO  Use configReader.getChannelNum() method to identify the
         //   channel numbers where each motor controller is plugged in
@@ -146,12 +152,14 @@ public class TalonSRX2spdDriveSystem implements DriveSystem {
 
     @Override
     public void tankDrive(double leftSpeed, double rightSpeed) {
-        drive.tankDrive(leftSpeed, rightSpeed);        
+        drive.tankDrive(multiplier*leftSpeed, multiplier*rightSpeed);
+        moving = (leftSpeed!=0.0 || rightSpeed!=0.0) ? true : false;
     }
 
     @Override
     public void arcadeDrive(double speed, double rotationRate) {
-        drive.arcadeDrive(speed, rotationRate);        
+        drive.arcadeDrive(multiplier*speed, multiplier*rotationRate);
+        moving = (speed!=0.0 || rotationRate!=0.0) ? true : false;
     }
 
     @Override
@@ -169,6 +177,7 @@ public class TalonSRX2spdDriveSystem implements DriveSystem {
         gearShifter.set(Value.kForward);
         leftEnc.setDistancePerPulse(distancePerCountLoSpd);
         rightEnc.setDistancePerPulse(distancePerCountLoSpd);
+        currentGear = "low";
         System.out.println("frc6880: Setting low speed");
         System.out.println("frc6880: Dist per count: " + distancePerCountLoSpd);
     }
@@ -177,14 +186,22 @@ public class TalonSRX2spdDriveSystem implements DriveSystem {
         gearShifter.set(Value.kReverse);
         leftEnc.setDistancePerPulse(distancePerCountHiSpd);
         rightEnc.setDistancePerPulse(distancePerCountHiSpd);
+        currentGear = "high";
         System.out.println("frc6880: Setting high speed");
         System.out.println("frc6880: Dist per count: " + distancePerCountHiSpd);
     }
     
     public boolean isMoving()
     {
-    	if(drive.isAlive())
-    		return true;
-    	return false;
+    	return moving;
     }
+    
+    public String getCurrentGear()
+    {
+    	return currentGear;
+    }
+    public void changeMultiplier(double aMultiplier)
+	{
+		multiplier = aMultiplier;
+	}
 }
