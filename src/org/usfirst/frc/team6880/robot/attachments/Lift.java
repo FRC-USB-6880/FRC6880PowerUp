@@ -4,6 +4,8 @@
 package org.usfirst.frc.team6880.robot.attachments;
 import org.usfirst.frc.team6880.robot.FRCRobot;
 
+import com.ctre.phoenix.motorcontrol.FeedbackDevice;
+import com.ctre.phoenix.motorcontrol.StatusFrameEnhanced;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
 import edu.wpi.first.wpilibj.Encoder;
@@ -36,6 +38,8 @@ public class Lift
     	spoolCircumference = Math.PI * spoolDiameter;
     	distancePerCount = spoolCircumference / 360;
 //    	liftEncoder.setDistancePerPulse(distancePerCount);
+    	liftMotor.setStatusFramePeriod(StatusFrameEnhanced.Status_2_Feedback0, 1, 10);
+    	liftMotor.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, 10);
     }
     
     public void stop()
@@ -48,16 +52,16 @@ public class Lift
     	liftMotor.set(power);
     }
     
-//    public void moveToHeight(double targetHeight, double power)
-//    {
-//    	double amountRaise = targetHeight - height;
-//    	if(liftEncoder.getDistance() != amountRaise)
-//    	{
-//    		if(amountRaise < 0) moveWithPower(-power);
-//    		else moveWithPower(power);
-//    	}
-//    	else stop();
-//    	height += liftEncoder.getDistance();
-//    }
+    public void moveToHeight(double targetHeight, double power)
+    {
+    	double amountRaise = targetHeight - height;
+    	if(liftMotor.getSelectedSensorPosition(0) != amountRaise)
+    	{
+    		if(amountRaise < 0) moveWithPower(-power);
+    		else moveWithPower(power);
+    	}
+    	else stop();
+    	height += liftMotor.getSelectedSensorPosition(0);
+    }
 
 }

@@ -58,6 +58,8 @@ public class TalonSRX2spdDriveSystem implements DriveSystem {
         motorL2 = new WPI_TalonSRX(configReader.getDeviceID("Motor_L2"));
         motorL1.setInverted(true);
         motorL2.setInverted(true);
+        motorL1.configClosedloopRamp(0, 2);
+        motorL2.configClosedloopRamp(0, 0);
         if (configReader.isFollower("Motor_L1"))
         {
             motorL1.follow(motorL2);
@@ -77,6 +79,8 @@ public class TalonSRX2spdDriveSystem implements DriveSystem {
         motorR2 = new WPI_TalonSRX(configReader.getDeviceID("Motor_R2"));
         motorR1.setInverted(true);
         motorR2.setInverted(true);
+        motorR1.configClosedloopRamp(0, 2);
+        motorR2.configClosedloopRamp(0, 0);
 
         if (configReader.isFollower("Motor_R1"))
         {
