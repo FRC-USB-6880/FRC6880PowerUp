@@ -71,6 +71,8 @@ public class VictorSPDriveSystem implements DriveSystem {
 	public void tankDrive(double leftSpeed, double rightSpeed)
 	{
 		drive.tankDrive(leftSpeed, rightSpeed);
+		currentLeftPower = leftSpeed;
+		currentRightPower = rightSpeed;
 	}
 	
 	public void arcadeDrive(double speed, double rotationRate)

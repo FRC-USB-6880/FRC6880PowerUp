@@ -149,7 +149,9 @@ public class TalonSRX2spdDriveSystem implements DriveSystem {
 
     @Override
     public void tankDrive(double leftSpeed, double rightSpeed) {
-        drive.tankDrive(leftSpeed, rightSpeed);        
+        drive.tankDrive(leftSpeed, rightSpeed);     
+        currentLeftPower = leftSpeed;
+        currentRightPower = rightSpeed;
     }
 
     @Override
