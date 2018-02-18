@@ -83,12 +83,8 @@ public class FRCRobot {
 	{
 		//TODO: Map controller sticks to drive system
 		//Possible: map misc. controller buttons to tasks?
-<<<<<<< HEAD
-	    driveSys.arcadeDrive(-joystick.getY(), joystick.getTwist());
-=======
 		invertMult = -joystick.getThrottle();
 	    driveSys.arcadeDrive(-invertMult*joystick.getY(), joystick.getTwist());
->>>>>>> branch 'week6_tests' of https://github.com/FRC-USB-6880/FRC6880PowerUp.git
 	    
 	    if(joystick.getRawButton(6))
 	    {

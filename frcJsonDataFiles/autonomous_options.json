@@ -12,11 +12,7 @@
 	"testing2" : [
 		{"name" : "MoveForward", "speed" : 0.5, "distance" : 1.0}
 	],
-<<<<<<< HEAD
-	"pos1l" : [
-=======
 	"pos1l_old" : [
->>>>>>> branch 'week6_tests' of https://github.com/FRC-USB-6880/FRC6880PowerUp.git
 		{"name" : "CubeHandle", "close" : true},
 		{"name" : "Lift", "power" : 1.0, "time" : 1.0},
 		{"name" : "MoveDistance", "speed" : 0.5, "distance" : 12.0, "targetYaw" : 0.0},
@@ -26,80 +22,6 @@
 		{"name" : "MoveDistance", "speed" : 0.5, "distance" : 18.0, "targetYaw" : 0.0},
 		{"name" : "CubeHandle", "close" : false}		
 	],
-<<<<<<< HEAD
-	"pos1ls" : [
-		{"name" : "CubeHandle", "close" : true},
-		{"name" : "Lift", "power" : 1.0, "time" : 1.0},
-		{"name" : "MoveDistance", "speed" : 0.7, "distance" : 230.0, "targetYaw" : 0.0},
-		{"name" : "SetOrientation", "speed" : 0.4, "targetYaw" : 25.0, "tolerance" : 3.0},
-		{"name" : "Lift", "power" : 1.0, "time" : 1.2},
-		{"name" : "MoveDistance", "speed" : 0.5, "distance" : 50.0, "targetYaw" : 25.0},
-		{"name" : "CubeHandle", "close" : false}		
-	],
-	"pos1r" : [
-		{"name" : "CubeHandle", "close" : true},
-		{"name" : "Lift", "power" : 1.0, "time" : 1.0},
-		{"name" : "MoveDistance", "speed" : 0.7, "distance" : 230.0, "targetYaw" : 0.0},
-		{"name" : "SetOrientation", "speed" : 0.4, "targetYaw" : 90.0, "tolerance" : 3.0},
-		{"name" : "MoveDistance", "speed" : 0.7, "distance" : 210.0, "targetYaw" : 90.0},
-		{"name" : "SetOrientation", "speed" : 0.4, "targetYaw" : 180.0, "tolerance" : 3.0},
-		{"name" : "MoveDistance", "speed" : 0.7, "distance" : 64.0, "targetYaw" : 180.0},
-		{"name" : "SetOrientation", "speed" : 0.4, "targetYaw" : -90.0, "tolerance" : 3.0},
-		{"name" : "MoveDistance", "speed" : 0.5, "distance" : 12.0, "targetYaw" : -90.0},
-		{"name" : "CubeHandle", "close" : false}
-    ],
-    "pos2l" : [
-    	{"name" : "CubeHandle", "close" : true},
-		{"name" : "Lift", "power" : 1.0, "time" : 1.0},
-		{"name" : "MoveDistance", "speed" : 0.7, "distance" : 12.0, "targetYaw" : 0.0},
-		{"name" : "SetOrientation", "speed" : 0.4, "targetYaw" : -45.0, "tolerance" : 3.0},
-		{"name" : "MoveDistance", "speed" : 0.7, "distance" : 84.0, "targetYaw" : -45.0},
-		{"name" : "SetOrientation", "speed" : 0.4, "targetYaw" : 0.0, "tolerance" : 3.0},
-		{"name" : "MoveDistance", "speed" : 0.7, "distance" : 30.0, "targetYaw" : 0.0},
-		{"name" : "CubeHandle", "close" : false}
-    ],
-    "pos2r" : [
-    	{"name" : "CubeHandle", "close" : true},
-		{"name" : "Lift", "power" : 1.0, "time" : 1.0},
-		{"name" : "MoveDistance", "speed" : 0.7, "distance" : 12.0, "targetYaw" : 0.0},
-		{"name" : "SetOrientation", "speed" : 0.4, "targetYaw" : 45.0, "tolerance" : 3.0},
-		{"name" : "MoveDistance", "speed" : 0.7, "distance" : 84.0, "targetYaw" : 45.0},
-		{"name" : "SetOrientation", "speed" : 0.4, "targetYaw" : 0.0, "tolerance" : 3.0},
-		{"name" : "MoveDistance", "speed" : 0.7, "distance" : 30.0, "targetYaw" : 0.0},
-		{"name" : "CubeHandle", "close" : false}
-    ],
-    "pos3r" : [
-		{"name" : "CubeHandle", "close" : true},
-		{"name" : "Lift", "power" : 1.0, "time" : 1.0},
-		{"name" : "MoveDistance", "speed" : 0.7, "distance" : 12.0, "targetYaw" : 0.0},
-		{"name" : "SetOrientation", "speed" : 0.4, "targetYaw" : -30.0, "tolerance" : 3.0},
-		{"name" : "MoveDistance", "speed" : 0.7, "distance" : 80.0, "targetYaw" : -30.0},
-		{"name" : "SetOrientation", "speed" : 0.4, "targetYaw" : 0.0, "tolerance" : 3.0},
-		{"name" : "MoveDistance", "speed" : 0.7, "distance" : 18.0, "targetYaw" : 0.0},
-		{"name" : "CubeHandle", "close" : false}		
-	],
-	"pos3rs" : [
-		{"name" : "CubeHandle", "close" : true},
-		{"name" : "Lift", "power" : 1.0, "time" : 1.0},
-		{"name" : "MoveDistance", "speed" : 0.7, "distance" : 230.0, "targetYaw" : 0.0},
-		{"name" : "SetOrientation", "speed" : 0.4, "targetYaw" : -25.0, "tolerance" : 3.0},
-		{"name" : "Lift", "power" : 1.0, "time" : 1.2},
-		{"name" : "MoveDistance", "speed" : 0.5, "distance" : 50.0, "targetYaw" : -25.0},
-		{"name" : "CubeHandle", "close" : false}		
-	],
-	"pos2ls" : [
-    	{"name" : "CubeHandle", "close" : true},
-		{"name" : "Lift", "power" : 1.0, "time" : 1.0},
-		{"name" : "MoveDistance", "speed" : 0.5, "distance" : 12.0, "targetYaw" : 0.0},
-		{"name" : "SetOrientation", "speed" : 0.4, "targetYaw" : -50.0, "tolerance" : 3.0},
-		{"name" : "MoveDistance", "speed" : 0.5, "distance" : 160.0, "targetYaw" : -50.0},
-		{"name" : "SetOrientation", "speed" : 0.4, "targetYaw" : 10.0, "tolerance" : 3.0},
-		{"name" : "MoveDistance", "speed" : 0.5, "distance" : 110.0, "targetYaw" : 10.0},
-		{"name" : "Lift", "power" : 1.0, "time" : 1.2},
-		{"name" : "MoveDistance", "speed" : 0.5, "distance" : 50.0, "targetYaw" : 10.0},
-		{"name" : "CubeHandle", "close" : false}
-    ]
-=======
 	"pos1l" : [
 		{"name" : "CubeHandle", "close" : true},
 		{"name" : "Lift", "power" : 1.0, "time" : 1.0},
@@ -125,7 +47,7 @@
 		{"name" : "MoveDistance", "speed" : 0.5, "distance" : 22.0, "targetYaw" : 0.0},
 		{"name" : "SetOrientation", "speed" : 0.4, "targetYaw" : 90.0, "tolerance" : 3.0},
 		{"name" : "CubeHandle", "close" : false}		
-	]
+	],
 	"pos1r" : [
 		{"name" : "CubeHandle", "close" : true},
 		{"name" : "Lift", "power" : 1.0, "time" : 1.0},
@@ -206,5 +128,4 @@
 		{"name" : "SetOrientation", "speed" : 0.4, "targetYaw" : -90.0, "tolerance" : 3.0},
 		{"name" : "CubeHandle", "close" : false}		
 	]
->>>>>>> branch 'week6_tests' of https://github.com/FRC-USB-6880/FRC6880PowerUp.git
 }
