@@ -36,15 +36,17 @@ public class StateMachine
 			case DRIVING:
 				if(robot.driveSys.getCurrentGear().equals("low")) switchDriveState(DriveSysStates.LOWGEAR);
 				else if(robot.driveSys.getCurrentGear().equals("high")) switchDriveState(DriveSysStates.HIGEAR);
-				else switchDriveState(DriveSysStates.IDLE);
 				break;
 			case LOWGEAR:
-				if(robot.driveSys.getCurrentGear().equals("high")) switchDriveState(DriveSysStates.HIGEAR);
-				else switchDriveState(DriveSysStates.IDLE);
+				if(robot.driveSys.getCurrentGear().equals("high"))
+					switchDriveState(DriveSysStates.HIGEAR);
+				robot.driveSys.setLoSpd();
+				System.out.println("frc6880: Switched to low gear");
 				break;
 			case HIGEAR:
 				if(robot.driveSys.getCurrentGear().equals("low")) switchDriveState(DriveSysStates.LOWGEAR);
-				else switchDriveState(DriveSysStates.IDLE);
+				robot.driveSys.setHiSpd();
+				System.out.println("frc6880: Switched to high gear");
 				break;
 		}
 		switch(currentLiftState)
@@ -53,16 +55,19 @@ public class StateMachine
 				if(robot.driveSys.isMoving()) switchLiftState(LiftStates.MOVING);
 				robot.driveSys.changeMultiplier(1.0);
 				switchDriveState(DriveSysStates.HIGEAR);
+				System.out.println("frc6880: In low range");
 				break;
 			case MIDRANGE:
 				if(robot.driveSys.isMoving()) switchLiftState(LiftStates.MOVING);
 				robot.driveSys.changeMultiplier(0.7);
 				switchDriveState(DriveSysStates.LOWGEAR);
+				System.out.println("frc6880: In mid range");
 				break;
 			case HIRANGE:
 				if(robot.driveSys.isMoving()) switchLiftState(LiftStates.MOVING);
 				robot.driveSys.changeMultiplier(0.3);
 				switchDriveState(DriveSysStates.LOWGEAR);
+				System.out.println("frc6880: In high range");
 				break;
 			case MOVING:
 				if(!robot.lift.isMoving())
@@ -82,6 +87,7 @@ public class StateMachine
 				}
 				robot.driveSys.changeMultiplier(0.5);
 				switchDriveState(DriveSysStates.LOWGEAR);
+				System.out.println("frc6880: Moving lift");
 				break;
 		}
 	}
