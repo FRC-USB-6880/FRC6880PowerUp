@@ -33,11 +33,11 @@ public class Navigation {
 	    error = getDegreesToTurn(gyro.getYaw(), targetYaw);
 	    correction = error * gyro_GoStraight_KP / 2;
 	    if (driveBackwards) {
-            leftSpeed = ClipRange.clip(speed-correction, -0.5, 0.5);
-            rightSpeed = ClipRange.clip(speed+correction, -0.5, 0.5);	        
+            leftSpeed = ClipRange.clip(speed-correction, -0.8, 0.8);
+            rightSpeed = ClipRange.clip(speed+correction, -0.8, 0.8);	        
 	    } else {
-	        leftSpeed = ClipRange.clip(speed+correction, -0.5, 0.5);
-	        rightSpeed = ClipRange.clip(speed-correction, -0.5, 0.5);
+	        leftSpeed = ClipRange.clip(speed+correction, -0.8, 0.8);
+	        rightSpeed = ClipRange.clip(speed-correction, -0.8, 0.8);
 	    }
 //        System.out.format("error=%f, correction=%f, leftSpeed=%f, rightSpeed=%f\n",
 //                error, correction, leftSpeed, rightSpeed);

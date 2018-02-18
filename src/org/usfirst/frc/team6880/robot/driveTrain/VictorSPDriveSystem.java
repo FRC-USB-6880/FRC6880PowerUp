@@ -92,4 +92,10 @@ public class VictorSPDriveSystem implements DriveSystem {
 	public void setHiSpd()
 	{
 	}
+	public boolean isMoving()
+	{
+		if(drive.isAlive())
+    		return true;
+    	return false;
+	}
 }

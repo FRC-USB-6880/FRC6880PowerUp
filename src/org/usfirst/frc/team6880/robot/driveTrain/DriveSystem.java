@@ -7,4 +7,5 @@ public interface DriveSystem {
 	public double getEncoderDist();
 	public void setLoSpd();
 	public void setHiSpd();
+	public boolean isMoving();
 }

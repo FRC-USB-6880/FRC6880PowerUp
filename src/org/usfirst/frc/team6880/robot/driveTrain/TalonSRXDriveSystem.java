@@ -141,11 +141,18 @@ public class TalonSRXDriveSystem implements DriveSystem {
 	public double getEncoderDist()
 	{
 		return (leftEnc.getDistance() + rightEnc.getDistance()) / 2.0;
+//		return leftEnc.getDistance();
 	}
 	public void setLoSpd()
 	{
 	}
 	public void setHiSpd()
 	{
+	}
+	public boolean isMoving()
+	{
+		if(drive.isAlive())
+    		return true;
+    	return false;
 	}
 }

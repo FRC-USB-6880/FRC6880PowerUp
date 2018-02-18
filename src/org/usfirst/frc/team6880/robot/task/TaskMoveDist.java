@@ -52,6 +52,7 @@ public class TaskMoveDist implements RobotTask {
         }
         //Else stop the robot and tell robot to go to next task
         robot.driveSys.tankDrive(0, 0);
+        System.out.println("frc6880: curEncDist: " + robot.driveSys.getEncoderDist());
         return true;
 	}
 }

@@ -60,6 +60,18 @@ public class AutonomousTasks {
                         tolerance = (double)obj.get(key);
                         tasks.add(new TaskSetOrientation(robot, targetYaw, speed, tolerance));
 	        		    break;
+	        		case "Lift":
+	        			key = JsonReader.getKeyIgnoreCase(obj, "power");
+	        			double power = (double)obj.get(key);
+	        			key = JsonReader.getKeyIgnoreCase(obj, "time");
+	        			double time = (double)obj.get(key);
+	        			tasks.add(new TaskLift(robot, power, time));
+	        			break;
+	        		case "CubeHandle":
+	        			key = JsonReader.getKeyIgnoreCase(obj, "close");
+	        			boolean close = (boolean)obj.get(key);
+	        			tasks.add(new TaskCubeHandle(robot, close));
+	        			break;
 	//        		case "SpinDegrees":
 	//        			key = JsonReader.getKeyIgnoreCase(obj, "angle");
 	//        			double angle = (double)obj.get(key);
