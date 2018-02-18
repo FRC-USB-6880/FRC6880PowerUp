@@ -11,6 +11,7 @@ import org.usfirst.frc.team6880.robot.navigation.Navigation;
 import org.usfirst.frc.team6880.robot.task.*;
 import org.usfirst.frc.team6880.robot.util.PneumaticController;
 import org.usfirst.frc.team6880.robot.util.PowerMonitor;
+import org.usfirst.frc.team6880.robot.util.StateMachine;
 
 import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.Compressor;
@@ -29,6 +30,7 @@ public class FRCRobot {
 	public Lift lift;
 	public CubeHandler cubeHandler;
 	private double invertMult;
+	StateMachine machine;
 	
 	AutonomousTasks autonTasks;
 	
@@ -69,7 +71,7 @@ public class FRCRobot {
         
         lift = new Lift(this);
         cubeHandler = new CubeHandler(this);
-        
+        machine = new StateMachine(this);
         CameraServer.getInstance().startAutomaticCapture();
         
 	}
@@ -83,6 +85,7 @@ public class FRCRobot {
 	{
 		//TODO: Map controller sticks to drive system
 		//Possible: map misc. controller buttons to tasks?
+		machine.loop();
 		invertMult = -joystick.getThrottle();
 	    driveSys.arcadeDrive(-invertMult*joystick.getY(), joystick.getTwist());
 	    
