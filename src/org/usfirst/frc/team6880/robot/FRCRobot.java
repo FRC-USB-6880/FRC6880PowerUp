@@ -9,6 +9,7 @@ import org.usfirst.frc.team6880.robot.driveTrain.VictorSPDriveSystem;
 import org.usfirst.frc.team6880.robot.jsonReaders.*;
 import org.usfirst.frc.team6880.robot.navigation.Navigation;
 import org.usfirst.frc.team6880.robot.task.*;
+import org.usfirst.frc.team6880.robot.util.LogitechF310;
 import org.usfirst.frc.team6880.robot.util.PneumaticController;
 import org.usfirst.frc.team6880.robot.util.PowerMonitor;
 import org.usfirst.frc.team6880.robot.util.StateMachine;
@@ -24,6 +25,7 @@ public class FRCRobot {
 	public Navigation navigation;
 	RobotConfigReader configReader;
 	public Joystick joystick;
+	public LogitechF310 gamepad;
 	public PowerDistributionPanel pdp;
 	PowerMonitor powerMon;
 	public PneumaticController pcmObj;
@@ -66,6 +68,7 @@ public class FRCRobot {
         navigation = new Navigation(this, configReader.getNavigationOption());
 
         joystick = new Joystick(0);
+        gamepad = new LogitechF310(1);
         
         powerMon = new PowerMonitor(this);
         
@@ -89,25 +92,16 @@ public class FRCRobot {
 		invertMult = -joystick.getThrottle();
 	    driveSys.arcadeDrive(-invertMult*joystick.getY(), joystick.getTwist());
 	    
-	    if(joystick.getRawButton(6))
-	    {
-	    	lift.moveWithPower(0.5);
-	    }
-	    else if(joystick.getRawButton(4))
-	    	lift.moveWithPower(-0.3);
-	    else
-	    	lift.stop();
+	    lift.moveWithPower(gamepad.rightStickY());
+	    
+	    if(gamepad.rightBumper())
+	    	cubeHandler.grabCube();
+	    else if(gamepad.leftBumper())
+	    	cubeHandler.releaseCube();
 	    
 	    if(joystick.getTrigger())
-	    	cubeHandler.grabCube();
-	    else if(joystick.getRawButton(2))
-	    {
-	    	cubeHandler.releaseCube();
-	    }
-	    
-	    if(joystick.getRawButton(5))
 	    	driveSys.setHiSpd();
-	    if(joystick.getRawButton(3))
+	    if(joystick.getRawButton(2))
 	    	driveSys.setLoSpd();
 	}
 	
