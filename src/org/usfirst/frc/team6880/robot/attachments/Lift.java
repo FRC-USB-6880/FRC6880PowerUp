@@ -24,6 +24,7 @@ public class Lift
 	private double spoolDiameter;
 	private double spoolCircumference;
 	private double distancePerCount;
+	private boolean moving;
     /**
      * 
      */
@@ -37,6 +38,7 @@ public class Lift
     	spoolDiameter = 2;
     	spoolCircumference = Math.PI * spoolDiameter;
     	distancePerCount = spoolCircumference / 360;
+    	moving = false;
 //    	liftEncoder.setDistancePerPulse(distancePerCount);
     	liftMotor.setStatusFramePeriod(StatusFrameEnhanced.Status_2_Feedback0, 1, 10);
     	liftMotor.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, 10);
@@ -62,6 +64,16 @@ public class Lift
     	}
     	else stop();
     	height += liftMotor.getSelectedSensorPosition(0);
+    }
+    
+    public double getHeight()
+    {
+    	return height;
+    }
+    
+    public boolean isMoving()
+    {
+    	return moving;
     }
 
 }

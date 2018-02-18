@@ -25,6 +25,8 @@ public class VictorSPDriveSystem implements DriveSystem {
 	private double wheelDiameter;
 	private double wheelCircumference;
 	private double distancePerCount;
+	private boolean moving;
+	private double multiplier;
 	
 	/*
 	 *  TODO
@@ -48,6 +50,8 @@ public class VictorSPDriveSystem implements DriveSystem {
 		wheelCircumference = Math.PI * wheelDiameter;
 		// We will assume that the same encoder is used on both left and right sides of the drive train. 
 		distancePerCount = wheelCircumference / configReader.getEncoderValue("LeftEncoder", "CPR");
+		moving = false;
+		multiplier = 1;
 		
 		// TODO  Use configReader.getChannelNum() method to identify the
 		//   channel numbers where each motor controller is plugged in
@@ -68,12 +72,14 @@ public class VictorSPDriveSystem implements DriveSystem {
 	
 	public void tankDrive(double leftSpeed, double rightSpeed)
 	{
-		drive.tankDrive(leftSpeed, rightSpeed);
+		drive.tankDrive(multiplier*leftSpeed, multiplier*rightSpeed);
+		moving = (leftSpeed!=0.0 || rightSpeed!=0.0) ? true : false;
 	}
 	
 	public void arcadeDrive(double speed, double rotationRate)
 	{
-		drive.arcadeDrive(speed, rotationRate);
+		drive.arcadeDrive(multiplier*speed, multiplier*rotationRate);
+		moving = (speed!=0.0 || rotationRate!=0.0) ? true : false;
 	}
 	
 	public void resetEncoders()
@@ -94,8 +100,14 @@ public class VictorSPDriveSystem implements DriveSystem {
 	}
 	public boolean isMoving()
 	{
-		if(drive.isAlive())
-    		return true;
-    	return false;
+		return moving;
+	}
+	public String getCurrentGear()
+	{
+		return "high";
+	}
+	public void changeMultiplier(double aMultiplier)
+	{
+		multiplier *= aMultiplier;
 	}
 }

@@ -2,7 +2,7 @@ package org.usfirst.frc.team6880.robot.driveTrain;
 
 import org.usfirst.frc.team6880.robot.FRCRobot;
 import org.usfirst.frc.team6880.robot.jsonReaders.*;
-import org.usfirst.frc.team6880.robot.util.ClipRange;
+//import org.usfirst.frc.team6880.robot.util.ClipRange;
 
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
@@ -27,6 +27,8 @@ public class TalonSRXDriveSystem implements DriveSystem {
 	private double wheelDiameter;
 	private double wheelCircumference;
 	private double distancePerCount;
+	private boolean moving;
+	public double multiplier;
 	
 	/*
 	 *  TODO
@@ -48,6 +50,9 @@ public class TalonSRXDriveSystem implements DriveSystem {
 		
 		wheelDiameter = wheelSpecsReader.getDiameter();
 		wheelCircumference = Math.PI * wheelDiameter;
+		moving = false;
+		multiplier = 1.0;
+		
 		// We will assume that the same encoder is used on both left and right sides of the drive train. 
 		distancePerCount = wheelCircumference / configReader.getEncoderValue("LeftEncoder", "CPR");
 		System.out.format("frc6880: distancePerCount = %f\n", distancePerCount);
@@ -124,12 +129,14 @@ public class TalonSRXDriveSystem implements DriveSystem {
 	
 	public void tankDrive(double leftSpeed, double rightSpeed)
 	{
-		drive.tankDrive(leftSpeed, rightSpeed);
+		drive.tankDrive(multiplier*leftSpeed, multiplier*rightSpeed);
+		moving = (leftSpeed!=0.0 || rightSpeed!=0.0) ? true : false;
 	}
 	
 	public void arcadeDrive(double speed, double rotationRate)
 	{
-		drive.arcadeDrive(speed, rotationRate);
+		drive.arcadeDrive(multiplier*speed, multiplier*rotationRate);
+		moving = (speed!=0.0 || rotationRate!=0.0) ? true : false;
 	}
 	
 	public void resetEncoders()
@@ -145,14 +152,23 @@ public class TalonSRXDriveSystem implements DriveSystem {
 	}
 	public void setLoSpd()
 	{
+		
 	}
 	public void setHiSpd()
 	{
 	}
 	public boolean isMoving()
 	{
-		if(drive.isAlive())
-    		return true;
-    	return false;
+		return moving;
+	}
+	
+	public String getCurrentGear()
+	{
+		return "high";
+	}
+	
+	public void changeMultiplier(double aMultiplier)
+	{
+		multiplier = aMultiplier;
 	}
 }
