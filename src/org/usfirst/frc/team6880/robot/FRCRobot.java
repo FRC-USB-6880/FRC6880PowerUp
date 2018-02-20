@@ -94,6 +94,7 @@ public class FRCRobot {
 	    	lift.moveWithPower(-0.3);
 	    else
 	    	lift.stop();
+	    lift.displayCurrentPosition();
 	    
 	    if(joystick.getTrigger())
 	    	cubeHandler.grabCube();
