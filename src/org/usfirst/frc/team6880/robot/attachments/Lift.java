@@ -58,9 +58,26 @@ public class Lift
     	liftMotor.set(0);
     }
     
+    public boolean checkUpperLimit()
+    {
+    	if(liftMotor.getSelectedSensorPosition(0)<=-21700)
+    		return true;
+    	return false;
+    }
+    
+    public boolean checkLowerLimit()
+    {
+    	if(liftMotor.getSelectedSensorPosition(0)>=0)
+    		return true;
+    	return false;
+    }
+    
     public void moveWithPower(double power)
     {
-    	liftMotor.set(power);
+    	if(power<0)
+    		liftMotor.set(checkLowerLimit() ? 0.0 : power);
+    	else if(power>0)
+    		liftMotor.set(checkUpperLimit() ? 0.0 : power);
     }
     public void displayCurrentPosition()
     {
@@ -69,16 +86,20 @@ public class Lift
 //        SmartDashboard.putNumber("LiftPos", value);
     }
     
-    public void moveToHeight(double targetHeight, double power)
+    public boolean moveToHeight(double targetHeight, double power)
     {
-    	double amountRaise = targetHeight - height;
-    	if(liftMotor.getSelectedSensorPosition(0) != amountRaise)
-    	{
-    		if(amountRaise < 0) moveWithPower(-power);
-    		else moveWithPower(power);
-    	}
-    	else stop();
-    	height += liftMotor.getSelectedSensorPosition(0);
+		if(targetHeight < liftMotor.getSelectedSensorPosition(0)) 
+		{
+			moveWithPower(power);
+			return false;
+		}
+		else if(targetHeight > liftMotor.getSelectedSensorPosition(0))
+		{
+			moveWithPower(-power);
+			return false;
+		}
+		stop();
+		return true;
     }
 
 }
