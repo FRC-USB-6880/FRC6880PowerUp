@@ -9,6 +9,7 @@ import org.usfirst.frc.team6880.robot.driveTrain.VictorSPDriveSystem;
 import org.usfirst.frc.team6880.robot.jsonReaders.*;
 import org.usfirst.frc.team6880.robot.navigation.Navigation;
 import org.usfirst.frc.team6880.robot.task.*;
+import org.usfirst.frc.team6880.robot.util.LogitechF310;
 import org.usfirst.frc.team6880.robot.util.PneumaticController;
 import org.usfirst.frc.team6880.robot.util.PowerMonitor;
 
@@ -29,6 +30,7 @@ public class FRCRobot {
 	public Lift lift;
 	public CubeHandler cubeHandler;
 	private double invertMult;
+	LogitechF310 gamepad;
 	
 	AutonomousTasks autonTasks;
 	
@@ -64,6 +66,7 @@ public class FRCRobot {
         navigation = new Navigation(this, configReader.getNavigationOption());
 
         joystick = new Joystick(0);
+        gamepad = new LogitechF310(1);
         
         powerMon = new PowerMonitor(this);
         
@@ -84,27 +87,21 @@ public class FRCRobot {
 		//TODO: Map controller sticks to drive system
 		//Possible: map misc. controller buttons to tasks?
 		invertMult = -joystick.getThrottle();
-	    driveSys.arcadeDrive(-invertMult*joystick.getY(), joystick.getTwist());
+	    driveSys.arcadeDrive(-invertMult*joystick.getY(), 0.7*joystick.getTwist());
 	    
-	    if(joystick.getRawButton(6))
-	    {
-	    	lift.moveWithPower(0.5);
-	    }
-	    else if(joystick.getRawButton(4))
-	    	lift.moveWithPower(-0.3);
-	    else
-	    	lift.stop();
+	    lift.moveWithPower(0.7*-gamepad.rightStickY());
 	    
-	    if(joystick.getTrigger())
+	    if(gamepad.rightBumper())
 	    	cubeHandler.grabCube();
-	    else if(joystick.getRawButton(2))
+	    if(gamepad.dpadDown())
 	    {
+	    	System.out.println("frc6880: Releasing");
 	    	cubeHandler.releaseCube();
 	    }
 	    
-	    if(joystick.getRawButton(5))
+	    if(joystick.getTrigger())
 	    	driveSys.setHiSpd();
-	    if(joystick.getRawButton(3))
+	    if(joystick.getRawButton(2))
 	    	driveSys.setLoSpd();
 	}
 	
