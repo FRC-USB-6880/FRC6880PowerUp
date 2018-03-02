@@ -34,6 +34,7 @@ public class TalonSRX2spdDriveSystem implements DriveSystem {
     DriveTrainReader configReader;
     WheelSpecsReader wheelSpecsReader;
     DoubleSolenoid gearShifter;
+    Gears curGear;
     
     private double wheelDiameter;
     private double wheelCircumference;
@@ -146,6 +147,7 @@ public class TalonSRX2spdDriveSystem implements DriveSystem {
         gearShifter = robot.pcmObj.initializeDoubleSolenoid(4, 5);
         gearShifter.set(Value.kOff);
 
+        curGear = Gears.LOW;
     }
 
     @Override
@@ -173,6 +175,7 @@ public class TalonSRX2spdDriveSystem implements DriveSystem {
         gearShifter.set(Value.kForward);
         leftEnc.setDistancePerPulse(distancePerCountLoSpd);
         rightEnc.setDistancePerPulse(distancePerCountLoSpd);
+        
         System.out.println("frc6880: Setting low speed");
         System.out.println("frc6880: Dist per count: " + distancePerCountLoSpd);
     }
@@ -190,5 +193,10 @@ public class TalonSRX2spdDriveSystem implements DriveSystem {
     	if(drive.isAlive())
     		return true;
     	return false;
+    }
+    
+    public Gears getCurGear()
+    {
+    	return curGear;
     }
 }

@@ -25,6 +25,7 @@ public class Lift
 	private double spoolDiameter;
 	private double spoolCircumference;
 	private double distancePerCount;
+	private double curPower;
     /**
      * 
      */
@@ -38,6 +39,7 @@ public class Lift
     	spoolDiameter = 2;
     	spoolCircumference = Math.PI * spoolDiameter;
     	distancePerCount = spoolCircumference / 360;
+    	curPower = 0.0;
 //    	liftEncoder.setDistancePerPulse(distancePerCount);
     	/*
     	 * The status frames with their default period include:
@@ -78,6 +80,7 @@ public class Lift
     		liftMotor.set(checkLowerLimit() ? 0.0 : power);
     	else if(power>0)
     		liftMotor.set(checkUpperLimit() ? 0.0 : power);
+    	curPower = power;
     }
     public void displayCurrentPosition()
     {
@@ -101,5 +104,12 @@ public class Lift
 		stop();
 		return true;
     }
+
+	public boolean isMoving() {
+		// TODO Auto-generated method stub
+		if(curPower != 0.0)
+			return true;
+		return false;
+	}
 
 }
