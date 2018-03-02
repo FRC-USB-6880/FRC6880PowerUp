@@ -40,7 +40,7 @@ public class StateMachine {
 		switch(currentLiftState)
 		{
 			case LOWRANGE:
-				if(robot.driveSys.isMoving()) switchLiftState(LiftStates.MOVING);
+				if(robot.lift.isMoving()) switchLiftState(LiftStates.MOVING);
 				robot.driveSys.changeMultiplier(1.0);
 				switchDriveState(DriveSysStates.HIGEAR);
 				break;
