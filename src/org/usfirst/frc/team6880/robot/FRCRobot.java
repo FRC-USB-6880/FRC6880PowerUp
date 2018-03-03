@@ -14,8 +14,10 @@ import org.usfirst.frc.team6880.robot.util.PowerMonitor;
 
 import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.Compressor;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.PowerDistributionPanel;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class FRCRobot {
 	Robot wpilibrobot;
@@ -43,6 +45,7 @@ public class FRCRobot {
 		JsonReader.setBaseDir(JsonReader.baseDir);
 		
 		configReader = new RobotConfigReader(JsonReader.robotsFile, "2018-robot");
+		SmartDashboard.putString("Robot", "2018-robot");
 		System.out.println("frc6880: Config reader: " + configReader);
 		
 		// TODO Instantiate PneumaticController object before instantiating driveTrain
@@ -51,6 +54,7 @@ public class FRCRobot {
 
 		driveTrainName = configReader.getDriveTrainName();
         System.out.println("frc6880: driveTrainName: " + driveTrainName);
+        SmartDashboard.putString("Drive train name", driveTrainName);
 		if (driveTrainName.equals("4VictorSP-1spd-WestCoastDrive"))
 		    driveSys = new VictorSPDriveSystem(this, driveTrainName);
 		else if (driveTrainName.equals("CAN-4TalonSRX-1spd-WestCoastDrive"))
@@ -114,7 +118,52 @@ public class FRCRobot {
 		//Reset encoders
 		driveSys.resetEncoders();
 		driveSys.setHiSpd();
-		autonTasks = new AutonomousTasks(this, configReader.getAutoOption());	
+		String gameData = DriverStation.getInstance().getGameSpecificMessage();
+		SmartDashboard.putString("Game Data", gameData);
+		String autoOption = SmartDashboard.getString("AutoPos", "none");
+		boolean scale = SmartDashboard.getBoolean("Scale", false);
+		
+		if(gameData.charAt(0) == 'L')
+		{
+			if(autoOption.equals("pos1"))
+			{
+				if(scale && gameData.charAt(1) == 'L')
+					autoOption+="ls";
+				else if(!scale)
+					autoOption+="l";
+			}
+			else if(autoOption.equals("pos2"))
+			{
+				autoOption+="l";
+			}
+			else if(autoOption.equals("pos3"))
+			{
+				if(scale && gameData.charAt(1) == 'R')
+					autoOption+="rs";
+			}
+		}
+		else if(gameData.charAt(0) == 'R')
+		{
+			if(autoOption.equals("pos3"))
+			{
+				if(scale && gameData.charAt(1) == 'R')
+					autoOption+="rs";
+				else if(!scale)
+					autoOption+="r";
+			}
+			else if(autoOption.equals("pos2"))
+			{
+				autoOption+="r";
+			}
+			else if(autoOption.equals("pos1"))
+			{
+				if(scale && gameData.charAt(1) == 'L')
+					autoOption+="ls";
+			}
+		}
+		
+		autonTasks = new AutonomousTasks(this, autoOption);
+		SmartDashboard.putString("Selected Auto", autoOption);
 		autonTasks.initFirstTask();
 	}
 	
