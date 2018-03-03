@@ -21,11 +21,16 @@ public class Lift
 	WPI_TalonSRX liftMotor;
 	private double height;
 	public Encoder liftEncoder;
+	public static final long MAX_LOW = 7233;
+	public static final long MAX_MID = 14466;
+	public static final long MAX_HIGH = 21700;
+	public static final long RANGE_VALUE = 7233;
 	
 	private double spoolDiameter;
 	private double spoolCircumference;
 	private double distancePerCount;
 	private double curPower;
+	private long targetPos;
     /**
      * 
      */
@@ -53,6 +58,8 @@ public class Lift
     	 */
 //    	liftMotor.setStatusFramePeriod(StatusFrameEnhanced.Status_2_Feedback0, 1, 10);
     	liftMotor.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, 20);
+    	
+    	targetPos = 0;
     }
     
     public void stop()
@@ -62,16 +69,21 @@ public class Lift
     
     public boolean checkUpperLimit()
     {
-    	if(liftMotor.getSelectedSensorPosition(0)<=-21700)
+    	if(getCurPos()>=MAX_HIGH)
     		return true;
     	return false;
     }
     
     public boolean checkLowerLimit()
     {
-    	if(liftMotor.getSelectedSensorPosition(0)>=0)
+    	if(getCurPos()<=0)
     		return true;
     	return false;
+    }
+    
+    public long getCurPos()
+    {
+    	return -liftMotor.getSelectedSensorPosition(0);
     }
     
     public void moveWithPower(double power)
@@ -89,20 +101,31 @@ public class Lift
 //        SmartDashboard.putNumber("LiftPos", value);
     }
     
-    public boolean moveToHeight(double targetHeight, double power)
+    public boolean moveToHeight(double power)
     {
-		if(targetHeight < liftMotor.getSelectedSensorPosition(0)) 
-		{
-			moveWithPower(power);
-			return false;
-		}
-		else if(targetHeight > liftMotor.getSelectedSensorPosition(0))
+		if(targetPos < getCurPos()) 
 		{
 			moveWithPower(-power);
 			return false;
 		}
+		else if(targetPos > getCurPos())
+		{
+			moveWithPower(power);
+			return false;
+		}
+		
 		stop();
 		return true;
+    }
+    
+    public void setTargetHeight(long target)
+    {
+    	if(targetPos>MAX_HIGH)
+    		targetPos = MAX_HIGH;
+    	else if (targetPos<0)
+    		targetPos = 0;
+    	else
+    		targetPos = target;
     }
 
 	public boolean isMoving() {

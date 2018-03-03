@@ -39,6 +39,7 @@ public class TalonSRX2spdDriveSystem implements DriveSystem {
     private double wheelDiameter;
     private double wheelCircumference;
     private double distancePerCountLoSpd, distancePerCountHiSpd;
+    private double mult;
 
     /**
      * 
@@ -148,16 +149,18 @@ public class TalonSRX2spdDriveSystem implements DriveSystem {
         gearShifter.set(Value.kOff);
 
         curGear = Gears.LOW;
+        
+        mult = 1.0;
     }
 
     @Override
     public void tankDrive(double leftSpeed, double rightSpeed) {
-        drive.tankDrive(leftSpeed, rightSpeed);        
+        drive.tankDrive(mult*leftSpeed, mult*rightSpeed);        
     }
 
     @Override
     public void arcadeDrive(double speed, double rotationRate) {
-        drive.arcadeDrive(speed, rotationRate);        
+        drive.arcadeDrive(mult*speed, mult*rotationRate);        
     }
 
     @Override
@@ -193,6 +196,11 @@ public class TalonSRX2spdDriveSystem implements DriveSystem {
     	if(drive.isAlive())
     		return true;
     	return false;
+    }
+    
+    public void changeMultiplier(double mult)
+    {
+    	this.mult = mult;
     }
     
     public Gears getCurGear()

@@ -4,7 +4,7 @@ import org.usfirst.frc.team6880.robot.FRCRobot;
 
 public class StateMachine {
 	enum DriveSysStates {LOWGEAR, HIGEAR}
-	enum LiftStates {LOWRANGE, MIDRANGE, HIRANGE, MOVING}
+	enum LiftStates {LOWRANGE, MIDRANGE, HIRANGE}
 	FRCRobot robot;
 	DriveSysStates currentDriveState;
 	LiftStates currentLiftState;
@@ -32,46 +32,47 @@ public class StateMachine {
 		{
 			case LOWGEAR:
 				if(robot.driveSys.getCurGear().equals("high")) switchDriveState(DriveSysStates.LOWGEAR);
+				robot.driveSys.setLoSpd();
 				break;
 			case HIGEAR:
 				if(robot.driveSys.getCurGear().equals("low")) switchDriveState(DriveSysStates.HIGEAR);
+				robot.driveSys.setHiSpd();
 				break;
 		}
 		switch(currentLiftState)
 		{
 			case LOWRANGE:
-				if(robot.lift.isMoving()) switchLiftState(LiftStates.MOVING);
-				robot.driveSys.changeMultiplier(1.0);
-				switchDriveState(DriveSysStates.HIGEAR);
+				if(robot.lift.getCurPos() >= 14466)
+					switchLiftState(LiftStates.HIRANGE);
+				else if(robot.lift.getCurPos() >= 7233)
+					switchLiftState(LiftStates.MIDRANGE);
+				else
+				{
+					robot.driveSys.changeMultiplier(1.0);
+					switchDriveState(DriveSysStates.HIGEAR);
+				}
 				break;
 			case MIDRANGE:
-				if(robot.driveSys.isMoving()) switchLiftState(LiftStates.MOVING);
-				robot.driveSys.changeMultiplier(0.7);
-				switchDriveState(DriveSysStates.LOWGEAR);
+				if(robot.lift.getCurPos() >= 14466)
+					switchLiftState(LiftStates.HIRANGE);
+				else if(robot.lift.getCurPos() < 7233)
+					switchLiftState(LiftStates.LOWRANGE);
+				else
+				{
+					robot.driveSys.changeMultiplier(1.0);
+					switchDriveState(DriveSysStates.LOWGEAR);
+				}
 				break;
 			case HIRANGE:
-				if(robot.driveSys.isMoving()) switchLiftState(LiftStates.MOVING);
-				robot.driveSys.changeMultiplier(0.3);
-				switchDriveState(DriveSysStates.LOWGEAR);
-				break;
-			case MOVING:
-				if(!robot.lift.isMoving())
+				if(robot.lift.getCurPos() < 7233)
+					switchLiftState(LiftStates.LOWRANGE);
+				else if(robot.lift.getCurPos() < 14466)
+					switchLiftState(LiftStates.MIDRANGE);
+				else
 				{
-					if(robot.lift.getHeight() >= 4)
-					{
-						switchLiftState(LiftStates.HIRANGE);
-					}
-					else if(robot.lift.getHeight() >= 2)
-					{
-						switchLiftState(LiftStates.MIDRANGE);
-					}
-					else
-					{
-						switchLiftState(LiftStates.LOWRANGE);
-					}
+					robot.driveSys.changeMultiplier(0.3);
+					switchDriveState(DriveSysStates.LOWGEAR);
 				}
-				robot.driveSys.changeMultiplier(0.5);
-				switchDriveState(DriveSysStates.LOWGEAR);
 				break;
 		}
 	}
