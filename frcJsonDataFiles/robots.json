@@ -6,6 +6,7 @@
         "DriveTrain" : "4VictorSP-1spd-WestCoastDrive",
         "Attachments" : [],
         "Navigation" : "IMU_DriveSysEncoders",
+        "autonomous_position" : "pos_testing",
         "autonomous_option" : "testing1"
     },
     "TalonSRX-test-robot" : {
@@ -15,6 +16,7 @@
         "DriveTrain" : "CAN-4TalonSRX-1spd-WestCoastDrive",
         "Attachments" : [],
         "Navigation" : "IMU_DriveSysEncoders",
+        "autonomous_position" : "pos_testing",
         "autonomous_option" : "testing1"
     },
     "2018-robot" : {
@@ -24,6 +26,8 @@
         "DriveTrain" : "CAN-4TalonSRX-2spd-WestCoastDrive",
         "Attachments" : [],
         "Navigation" : "IMU_DriveSysEncoders",
-        "autonomous_option" : "pos2ls"
+        "autonomous_position" : "pos2",
+        "autonomous_option" : "switch",
+        "comment1" : "possible autonomous options are -- switch, scale, or crossTheLine"
     }
 }
