@@ -13,7 +13,6 @@ import org.usfirst.frc.team6880.robot.util.PneumaticController;
 import org.usfirst.frc.team6880.robot.util.PowerMonitor;
 
 import edu.wpi.first.wpilibj.CameraServer;
-import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.PowerDistributionPanel;
@@ -120,50 +119,82 @@ public class FRCRobot {
 		driveSys.setHiSpd();
 		String gameData = DriverStation.getInstance().getGameSpecificMessage();
 		SmartDashboard.putString("Game Data", gameData);
-		String autoOption = SmartDashboard.getString("AutoPos", "none");
-		boolean scale = SmartDashboard.getBoolean("Scale", false);
+		String autoPos = configReader.getAutoPosition();
+        SmartDashboard.putString("Auto Position", autoPos);
+		String autoOption = configReader.getAutoOption();
+        SmartDashboard.putString("Auto Option", autoOption);
+        String autoTask = "crossTheLine";
+//		String autoPos = SmartDashboard.getString("AutoPos", "none");
+//		String autoOption = SmartDashboard.getString("AutoOption", "none");
+//		boolean scale = SmartDashboard.getBoolean("Scale", false);
 		
-		if(gameData.charAt(0) == 'L')
+		if (autoPos.equals("pos1")) 
 		{
-			if(autoOption.equals("pos1"))
-			{
-				if(scale && gameData.charAt(1) == 'L')
-					autoOption+="ls";
-				else if(!scale)
-					autoOption+="l";
-			}
-			else if(autoOption.equals("pos2"))
-			{
-				autoOption+="l";
-			}
-			else if(autoOption.equals("pos3"))
-			{
-				if(scale && gameData.charAt(1) == 'R')
-					autoOption+="rs";
-			}
-		}
-		else if(gameData.charAt(0) == 'R')
+		    if (autoOption.equals("scale")) {
+		        // Claim the scale
+    		    if(gameData.charAt(1) == 'L') {
+    		        autoTask = "scaleL";
+    		    } else if (gameData.charAt(1) == 'R') {
+    		        autoTask = "scaleR";
+    		    } else {
+    		        // Something bad happened; just move forward for autoquest
+                    autoTask = "crossTheLine";
+    		    }
+		    } else if (autoOption.equals("switch")) {
+		        // Claim the switch or do nothing (just move forward)
+                if(gameData.charAt(0) == 'L') {
+                    autoTask = "switchL";
+                } else if (gameData.charAt(0) == 'R') {
+                    autoTask = "switchR";
+                } else {
+                    // Something bad happened; just move forward for autoquest
+                    autoTask = "crossTheLine";
+                }
+		    }
+		} 
+		else if (autoPos.equals("pos2")) 
 		{
-			if(autoOption.equals("pos3"))
-			{
-				if(scale && gameData.charAt(1) == 'R')
-					autoOption+="rs";
-				else if(!scale)
-					autoOption+="r";
-			}
-			else if(autoOption.equals("pos2"))
-			{
-				autoOption+="r";
-			}
-			else if(autoOption.equals("pos1"))
-			{
-				if(scale && gameData.charAt(1) == 'L')
-					autoOption+="ls";
-			}
+		    if (autoOption.equals("scale")) {
+		        // Invalid option
+		    } else if (autoOption.equals("switch")) {
+                // Claim the switch or do nothing (just move forward)
+                if(gameData.charAt(0) == 'L') {
+                    autoTask = "switchL";
+                } else if (gameData.charAt(0) == 'R') {
+                    autoTask = "switchR";
+                } else {
+                    // Something bad happened; just move forward for autoquest
+                    autoTask = "crossTheLine";
+                }
+		    }
+		} 
+		else if (autoPos.equals("pos3"))
+		{
+            if (autoOption.equals("scale")) {
+                // Claim the scale
+                if(gameData.charAt(1) == 'L') {
+                    autoTask = "scaleL";
+                } else if (gameData.charAt(1) == 'R') {
+                    autoTask = "scaleR";
+                } else {
+                    // Something bad happened; just move forward for autoquest
+                    autoTask = "crossTheLine";
+                }
+            } else if (autoOption.equals("switch")) {
+                // Claim the switch or do nothing (just move forward)
+                if(gameData.charAt(0) == 'L') {
+                    autoTask = "switchL";
+                } else if (gameData.charAt(0) == 'R') {
+                    autoTask = "switchR";
+                } else {
+                    // Something bad happened; just move forward for autoquest
+                    autoTask = "crossTheLine";
+                }
+            }		    
 		}
-		
-		autonTasks = new AutonomousTasks(this, autoOption);
-		SmartDashboard.putString("Selected Auto", autoOption);
+
+		autonTasks = new AutonomousTasks(this, autoPos, autoTask);
+		SmartDashboard.putString("Selected Auto", autoTask);
 		autonTasks.initFirstTask();
 	}
 	

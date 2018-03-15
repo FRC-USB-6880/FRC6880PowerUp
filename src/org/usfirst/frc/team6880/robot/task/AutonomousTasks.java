@@ -10,7 +10,7 @@ import org.json.simple.JSONObject;
 import org.usfirst.frc.team6880.robot.FRCRobot;
 import org.usfirst.frc.team6880.robot.jsonReaders.AutonomousOptionsReader;
 import org.usfirst.frc.team6880.robot.jsonReaders.JsonReader;
-import org.usfirst.frc.team6880.robot.task.*;
+
 
 /**
  * This class maintains the sequence of autonomous tasks to be run.
@@ -25,12 +25,15 @@ public class AutonomousTasks {
     AutonomousOptionsReader configReader;
     
     /**
+     * @param robot
+     * @param autoPos
+     * @param autoOption 
      * 
      */
-    public AutonomousTasks(FRCRobot robot, String autoSelection) {
+    public AutonomousTasks(FRCRobot robot, String autoPos, String autoOption) {
         this.robot = robot;
-        configReader = new AutonomousOptionsReader(JsonReader.autonomousOptFile, autoSelection);
-        System.out.println("frc6880: Autonomous option: " + autoSelection);
+        configReader = new AutonomousOptionsReader(JsonReader.autonomousOptFile, autoPos, autoOption);
+        System.out.println("frc6880: Autonomous option: " + autoPos + ", " + autoOption);
         tasks = new ArrayList<RobotTask>();
         JSONArray taskArray = configReader.getAllTasks();
 
