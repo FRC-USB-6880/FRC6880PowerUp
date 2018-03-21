@@ -163,6 +163,6 @@ public class TalonSRXDriveSystem implements DriveSystem {
     }
     public Gears getCurGear() {
 	// TODO Auto-generated method stub
-    	return null;
+    	return Gears.LOW;
     }
 }

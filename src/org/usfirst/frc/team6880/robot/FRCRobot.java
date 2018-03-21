@@ -116,7 +116,7 @@ public class FRCRobot {
 			    if(joystick1.getRawButton(10))
 			    	driveSys.setLoSpd();
 			    
-		    	if(joystick1.getRawButton(8))
+		    	if(joystick1.getRawButton(6))
 			    	lift.moveWithPower(0.5);
 			    else if(joystick1.getRawButton(4))
 			    	lift.moveWithPower(-0.3);

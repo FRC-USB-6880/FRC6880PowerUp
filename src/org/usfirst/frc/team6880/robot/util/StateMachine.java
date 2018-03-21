@@ -1,24 +1,17 @@
 package org.usfirst.frc.team6880.robot.util;
 
 import org.usfirst.frc.team6880.robot.FRCRobot;
+import org.usfirst.frc.team6880.robot.driveTrain.DriveSystem;
 
 public class StateMachine {
-	enum DriveSysStates {LOWGEAR, HIGEAR}
 	enum LiftStates {LOWRANGE, MIDRANGE, HIRANGE}
 	FRCRobot robot;
-	DriveSysStates currentDriveState;
 	LiftStates currentLiftState;
 	
 	public StateMachine(FRCRobot robot)
 	{
 		this.robot = robot;
-		currentDriveState = DriveSysStates.LOWGEAR;
 		currentLiftState = LiftStates.LOWRANGE;
-	}
-	
-	public void switchDriveState(DriveSysStates state)
-	{
-		currentDriveState = state;
 	}
 
 	public void switchLiftState(LiftStates state)
@@ -28,17 +21,6 @@ public class StateMachine {
 
 	public void loop()
 	{
-		switch(currentDriveState)
-		{
-			case LOWGEAR:
-				if(robot.driveSys.getCurGear().equals("high")) switchDriveState(DriveSysStates.LOWGEAR);
-				robot.driveSys.setLoSpd();
-				break;
-			case HIGEAR:
-				if(robot.driveSys.getCurGear().equals("low")) switchDriveState(DriveSysStates.HIGEAR);
-				robot.driveSys.setHiSpd();
-				break;
-		}
 		switch(currentLiftState)
 		{
 			case LOWRANGE:
@@ -49,7 +31,6 @@ public class StateMachine {
 				else
 				{
 					robot.driveSys.changeMultiplier(1.0);
-					switchDriveState(DriveSysStates.HIGEAR);
 				}
 				break;
 			case MIDRANGE:
@@ -60,7 +41,8 @@ public class StateMachine {
 				else
 				{
 					robot.driveSys.changeMultiplier(1.0);
-					switchDriveState(DriveSysStates.LOWGEAR);
+					if(robot.driveSys.getCurGear()==DriveSystem.Gears.HIGH)
+						robot.driveSys.setLoSpd();
 				}
 				break;
 			case HIRANGE:
@@ -71,7 +53,8 @@ public class StateMachine {
 				else
 				{
 					robot.driveSys.changeMultiplier(0.3);
-					switchDriveState(DriveSysStates.LOWGEAR);
+					if(robot.driveSys.getCurGear()==DriveSystem.Gears.HIGH)
+						robot.driveSys.setLoSpd();
 				}
 				break;
 		}
