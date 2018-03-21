@@ -44,17 +44,17 @@ public class FRCRobot {
 	    String driveTrainName;
 
 	    this.wpilibrobot = wpilibrobot;
-	    this.pdp = new PowerDistributionPanel();
+//	    this.pdp = new PowerDistributionPanel();
 		
 		// Important:  Base directory has to be set before trying to read any JSON file
 		JsonReader.setBaseDir(JsonReader.baseDir);
 		
-		configReader = new RobotConfigReader(JsonReader.robotsFile, "2018-robot");
+		configReader = new RobotConfigReader(JsonReader.robotsFile, "2017-offseason-robot");
 		System.out.println("frc6880: Config reader: " + configReader);
 		
 		// TODO Instantiate PneumaticController object before instantiating driveTrain
 		//  or any other attachment.
-		pcmObj = new PneumaticController(20);
+//		pcmObj = new PneumaticController(20);
 
 		driveTrainName = configReader.getDriveTrainName();
         System.out.println("frc6880: driveTrainName: " + driveTrainName);
@@ -68,7 +68,7 @@ public class FRCRobot {
 			driveSys.setHiSpd();
 		}
 
-        navigation = new Navigation(this, configReader.getNavigationOption());
+//        navigation = new Navigation(this, configReader.getNavigationOption());
 
         joystick1 = new Joystick(0);
         if(configReader.getDriverStationConfig())
@@ -79,12 +79,12 @@ public class FRCRobot {
         else
         	gamepad = new LogitechF310(1);
         
-        powerMon = new PowerMonitor(this);
+//        powerMon = new PowerMonitor(this);
         
-        lift = new Lift(this);
-        cubeHandler = new CubeHandler(this);
+//        lift = new Lift(this);
+//        cubeHandler = new CubeHandler(this);
         
-        CameraServer.getInstance().startAutomaticCapture();
+//        CameraServer.getInstance().startAutomaticCapture();
         
         stateMachine = new StateMachine(this);
         
@@ -100,113 +100,158 @@ public class FRCRobot {
 	{
 		//TODO: Map controller sticks to drive system
 		//Possible: map misc. controller buttons to tasks?
-		stateMachine.loop();
-		
-		
-		
-	    
+//		stateMachine.loop();
 		if(joystick1.getThrottle()>0)
 		{
-		    if(joystick2 == null)
-		    {
-		    	driveSys.arcadeDrive(-joystick1.getY(), joystick1.getTwist());
-		    	
-		    	if(joystick1.getRawButton(8))
-			    	driveSys.setHiSpd();
-			    if(joystick1.getRawButton(10))
-			    	driveSys.setLoSpd();
-			    
-		    	if(joystick1.getRawButton(8))
-			    	lift.moveWithPower(0.5);
-			    else if(joystick1.getRawButton(4))
-			    	lift.moveWithPower(-0.3);
-			    else
-			    	lift.stop();
-			    
-			    if(joystick1.getTrigger())
-			    	cubeHandler.grabCube();
-			    else if(joystick1.getRawButton(2))
-			    	cubeHandler.releaseCube();
-			    
-			    if(joystick1.getRawButton(7))
-		    	{
-		    		isMoveHeight = true;
-		    		lift.setTargetHeight(lift.getCurPos() + Lift.RANGE_VALUE);
-		    	}
-		    	else if(joystick1.getRawButton(9))
-		    	{
-		    		isMoveHeight = true;
-		    		lift.setTargetHeight(lift.getCurPos() - Lift.RANGE_VALUE);
-		    	}
-		    	
-		    	if(isMoveHeight)
-		    	{
-		    		isMoveHeight = !(lift.moveToHeight(0.5));
-		    	}
-		    }
-		    else if(joystick2 != null)
-		    {
-		    	driveSys.tankDrive(-joystick1.getY(), -joystick2.getY());
-		    	
-		    	if(joystick1.getRawButton(2))
-		    		cubeHandler.grabCube();
-		    	else if(joystick2.getRawButton(2))
-		    		cubeHandler.releaseCube();
-		    	
-		    	if(joystick1.getRawButton(5))
-		    		driveSys.setHiSpd();
-		    	else if(joystick1.getRawButton(3))
-		    		driveSys.setLoSpd();
-		    	
-		    	if(joystick1.getTrigger())
-		    	{
-		    		isMoveHeight = true;
-		    		lift.setTargetHeight(lift.getCurPos() + Lift.RANGE_VALUE);
-		    	}
-		    	else if(joystick2.getTrigger())
-		    	{
-		    		isMoveHeight = true;
-		    		lift.setTargetHeight(lift.getCurPos() - Lift.RANGE_VALUE);
-		    	}
-		    	
-		    	if(isMoveHeight)
-		    	{
-		    		isMoveHeight = !(lift.moveToHeight(0.5));
-		    	}
-		    }
-		}
-		else
-		{
+		    System.out.println("frc6880: No gamepad");
 			if(joystick2 == null)
 		    {
 		    	driveSys.arcadeDrive(-joystick1.getY(), joystick1.getTwist());
 		    	
 		    	if(joystick1.getRawButton(8))
-			    	driveSys.setHiSpd();
-			    if(joystick1.getRawButton(10))
-			    	driveSys.setLoSpd();
-			    
-		    	lift.moveWithPower(-gamepad.rightStickY());
-			    
-			    if(gamepad.dpadDown())
-			    	cubeHandler.grabCube();
-			    else if(gamepad.dpadUp())
-			    	cubeHandler.releaseCube();
-			    
-			    if(gamepad.rightBumper())
 		    	{
-		    		isMoveHeight = true;
-		    		lift.setTargetHeight(lift.getCurPos() + Lift.RANGE_VALUE);
+			    	System.out.println("frc6880: Set Hi Speed");
+		    		driveSys.setHiSpd();
 		    	}
-		    	else if(gamepad.leftBumper())
+			    if(joystick1.getRawButton(10))
+			    {
+			    	System.out.println("frc6880: Set Lo Speed");
+			    	driveSys.setLoSpd();
+			    }
+		    	if(joystick1.getRawButton(6))
 		    	{
+		    		System.out.println("frc6880: Move Lift up");
+//		    		lift.moveWithPower(0.5);
+		    	}
+			    else if(joystick1.getRawButton(4))
+			    {
+			    	System.out.println("frc6880: Move Lift down");
+//			    	lift.moveWithPower(-0.3);
+			    }
+			    else
+//			    	lift.stop();
+			    
+			    if(joystick1.getTrigger())
+			    {
+			    	System.out.println("frc6880: Grab cube");
+//			    	cubeHandler.grabCube();
+			    }
+			    else if(joystick1.getRawButton(2))
+			    {
+			    	System.out.println("frc6880: Release cube");
+//			    	cubeHandler.releaseCube();
+			    }
+			    
+			    if(joystick1.getRawButton(7))
+		    	{
+			    	System.out.println("frc6880: Set lift to upper pos");
+			    	isMoveHeight = true;
+//		    		lift.setTargetHeight(lift.getCurPos() + Lift.RANGE_VALUE);
+		    	}
+		    	else if(joystick1.getRawButton(9))
+		    	{
+		    		System.out.println("frc6880: Set lift to lower pos");
 		    		isMoveHeight = true;
-		    		lift.setTargetHeight(lift.getCurPos() - Lift.RANGE_VALUE);
+//		    		lift.setTargetHeight(lift.getCurPos() - Lift.RANGE_VALUE);
 		    	}
 		    	
 		    	if(isMoveHeight)
 		    	{
-		    		isMoveHeight = !(lift.moveToHeight(0.5));
+//		    		isMoveHeight = !(lift.moveToHeight(0.5));
+		    	}
+		    }
+		    else if(joystick2 != null)
+		    {
+		    	
+		    	driveSys.tankDrive(-joystick1.getY(), -joystick2.getY());
+		    	
+		    	if(joystick1.getRawButton(2))
+		    	{
+		    		System.out.println("frc6880: Grab cube");
+//		    		cubeHandler.grabCube();
+		    	}
+		    	else if(joystick2.getRawButton(2))
+		    	{
+		    		System.out.println("frc6880: Release cube");
+//		    		cubeHandler.releaseCube();
+		    	}
+		    	
+		    	if(joystick1.getRawButton(5))
+		    	{
+		    		System.out.println("frc6880: Set Hi Speed");
+		    		driveSys.setHiSpd();
+		    	}
+		    	else if(joystick1.getRawButton(3))
+		    	{
+		    		System.out.println("frc6880: Set Lo Speed");
+		    		driveSys.setLoSpd();
+		    	}
+		    	if(joystick1.getTrigger())
+		    	{
+		    		System.out.println("frc6880: Set lift to upper pos");
+		    		isMoveHeight = true;
+//		    		lift.setTargetHeight(lift.getCurPos() + Lift.RANGE_VALUE);
+		    	}
+		    	else if(joystick2.getTrigger())
+		    	{
+		    		System.out.println("frc6880: Set lift to lower pos");
+		    		isMoveHeight = true;
+//		    		lift.setTargetHeight(lift.getCurPos() - Lift.RANGE_VALUE);
+		    	}
+		    	
+		    	if(isMoveHeight)
+		    	{
+//		    		isMoveHeight = !(lift.moveToHeight(0.5));
+		    	}
+		    }
+		}
+		else
+		{
+			System.out.println("frc6880: Gamepad");
+			if(joystick2 == null)
+		    {
+		    	driveSys.arcadeDrive(-joystick1.getY(), joystick1.getTwist());
+		    	
+		    	if(joystick1.getRawButton(8))
+		    	{
+		    		System.out.println("frc6880: Set Hi Speed");
+		    		driveSys.setHiSpd();
+		    	}
+			    if(joystick1.getRawButton(10))
+			    {
+			    	System.out.println("frc6880: Set Lo Speed");
+			    	driveSys.setLoSpd();
+			    }
+			    
+//		    	lift.moveWithPower(-gamepad.rightStickY());
+			    
+			    if(gamepad.dpadDown())
+			    {
+			    	System.out.println("frc6880: Grab cube");
+//			    	cubeHandler.grabCube();
+			    }
+			    else if(gamepad.dpadUp())
+			    {
+			    	System.out.println("frc6880: Release cube");
+//			    	cubeHandler.releaseCube();
+			    }
+			    
+			    if(gamepad.rightBumper())
+		    	{
+			    	System.out.println("frc6880: Set lift to upper pos");
+		    		isMoveHeight = true;
+//		    		lift.setTargetHeight(lift.getCurPos() + Lift.RANGE_VALUE);
+		    	}
+		    	else if(gamepad.leftBumper())
+		    	{
+		    		System.out.println("frc6880: Set lift to lower pos");
+		    		isMoveHeight = true;
+//		    		lift.setTargetHeight(lift.getCurPos() - Lift.RANGE_VALUE);
+		    	}
+		    	
+		    	if(isMoveHeight)
+		    	{
+//		    		isMoveHeight = !(lift.moveToHeight(0.5));
 		    	}
 		    }
 		    else if(joystick2 != null)
@@ -214,31 +259,46 @@ public class FRCRobot {
 		    	driveSys.tankDrive(-joystick1.getY(), -joystick2.getY());
 		    	
 		    	if(gamepad.dpadDown())
-			    	cubeHandler.grabCube();
+		    	{
+		    		System.out.println("frc6880: Grab cube");
+//		    		cubeHandler.grabCube();
+		    	}
 			    else if(gamepad.dpadUp())
-			    	cubeHandler.releaseCube();
+			    {
+			    	System.out.println("frc6880: Release cube");
+//			    	cubeHandler.releaseCube();
+			    }
 		    	
 		    	if(joystick1.getTrigger())
+		    	{
+		    		System.out.println("frc6880: Set Hi Speed");
 		    		driveSys.setHiSpd();
+		    	}
 		    	else if(joystick2.getTrigger())
+		    	{
+		    		System.out.println("frc6880: Set Lo Speed");
 		    		driveSys.setLoSpd();
+		    	}
 		    	
-		    	lift.moveWithPower(-gamepad.rightStickY());
+		    	if(lift !=null)
+		    		lift.moveWithPower(-gamepad.rightStickY());
 		    	
 		    	if(gamepad.rightBumper())
 		    	{
+		    		System.out.println("frc6880: Set lift to upper pos");
 		    		isMoveHeight = true;
-		    		lift.setTargetHeight(lift.getCurPos() + Lift.RANGE_VALUE);
+//		    		lift.setTargetHeight(lift.getCurPos() + Lift.RANGE_VALUE);
 		    	}
 		    	else if(gamepad.leftBumper())
 		    	{
+		    		System.out.println("frc6880: Set lift to lower pos");
 		    		isMoveHeight = true;
-		    		lift.setTargetHeight(lift.getCurPos() - Lift.RANGE_VALUE);
+//		    		lift.setTargetHeight(lift.getCurPos() - Lift.RANGE_VALUE);
 		    	}
 		    	
 		    	if(isMoveHeight)
 		    	{
-		    		isMoveHeight = !(lift.moveToHeight(0.5));
+//		    		isMoveHeight = !(lift.moveToHeight(0.5));
 		    	}
 		    }
 		}

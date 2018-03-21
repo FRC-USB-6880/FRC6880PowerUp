@@ -1,6 +1,7 @@
 package org.usfirst.frc.team6880.robot.util;
 
 import org.usfirst.frc.team6880.robot.FRCRobot;
+import org.usfirst.frc.team6880.robot.driveTrain.DriveSystem;
 
 public class StateMachine {
 	enum DriveSysStates {LOWGEAR, HIGEAR}
@@ -31,11 +32,11 @@ public class StateMachine {
 		switch(currentDriveState)
 		{
 			case LOWGEAR:
-				if(robot.driveSys.getCurGear().equals("high")) switchDriveState(DriveSysStates.LOWGEAR);
+				if(robot.driveSys.getCurGear()==DriveSystem.Gears.HIGH) switchDriveState(DriveSysStates.LOWGEAR);
 				robot.driveSys.setLoSpd();
 				break;
 			case HIGEAR:
-				if(robot.driveSys.getCurGear().equals("low")) switchDriveState(DriveSysStates.HIGEAR);
+				if(robot.driveSys.getCurGear()==DriveSystem.Gears.LOW) switchDriveState(DriveSysStates.HIGEAR);
 				robot.driveSys.setHiSpd();
 				break;
 		}

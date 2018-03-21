@@ -6,7 +6,8 @@
         "DriveTrain" : "4VictorSP-1spd-WestCoastDrive",
         "Attachments" : [],
         "Navigation" : "IMU_DriveSysEncoders",
-        "autonomous_option" : "testing1"
+        "autonomous_option" : "testing1",
+        "TankDriverStationConfig" : false
     },
     "TalonSRX-test-robot" : {
         "RobotWidth" : 23.0,

@@ -43,7 +43,7 @@ public class Robot extends TimedRobot {
 	@Override
 	public void autonomousInit() {
 		//Basic wrapper to FRCRobot
-		robot.initAutonomous();
+//		robot.initAutonomous();
 	}
 	
 	@Override
