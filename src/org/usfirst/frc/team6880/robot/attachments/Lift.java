@@ -3,6 +3,8 @@
  */
 package org.usfirst.frc.team6880.robot.attachments;
 import org.usfirst.frc.team6880.robot.FRCRobot;
+import org.usfirst.frc.team6880.robot.jsonReaders.AttachmentsReader;
+import org.usfirst.frc.team6880.robot.jsonReaders.JsonReader;
 
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.StatusFrameEnhanced;
@@ -26,11 +28,18 @@ public class Lift
 	public static final long MAX_HIGH = 21700;
 	public static final long RANGE_VALUE = 7233;
 	
+	public int[] lowRange = {0,0};
+	public int[] midRange = {0,0};
+	public int[] highRange = {0,0};
+	
 	private double spoolDiameter;
 	private double spoolCircumference;
 	private double distancePerCount;
 	private double curPower;
 	private long targetPos;
+
+	AttachmentsReader configReader;
+
     /**
      * 
      */
@@ -38,11 +47,18 @@ public class Lift
     {
         // TODO Auto-generated constructor stub
     	this.robot = robot;
-    	liftMotor = new WPI_TalonSRX(15);
+    	configReader = new AttachmentsReader(JsonReader.attachmentsFile, "Lift");
+//    	liftMotor = new WPI_TalonSRX(15);
+    	liftMotor = new WPI_TalonSRX(configReader.getLiftControllerCANid());
+
+    	liftMotor.configOpenloopRamp(1, 0); /* ramp from neutral to full within 1 seconds */
+
     	height = 0;
 //    	liftEncoder = new Encoder(4, 5, true, Encoder.EncodingType.k4X);
-    	spoolDiameter = 2;
+    	spoolDiameter = configReader.getLiftSpoolDiameter();
     	spoolCircumference = Math.PI * spoolDiameter;
+    	// TODO: distancePerCount has to be calculated using CPR value
+    	//   read from encoder_specs.json file.  
     	distancePerCount = spoolCircumference / 360;
     	curPower = 0.0;
 //    	liftEncoder.setDistancePerPulse(distancePerCount);
@@ -59,6 +75,10 @@ public class Lift
 //    	liftMotor.setStatusFramePeriod(StatusFrameEnhanced.Status_2_Feedback0, 1, 10);
     	liftMotor.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, 20);
     	
+    	lowRange = configReader.getLiftPos_encoderCounts("liftPos_lowRange");
+    	midRange =  configReader.getLiftPos_encoderCounts("liftPos_midRange");
+    	highRange = configReader.getLiftPos_encoderCounts("liftPos_highRange");
+
     	targetPos = 0;
     }
     
@@ -69,14 +89,15 @@ public class Lift
     
     public boolean checkUpperLimit()
     {
-    	if(getCurPos()>=MAX_HIGH)
+//    	if(getCurPos()>=MAX_HIGH)
+        if(getCurPos()>=highRange[1])
     		return true;
     	return false;
     }
     
     public boolean checkLowerLimit()
     {
-    	if(getCurPos()<=0)
+    	if(getCurPos()<=lowRange[0])
     		return true;
     	return false;
     }
@@ -120,8 +141,8 @@ public class Lift
     
     public void setTargetHeight(long target)
     {
-    	if(targetPos>MAX_HIGH)
-    		targetPos = MAX_HIGH;
+    	if(targetPos>highRange[1])
+    		targetPos = highRange[1];
     	else if (targetPos<0)
     		targetPos = 0;
     	else
