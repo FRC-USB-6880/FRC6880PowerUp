@@ -56,8 +56,11 @@ public class Lift
         highRange = configReader.getLiftPos_encoderCounts("liftPos_highRange");
         
         System.out.println("frc6880: liftMotorCANid = " + liftMotorCANid +
-                ", spoolDiameter = " + spoolDiameter + ", lowRange = " + lowRange +
-                ", midRange = " + midRange + ", highRange = " + highRange);
+                ", spoolDiameter = " + spoolDiameter + 
+                ", loopRampTime = " + liftMotorRampTime +
+                ", lowRange = [" + lowRange[0] + "," + lowRange[1] + "]" +
+                ", midRange = [" + midRange[0] + "," + midRange[1] + "]" + 
+                ", highRange = [" + highRange[0] + "," + highRange[1] + "]");
 
 //      liftMotor = new WPI_TalonSRX(15);
         liftMotor = new WPI_TalonSRX(liftMotorCANid);

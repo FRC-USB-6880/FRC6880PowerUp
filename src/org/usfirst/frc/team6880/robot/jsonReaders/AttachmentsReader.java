@@ -43,7 +43,7 @@ public class AttachmentsReader extends JsonReader {
         
         try {
             String key = getKeyIgnoreCase(attchObj, "liftMotorCANid");
-            liftID = (int) attchObj.get(key);
+            liftID = ((Long) attchObj.get(key)).intValue();
         } catch (Exception e) {
             System.err.println("frc6880:  Error while trying to get liftMotorCANid");
             e.printStackTrace();

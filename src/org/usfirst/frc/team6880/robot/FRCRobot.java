@@ -82,11 +82,11 @@ public class FRCRobot {
         powerMon = new PowerMonitor(this);
         
         lift = new Lift(this);
-        cubeHandler = new CubeHandler(this);
+//        cubeHandler = new CubeHandler(this);
         
-        CameraServer.getInstance().startAutomaticCapture();
+//        CameraServer.getInstance().startAutomaticCapture();
         
-        stateMachine = new StateMachine(this);
+//        stateMachine = new StateMachine(this);
         
         isMoveHeight = false;
 	}
