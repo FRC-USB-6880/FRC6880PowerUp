@@ -64,4 +64,16 @@ public class AttachmentsReader extends JsonReader {
         }
         return (diameter);
     }
+    
+    public double getLiftMotorOpenLoopRampTime() {
+        double rampTime = 2.0;
+        try {
+            String key = getKeyIgnoreCase(attchObj, "openloop_rampTime");
+            rampTime = (double) attchObj.get(key);
+        } catch (Exception e) {
+            System.err.println("frc6880:  Error while trying to get open loop ramp time");
+            e.printStackTrace();
+        }
+        return (rampTime);        
+    }
 }

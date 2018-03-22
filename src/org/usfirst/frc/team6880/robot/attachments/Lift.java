@@ -48,14 +48,24 @@ public class Lift
         // TODO Auto-generated constructor stub
     	this.robot = robot;
     	configReader = new AttachmentsReader(JsonReader.attachmentsFile, "Lift");
-//    	liftMotor = new WPI_TalonSRX(15);
-    	liftMotor = new WPI_TalonSRX(configReader.getLiftControllerCANid());
+    	int liftMotorCANid = configReader.getLiftControllerCANid();
+    	double liftMotorRampTime = configReader.getLiftMotorOpenLoopRampTime();
+        spoolDiameter = configReader.getLiftSpoolDiameter();
+        lowRange = configReader.getLiftPos_encoderCounts("liftPos_lowRange");
+        midRange =  configReader.getLiftPos_encoderCounts("liftPos_midRange");
+        highRange = configReader.getLiftPos_encoderCounts("liftPos_highRange");
+        
+        System.out.println("frc6880: liftMotorCANid = " + liftMotorCANid +
+                ", spoolDiameter = " + spoolDiameter + ", lowRange = " + lowRange +
+                ", midRange = " + midRange + ", highRange = " + highRange);
 
-    	liftMotor.configOpenloopRamp(1, 0); /* ramp from neutral to full within 1 seconds */
+//      liftMotor = new WPI_TalonSRX(15);
+        liftMotor = new WPI_TalonSRX(liftMotorCANid);
+
+        liftMotor.configOpenloopRamp(liftMotorRampTime, 0); /* ramp from neutral to full within 1 seconds */
 
     	height = 0;
 //    	liftEncoder = new Encoder(4, 5, true, Encoder.EncodingType.k4X);
-    	spoolDiameter = configReader.getLiftSpoolDiameter();
     	spoolCircumference = Math.PI * spoolDiameter;
     	// TODO: distancePerCount has to be calculated using CPR value
     	//   read from encoder_specs.json file.  
@@ -75,9 +85,6 @@ public class Lift
 //    	liftMotor.setStatusFramePeriod(StatusFrameEnhanced.Status_2_Feedback0, 1, 10);
     	liftMotor.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, 20);
     	
-    	lowRange = configReader.getLiftPos_encoderCounts("liftPos_lowRange");
-    	midRange =  configReader.getLiftPos_encoderCounts("liftPos_midRange");
-    	highRange = configReader.getLiftPos_encoderCounts("liftPos_highRange");
 
     	targetPos = 0;
     }

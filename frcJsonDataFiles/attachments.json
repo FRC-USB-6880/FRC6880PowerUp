@@ -5,6 +5,7 @@
         "liftPos_lowRange" : [0, 7233],
         "liftPos_midRange" : [7234, 14466],
         "liftPos_highRange" : [14467, 21700],
-        "spoolDiameter" : 2
+        "spoolDiameter" : 2,
+        "openloop_rampTime" : 2.0
     }
 }
