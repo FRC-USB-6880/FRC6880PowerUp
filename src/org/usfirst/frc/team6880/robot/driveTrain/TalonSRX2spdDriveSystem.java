@@ -34,10 +34,12 @@ public class TalonSRX2spdDriveSystem implements DriveSystem {
     DriveTrainReader configReader;
     WheelSpecsReader wheelSpecsReader;
     DoubleSolenoid gearShifter;
+    Gears curGear;
     
     private double wheelDiameter;
     private double wheelCircumference;
     private double distancePerCountLoSpd, distancePerCountHiSpd;
+    private double mult;
 
     /**
      * 
@@ -58,44 +60,64 @@ public class TalonSRX2spdDriveSystem implements DriveSystem {
         motorL2 = new WPI_TalonSRX(configReader.getDeviceID("Motor_L2"));
         motorL1.setInverted(true);
         motorL2.setInverted(true);
-        motorL1.configClosedloopRamp(0, 2);
-        motorL2.configClosedloopRamp(0, 0);
+//        motorL1.configClosedloopRamp(2, 0);
+//        motorL2.configClosedloopRamp(0, 0);
         if (configReader.isFollower("Motor_L1"))
         {
             motorL1.follow(motorL2);
             motorLeft = new SpeedControllerGroup(motorL2);
             System.out.println("Leader: Motor_L2, Follower: Motor_L1");
+            /* Master is configured to ramp from neutral to full within 2 seconds */
+            motorL2.configOpenloopRamp(2, 0);
+            motorL1.configOpenloopRamp(0, 0); /* no need since master ramps */
         }
         else if (configReader.isFollower("Motor_L2")) 
         {
             motorL2.follow(motorL1);
             motorLeft = new SpeedControllerGroup(motorL1);
             System.out.println("Leader: Motor_L1, Follower: Motor_L2");
+            /* Master is configured to ramp from neutral to full within 2 seconds */ 
+            motorL1.configOpenloopRamp(2, 0);
+            motorL2.configOpenloopRamp(0, 0); /* no need since master ramps */
         }
         else
+        {
             motorLeft = new SpeedControllerGroup(motorL1, motorL2);
+            motorL1.configOpenloopRamp(2, 0); /* ramp from neutral to full within 2 seconds */
+            motorL2.configOpenloopRamp(2, 0); /* ramp from neutral to full within 2 seconds */
+        }
 
         motorR1 = new WPI_TalonSRX(configReader.getDeviceID("Motor_R1"));
         motorR2 = new WPI_TalonSRX(configReader.getDeviceID("Motor_R2"));
         motorR1.setInverted(true);
         motorR2.setInverted(true);
-        motorR1.configClosedloopRamp(0, 2);
-        motorR2.configClosedloopRamp(0, 0);
+//        motorR1.configClosedloopRamp(2, 0);
+//        motorR2.configClosedloopRamp(0, 0);
 
         if (configReader.isFollower("Motor_R1"))
         {
             motorR1.follow(motorR2);
             motorRight = new SpeedControllerGroup(motorR2);
             System.out.println("Leader: Motor_R2, Follower: Motor_R1");
+            /* Master is configured to ramp from neutral to full within 2 seconds */
+            motorR2.configOpenloopRamp(2, 0);
+            motorR1.configOpenloopRamp(0, 0); /* no need since master ramps */
         }
         else if (configReader.isFollower("Motor_R2")) 
         {
             motorR2.follow(motorR1);
             motorRight = new SpeedControllerGroup(motorR1);
             System.out.println("Leader: Motor_R1, Follower: Motor_R2");
+            /* Master is configured to ramp from neutral to full within 2 seconds */
+            motorR1.configOpenloopRamp(2, 0);
+            motorR2.configOpenloopRamp(0, 0); /* no need since master ramps */
         }
         else
+        {
             motorRight = new SpeedControllerGroup(motorR1, motorR2);
+            motorR1.configOpenloopRamp(2, 0); /* ramp from neutral to full within 2 seconds */
+            motorR2.configOpenloopRamp(2, 0); /* ramp from neutral to full within 2 seconds */
+        }
 
         drive = new DifferentialDrive(motorLeft, motorRight);
 
@@ -146,16 +168,19 @@ public class TalonSRX2spdDriveSystem implements DriveSystem {
         gearShifter = robot.pcmObj.initializeDoubleSolenoid(4, 5);
         gearShifter.set(Value.kOff);
 
+        curGear = Gears.LOW;
+        
+        mult = 1.0;
     }
 
     @Override
     public void tankDrive(double leftSpeed, double rightSpeed) {
-        drive.tankDrive(leftSpeed, rightSpeed);        
+        drive.tankDrive(mult*leftSpeed, mult*rightSpeed);        
     }
 
     @Override
     public void arcadeDrive(double speed, double rotationRate) {
-        drive.arcadeDrive(speed, rotationRate);        
+        drive.arcadeDrive(mult*speed, mult*rotationRate);        
     }
 
     @Override
@@ -173,6 +198,8 @@ public class TalonSRX2spdDriveSystem implements DriveSystem {
         gearShifter.set(Value.kForward);
         leftEnc.setDistancePerPulse(distancePerCountLoSpd);
         rightEnc.setDistancePerPulse(distancePerCountLoSpd);
+        curGear = Gears.LOW;
+        
         System.out.println("frc6880: Setting low speed");
         System.out.println("frc6880: Dist per count: " + distancePerCountLoSpd);
     }
@@ -181,6 +208,8 @@ public class TalonSRX2spdDriveSystem implements DriveSystem {
         gearShifter.set(Value.kReverse);
         leftEnc.setDistancePerPulse(distancePerCountHiSpd);
         rightEnc.setDistancePerPulse(distancePerCountHiSpd);
+        curGear= Gears.HIGH;
+        
         System.out.println("frc6880: Setting high speed");
         System.out.println("frc6880: Dist per count: " + distancePerCountHiSpd);
     }
@@ -190,5 +219,15 @@ public class TalonSRX2spdDriveSystem implements DriveSystem {
     	if(drive.isAlive())
     		return true;
     	return false;
+    }
+    
+    public void changeMultiplier(double mult)
+    {
+    	this.mult = mult;
+    }
+    
+    public Gears getCurGear()
+    {
+    	return curGear;
     }
 }

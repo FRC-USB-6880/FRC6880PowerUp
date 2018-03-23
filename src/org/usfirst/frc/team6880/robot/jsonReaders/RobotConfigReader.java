@@ -108,6 +108,20 @@ public class RobotConfigReader extends JsonReader {
         return (value);
     }
     
+    public boolean getDriverStationConfig()
+    {
+    	boolean isTankControl = false;
+    	try
+    	{
+    		isTankControl = getBoolean(robotObj, "TankDriverStationConfig");
+    	} catch(Exception e)
+    	{
+    		System.out.println("frc6880 : getDriverStationConfig();: Could not retrieve the TankDriverStationConfig");
+    		e.printStackTrace();
+    	}
+    	return isTankControl;
+    }
+    
     public void printForDebug() {
         System.out.println("RobotWidth = " + getRobotWidth());
         System.out.println("DriveSystem = " + getDriveTrainName());

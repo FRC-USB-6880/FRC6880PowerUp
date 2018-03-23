@@ -3,6 +3,8 @@
  */
 package org.usfirst.frc.team6880.robot.attachments;
 import org.usfirst.frc.team6880.robot.FRCRobot;
+import org.usfirst.frc.team6880.robot.jsonReaders.AttachmentsReader;
+import org.usfirst.frc.team6880.robot.jsonReaders.JsonReader;
 
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.StatusFrameEnhanced;
@@ -21,10 +23,23 @@ public class Lift
 	WPI_TalonSRX liftMotor;
 	private double height;
 	public Encoder liftEncoder;
+	public static final long MAX_LOW = 7233;
+	public static final long MAX_MID = 14466;
+	public static final long MAX_HIGH = 21700;
+	public static final long RANGE_VALUE = 7233;
+	
+	public int[] lowRange = {0,0};
+	public int[] midRange = {0,0};
+	public int[] highRange = {0,0};
 	
 	private double spoolDiameter;
 	private double spoolCircumference;
 	private double distancePerCount;
+	private double curPower;
+	private long targetPos;
+
+	AttachmentsReader configReader;
+
     /**
      * 
      */
@@ -32,12 +47,33 @@ public class Lift
     {
         // TODO Auto-generated constructor stub
     	this.robot = robot;
-    	liftMotor = new WPI_TalonSRX(15);
+    	configReader = new AttachmentsReader(JsonReader.attachmentsFile, "Lift");
+    	int liftMotorCANid = configReader.getLiftControllerCANid();
+    	double liftMotorRampTime = configReader.getLiftMotorOpenLoopRampTime();
+        spoolDiameter = configReader.getLiftSpoolDiameter();
+        lowRange = configReader.getLiftPos_encoderCounts("liftPos_lowRange");
+        midRange =  configReader.getLiftPos_encoderCounts("liftPos_midRange");
+        highRange = configReader.getLiftPos_encoderCounts("liftPos_highRange");
+        
+        System.out.println("frc6880: liftMotorCANid = " + liftMotorCANid +
+                ", spoolDiameter = " + spoolDiameter + 
+                ", loopRampTime = " + liftMotorRampTime +
+                ", lowRange = [" + lowRange[0] + "," + lowRange[1] + "]" +
+                ", midRange = [" + midRange[0] + "," + midRange[1] + "]" + 
+                ", highRange = [" + highRange[0] + "," + highRange[1] + "]");
+
+//      liftMotor = new WPI_TalonSRX(15);
+        liftMotor = new WPI_TalonSRX(liftMotorCANid);
+
+        liftMotor.configOpenloopRamp(liftMotorRampTime, 0); /* ramp from neutral to full within 1 seconds */
+
     	height = 0;
 //    	liftEncoder = new Encoder(4, 5, true, Encoder.EncodingType.k4X);
-    	spoolDiameter = 2;
     	spoolCircumference = Math.PI * spoolDiameter;
+    	// TODO: distancePerCount has to be calculated using CPR value
+    	//   read from encoder_specs.json file.  
     	distancePerCount = spoolCircumference / 360;
+    	curPower = 0.0;
 //    	liftEncoder.setDistancePerPulse(distancePerCount);
     	/*
     	 * The status frames with their default period include:
@@ -51,6 +87,9 @@ public class Lift
     	 */
 //    	liftMotor.setStatusFramePeriod(StatusFrameEnhanced.Status_2_Feedback0, 1, 10);
     	liftMotor.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, 20);
+    	
+
+    	targetPos = 0;
     }
     
     public void stop()
@@ -58,9 +97,33 @@ public class Lift
     	liftMotor.set(0);
     }
     
+    public boolean checkUpperLimit()
+    {
+//    	if(getCurPos()>=MAX_HIGH)
+        if(getCurPos()>=highRange[1])
+    		return true;
+    	return false;
+    }
+    
+    public boolean checkLowerLimit()
+    {
+    	if(getCurPos()<=lowRange[0])
+    		return true;
+    	return false;
+    }
+    
+    public long getCurPos()
+    {
+    	return -liftMotor.getSelectedSensorPosition(0);
+    }
+    
     public void moveWithPower(double power)
     {
-    	liftMotor.set(power);
+    	if(power<0)
+    		liftMotor.set(checkLowerLimit() ? 0.0 : power);
+    	else if(power>0)
+    		liftMotor.set(checkUpperLimit() ? 0.0 : power);
+    	curPower = power;
     }
     public void displayCurrentPosition()
     {
@@ -69,16 +132,38 @@ public class Lift
 //        SmartDashboard.putNumber("LiftPos", value);
     }
     
-    public void moveToHeight(double targetHeight, double power)
+    public boolean moveToHeight(double power)
     {
-    	double amountRaise = targetHeight - height;
-    	if(liftMotor.getSelectedSensorPosition(0) != amountRaise)
-    	{
-    		if(amountRaise < 0) moveWithPower(-power);
-    		else moveWithPower(power);
-    	}
-    	else stop();
-    	height += liftMotor.getSelectedSensorPosition(0);
+		if(targetPos < getCurPos()) 
+		{
+			moveWithPower(-power);
+			return false;
+		}
+		else if(targetPos > getCurPos())
+		{
+			moveWithPower(power);
+			return false;
+		}
+		
+		stop();
+		return true;
     }
+    
+    public void setTargetHeight(long target)
+    {
+    	if(targetPos>highRange[1])
+    		targetPos = highRange[1];
+    	else if (targetPos<0)
+    		targetPos = 0;
+    	else
+    		targetPos = target;
+    }
+
+	public boolean isMoving() {
+		// TODO Auto-generated method stub
+		if(curPower != 0.0)
+			return true;
+		return false;
+	}
 
 }

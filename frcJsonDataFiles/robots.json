@@ -28,6 +28,7 @@
         "Navigation" : "IMU_DriveSysEncoders",
         "autonomous_position" : "pos2",
         "autonomous_option" : "switch",
-        "comment1" : "possible autonomous options are -- switch, scale, or crossTheLine"
+        "comment1" : "possible autonomous options are -- switch, scale, or crossTheLine",
+        "TankDriverStationConfig" : true
     }
 }
