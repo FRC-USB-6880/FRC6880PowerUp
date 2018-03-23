@@ -134,12 +134,12 @@ public class FRCRobot {
 			    if(joystick1.getRawButton(7))
 		    	{
 		    		isMoveHeight = true;
-		    		lift.setTargetHeight(lift.getCurPos() + Lift.RANGE_VALUE);
+		    		lift.setTargetHeight(lift.getCurPos() + lift.rangeValue);
 		    	}
 		    	else if(joystick1.getRawButton(9))
 		    	{
 		    		isMoveHeight = true;
-		    		lift.setTargetHeight(lift.getCurPos() - Lift.RANGE_VALUE);
+		    		lift.setTargetHeight(lift.getCurPos() - lift.rangeValue);
 		    	}
 		    	
 		    	if(isMoveHeight)
@@ -164,12 +164,12 @@ public class FRCRobot {
 		    	if(joystick1.getTrigger())
 		    	{
 		    		isMoveHeight = true;
-		    		lift.setTargetHeight(lift.getCurPos() + Lift.RANGE_VALUE);
+		    		lift.setTargetHeight(lift.getCurPos() + lift.rangeValue);
 		    	}
 		    	else if(joystick2.getTrigger())
 		    	{
 		    		isMoveHeight = true;
-		    		lift.setTargetHeight(lift.getCurPos() - Lift.RANGE_VALUE);
+		    		lift.setTargetHeight(lift.getCurPos() - lift.rangeValue);
 		    	}
 		    	
 		    	if(isMoveHeight)
@@ -199,12 +199,12 @@ public class FRCRobot {
 			    if(gamepad.rightBumper())
 		    	{
 		    		isMoveHeight = true;
-		    		lift.setTargetHeight(lift.getCurPos() + Lift.RANGE_VALUE);
+		    		lift.setTargetHeight(lift.getCurPos() + lift.rangeValue);
 		    	}
 		    	else if(gamepad.leftBumper())
 		    	{
 		    		isMoveHeight = true;
-		    		lift.setTargetHeight(lift.getCurPos() - Lift.RANGE_VALUE);
+		    		lift.setTargetHeight(lift.getCurPos() - lift.rangeValue);
 		    	}
 		    	
 		    	if(isMoveHeight)
@@ -231,12 +231,12 @@ public class FRCRobot {
 		    	if(gamepad.rightBumper())
 		    	{
 		    		isMoveHeight = true;
-		    		lift.setTargetHeight(lift.getCurPos() + Lift.RANGE_VALUE);
+		    		lift.setTargetHeight(lift.getCurPos() + lift.rangeValue);
 		    	}
 		    	else if(gamepad.leftBumper())
 		    	{
 		    		isMoveHeight = true;
-		    		lift.setTargetHeight(lift.getCurPos() - Lift.RANGE_VALUE);
+		    		lift.setTargetHeight(lift.getCurPos() - lift.rangeValue);
 		    	}
 		    	
 		    	if(isMoveHeight)

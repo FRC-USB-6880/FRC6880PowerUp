@@ -2,7 +2,7 @@
 	"pos1" : {
         "switchL" : [
             {"name" : "CubeHandle", "close" : true},
-            {"name" : "Lift", "power" : 1.0, "time" : 1.0},
+            {"name" : "LiftToPos", "power" : 1.0, "pos" : "mid", "tolerance" : 0.1},
             {"name" : "MoveDistance", "speed" : 0.7, "distance" : 156.0, "targetYaw" : 0.0},
             {"name" : "SetOrientation", "speed" : 0.4, "targetYaw" : 90.0, "tolerance" : 3.0},
             {"name" : "MoveDistance", "speed" : 0.7, "distance" : 10.0, "targetYaw" : 90.0},
@@ -10,25 +10,25 @@
         ],
 	   "scaleL_old" : [
             {"name" : "CubeHandle", "close" : true},
-            {"name" : "Lift", "power" : 1.0, "time" : 1.0},
+            {"name" : "LiftForTime", "power" : 1.0, "time" : 1.0},
             {"name" : "MoveDistance", "speed" : 0.7, "distance" : 230.0, "targetYaw" : 0.0},
             {"name" : "SetOrientation", "speed" : 0.4, "targetYaw" : 25.0, "tolerance" : 3.0},
-            {"name" : "Lift", "power" : 1.0, "time" : 1.2},
+            {"name" : "LiftForTime", "power" : 1.0, "time" : 1.2},
             {"name" : "MoveDistance", "speed" : 0.5, "distance" : 50.0, "targetYaw" : 25.0},
             {"name" : "CubeHandle", "close" : false}		
         ],
         "scaleL" : [
             {"name" : "CubeHandle", "close" : true},
-            {"name" : "Lift", "power" : 1.0, "time" : 1.0},
+            {"name" : "LiftForTime", "power" : 1.0, "time" : 1.0},
             {"name" : "MoveDistance", "speed" : 0.7, "distance" : 290.0, "targetYaw" : 0.0},
-            {"name" : "Lift", "power" : 1.0, "time" : 1.2},
+            {"name" : "LiftToPos", "power" : 1.0, "pos" : "high", "tolerance" : 0.05},
             {"name" : "MoveDistance", "speed" : 0.5, "distance" : 22.0, "targetYaw" : 0.0},
             {"name" : "SetOrientation", "speed" : 0.4, "targetYaw" : 90.0, "tolerance" : 3.0},
             {"name" : "CubeHandle", "close" : false}		
         ],
         "scaleR" : [
             {"name" : "CubeHandle", "close" : true},
-            {"name" : "Lift", "power" : 1.0, "time" : 1.0},
+            {"name" : "LiftForTime", "power" : 1.0, "time" : 1.0},
             {"name" : "MoveDistance", "speed" : 0.7, "distance" : 230.0, "targetYaw" : 0.0},
             {"name" : "SetOrientation", "speed" : 0.4, "targetYaw" : 90.0, "tolerance" : 3.0},
             {"name" : "MoveDistance", "speed" : 0.7, "distance" : 210.0, "targetYaw" : 90.0},
@@ -45,7 +45,7 @@
     "pos2" : {
         "switchL" : [
             {"name" : "CubeHandle", "close" : true},
-            {"name" : "Lift", "power" : 1.0, "time" : 1.0},
+            {"name" : "LiftForTime", "power" : 1.0, "time" : 1.0},
             {"name" : "MoveDistance", "speed" : 0.7, "distance" : 12.0, "targetYaw" : 0.0},
             {"name" : "SetOrientation", "speed" : 0.4, "targetYaw" : -45.0, "tolerance" : 3.0},
             {"name" : "MoveDistance", "speed" : 0.7, "distance" : 84.0, "targetYaw" : -45.0},
@@ -55,7 +55,7 @@
         ],
         "switchR" : [
             {"name" : "CubeHandle", "close" : true},
-            {"name" : "Lift", "power" : 1.0, "time" : 1.0},
+            {"name" : "LiftForTime", "power" : 1.0, "time" : 1.0},
             {"name" : "MoveDistance", "speed" : 0.7, "distance" : 12.0, "targetYaw" : 0.0},
             {"name" : "SetOrientation", "speed" : 0.4, "targetYaw" : 45.0, "tolerance" : 3.0},
             {"name" : "MoveDistance", "speed" : 0.7, "distance" : 84.0, "targetYaw" : 45.0},
@@ -65,7 +65,7 @@
         ],
         "crossTheLine" : [
             {"name" : "CubeHandle", "close" : true},
-            {"name" : "Lift", "power" : 1.0, "time" : 1.0},
+            {"name" : "LiftForTime", "power" : 1.0, "time" : 1.0},
             {"name" : "MoveDistance", "speed" : 0.7, "distance" : 12.0, "targetYaw" : 0.0},
             {"name" : "SetOrientation", "speed" : 0.4, "targetYaw" : -45.0, "tolerance" : 3.0},
             {"name" : "MoveDistance", "speed" : 0.7, "distance" : 84.0, "targetYaw" : -45.0},
@@ -74,13 +74,13 @@
         ],
         "scaleL_donotUse" : [
             {"name" : "CubeHandle", "close" : true},
-            {"name" : "Lift", "power" : 1.0, "time" : 1.0},
+            {"name" : "LiftForTime", "power" : 1.0, "time" : 1.0},
             {"name" : "MoveDistance", "speed" : 0.7, "distance" : 12.0, "targetYaw" : 0.0},
             {"name" : "SetOrientation", "speed" : 0.4, "targetYaw" : -50.0, "tolerance" : 3.0},
             {"name" : "MoveDistance", "speed" : 0.7, "distance" : 160.0, "targetYaw" : -50.0},
             {"name" : "SetOrientation", "speed" : 0.4, "targetYaw" : 10.0, "tolerance" : 3.0},
             {"name" : "MoveDistance", "speed" : 0.7, "distance" : 110.0, "targetYaw" : 10.0},
-            {"name" : "Lift", "power" : 1.0, "time" : 1.3},
+            {"name" : "LiftForTime", "power" : 1.0, "time" : 1.3},
             {"name" : "MoveDistance", "speed" : 0.5, "distance" : 50.0, "targetYaw" : 10.0},
             {"name" : "CubeHandle", "close" : false}
         ]
@@ -88,7 +88,7 @@
     "pos3" : {
         "switchR" : [
             {"name" : "CubeHandle", "close" : true},
-            {"name" : "Lift", "power" : 1.0, "time" : 1.0},
+            {"name" : "LiftForTime", "power" : 1.0, "time" : 1.0},
             {"name" : "MoveDistance", "speed" : 0.7, "distance" : 156.0, "targetYaw" : 0.0},
             {"name" : "SetOrientation", "speed" : 0.4, "targetYaw" : -90.0, "tolerance" : 3.0},
             {"name" : "MoveDistance", "speed" : 0.7, "distance" : 20.0, "targetYaw" : -90.0},
@@ -96,9 +96,9 @@
         ],
         "scaleR" : [
             {"name" : "CubeHandle", "close" : true},
-            {"name" : "Lift", "power" : 1.0, "time" : 1.0},
+            {"name" : "LiftForTime", "power" : 1.0, "time" : 1.0},
             {"name" : "MoveDistance", "speed" : 0.7, "distance" : 290.0, "targetYaw" : 0.0},
-            {"name" : "Lift", "power" : 1.0, "time" : 1.2},
+            {"name" : "LiftForTime", "power" : 1.0, "time" : 1.2},
             {"name" : "MoveDistance", "speed" : 0.5, "distance" : 22.0, "targetYaw" : 0.0},
             {"name" : "SetOrientation", "speed" : 0.4, "targetYaw" : -90.0, "tolerance" : 3.0},
             {"name" : "CubeHandle", "close" : false}		
@@ -108,7 +108,7 @@
         ],
         "r_old" : [
             {"name" : "CubeHandle", "close" : true},
-            {"name" : "Lift", "power" : 1.0, "time" : 1.0},
+            {"name" : "LiftForTime", "power" : 1.0, "time" : 1.0},
             {"name" : "MoveDistance", "speed" : 0.7, "distance" : 12.0, "targetYaw" : 0.0},
             {"name" : "SetOrientation", "speed" : 0.4, "targetYaw" : -30.0, "tolerance" : 3.0},
             {"name" : "MoveDistance", "speed" : 0.7, "distance" : 80.0, "targetYaw" : -30.0},
@@ -118,17 +118,17 @@
         ],
         "rs_old" : [
             {"name" : "CubeHandle", "close" : true},
-            {"name" : "Lift", "power" : 1.0, "time" : 1.0},
+            {"name" : "LiftForTime", "power" : 1.0, "time" : 1.0},
             {"name" : "MoveDistance", "speed" : 0.7, "distance" : 230.0, "targetYaw" : 0.0},
             {"name" : "SetOrientation", "speed" : 0.4, "targetYaw" : -25.0, "tolerance" : 3.0},
-            {"name" : "Lift", "power" : 1.0, "time" : 1.2},
+            {"name" : "LiftForTime", "power" : 1.0, "time" : 1.2},
             {"name" : "MoveDistance", "speed" : 0.5, "distance" : 50.0, "targetYaw" : -25.0},
             {"name" : "CubeHandle", "close" : false}		
         ]
     },
     "pos_test" : {
         "testing" : [
-            {"name" : "Lift", "power" : 1.0, "time" : 2.1}
+            {"name" : "LiftForTime", "power" : 1.0, "time" : 2.1}
         ],
         "testing1" : [
             {"name" : "MoveDistance", "speed" : 0.4, "distance" : 40.0, "targetYaw" : 0.0},
@@ -142,7 +142,7 @@
         ],
         "pos1l_old" : [
             {"name" : "CubeHandle", "close" : true},
-            {"name" : "Lift", "power" : 1.0, "time" : 1.0},
+            {"name" : "LiftForTime", "power" : 1.0, "time" : 1.0},
             {"name" : "MoveDistance", "speed" : 0.5, "distance" : 12.0, "targetYaw" : 0.0},
             {"name" : "SetOrientation", "speed" : 0.4, "targetYaw" : 30.0, "tolerance" : 3.0},
             {"name" : "MoveDistance", "speed" : 0.5, "distance" : 80.0, "targetYaw" : 30.0},

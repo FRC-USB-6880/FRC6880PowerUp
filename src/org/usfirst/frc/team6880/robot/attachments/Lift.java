@@ -23,14 +23,15 @@ public class Lift
 	WPI_TalonSRX liftMotor;
 	private double height;
 	public Encoder liftEncoder;
-	public static final long MAX_LOW = 7233;
-	public static final long MAX_MID = 14466;
-	public static final long MAX_HIGH = 21700;
-	public static final long RANGE_VALUE = 7233;
+//	public static final long MAX_LOW = 7233;
+//	public static final long MAX_MID = 14466;
+//	public static final long MAX_HIGH = 21700;
+//	public static final long RANGE_VALUE = 7233;
 	
 	public int[] lowRange = {0,0};
 	public int[] midRange = {0,0};
 	public int[] highRange = {0,0};
+	public int rangeValue;
 	
 	private double spoolDiameter;
 	private double spoolCircumference;
@@ -54,6 +55,7 @@ public class Lift
         lowRange = configReader.getLiftPos_encoderCounts("liftPos_lowRange");
         midRange =  configReader.getLiftPos_encoderCounts("liftPos_midRange");
         highRange = configReader.getLiftPos_encoderCounts("liftPos_highRange");
+        rangeValue = midRange[1] = midRange[0];
         
         System.out.println("frc6880: liftMotorCANid = " + liftMotorCANid +
                 ", spoolDiameter = " + spoolDiameter + 

@@ -43,6 +43,8 @@ public class AutonomousTasks {
 	        	JSONObject obj = (JSONObject) taskArray.get(i);
 	        	String key = JsonReader.getKeyIgnoreCase(obj, "name");
 	        	double speed, tolerance, targetYaw;
+	        	double power, timeInSec;
+	        	String pos;
 	        	switch((String)obj.get(key))
 	        	{
 	        		case "MoveDistance":
@@ -63,13 +65,22 @@ public class AutonomousTasks {
                         tolerance = (double)obj.get(key);
                         tasks.add(new TaskSetOrientation(robot, targetYaw, speed, tolerance));
 	        		    break;
-	        		case "Lift":
+	        		case "LiftForTime":
 	        			key = JsonReader.getKeyIgnoreCase(obj, "power");
-	        			double power = (double)obj.get(key);
+	        			power = (double)obj.get(key);
 	        			key = JsonReader.getKeyIgnoreCase(obj, "time");
-	        			double time = (double)obj.get(key);
-	        			tasks.add(new TaskLift(robot, power, time));
+	        			timeInSec = (double)obj.get(key);
+	        			tasks.add(new TaskLiftForTime(robot, power, timeInSec));
 	        			break;
+	        		case "LiftToPos":
+	        		    key = JsonReader.getKeyIgnoreCase(obj, "power");
+                        power = (double)obj.get(key);
+                        key = JsonReader.getKeyIgnoreCase(obj, "pos");
+                        pos = (String) obj.get(key);
+                        key = JsonReader.getKeyIgnoreCase(obj, "tolerance");
+                        tolerance = (double) obj.get(key);
+                        tasks.add(new TaskLiftToPos(robot, power, pos, tolerance));
+                        break;
 	        		case "CubeHandle":
 	        			key = JsonReader.getKeyIgnoreCase(obj, "close");
 	        			boolean close = (boolean)obj.get(key);
