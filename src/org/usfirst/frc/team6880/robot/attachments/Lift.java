@@ -55,7 +55,7 @@ public class Lift
         lowRange = configReader.getLiftPos_encoderCounts("liftPos_lowRange");
         midRange =  configReader.getLiftPos_encoderCounts("liftPos_midRange");
         highRange = configReader.getLiftPos_encoderCounts("liftPos_highRange");
-        rangeValue = midRange[1] = midRange[0];
+        rangeValue = highRange[1]/2;
         
         System.out.println("frc6880: liftMotorCANid = " + liftMotorCANid +
                 ", spoolDiameter = " + spoolDiameter + 
@@ -67,7 +67,7 @@ public class Lift
 //      liftMotor = new WPI_TalonSRX(15);
         liftMotor = new WPI_TalonSRX(liftMotorCANid);
 
-        liftMotor.configOpenloopRamp(liftMotorRampTime, 0); /* ramp from neutral to full within 1 seconds */
+//        liftMotor.configOpenloopRamp(0, 0); /* ramp from neutral to full within 1 seconds */
 
     	height = 0;
 //    	liftEncoder = new Encoder(4, 5, true, Encoder.EncodingType.k4X);
@@ -121,10 +121,11 @@ public class Lift
     
     public void moveWithPower(double power)
     {
-    	if(power<0)
-    		liftMotor.set(checkLowerLimit() ? 0.0 : power);
-    	else if(power>0)
-    		liftMotor.set(checkUpperLimit() ? 0.0 : power);
+//    	if(power<0)
+//    		liftMotor.set(checkLowerLimit() ? 0.0 : power);
+//    	else if(power>0)
+//    		liftMotor.set(checkUpperLimit() ? 0.0 : power);
+    	liftMotor.set(power);
     	curPower = power;
     }
     public void displayCurrentPosition()
@@ -136,12 +137,12 @@ public class Lift
     
     public boolean moveToHeight(double power)
     {
-		if(targetPos < getCurPos()) 
+		if(targetPos+100 < getCurPos()) 
 		{
 			moveWithPower(-power);
 			return false;
 		}
-		else if(targetPos > getCurPos())
+		else if(targetPos-100 > getCurPos())
 		{
 			moveWithPower(power);
 			return false;

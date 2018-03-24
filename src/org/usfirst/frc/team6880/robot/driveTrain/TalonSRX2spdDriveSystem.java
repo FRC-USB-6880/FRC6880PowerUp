@@ -68,7 +68,7 @@ public class TalonSRX2spdDriveSystem implements DriveSystem {
             motorLeft = new SpeedControllerGroup(motorL2);
             System.out.println("Leader: Motor_L2, Follower: Motor_L1");
             /* Master is configured to ramp from neutral to full within 2 seconds */
-            motorL2.configOpenloopRamp(2, 0);
+            motorL2.configOpenloopRamp(0.5, 0);
             motorL1.configOpenloopRamp(0, 0); /* no need since master ramps */
         }
         else if (configReader.isFollower("Motor_L2")) 
@@ -77,14 +77,14 @@ public class TalonSRX2spdDriveSystem implements DriveSystem {
             motorLeft = new SpeedControllerGroup(motorL1);
             System.out.println("Leader: Motor_L1, Follower: Motor_L2");
             /* Master is configured to ramp from neutral to full within 2 seconds */ 
-            motorL1.configOpenloopRamp(2, 0);
+            motorL1.configOpenloopRamp(0.5, 0);
             motorL2.configOpenloopRamp(0, 0); /* no need since master ramps */
         }
         else
         {
             motorLeft = new SpeedControllerGroup(motorL1, motorL2);
-            motorL1.configOpenloopRamp(2, 0); /* ramp from neutral to full within 2 seconds */
-            motorL2.configOpenloopRamp(2, 0); /* ramp from neutral to full within 2 seconds */
+            motorL1.configOpenloopRamp(0.5, 0); /* ramp from neutral to full within 2 seconds */
+            motorL2.configOpenloopRamp(0.5, 0); /* ramp from neutral to full within 2 seconds */
         }
 
         motorR1 = new WPI_TalonSRX(configReader.getDeviceID("Motor_R1"));

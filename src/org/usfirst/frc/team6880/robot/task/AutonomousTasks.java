@@ -45,40 +45,41 @@ public class AutonomousTasks {
 	        	double speed, tolerance, targetYaw;
 	        	double power, timeInSec;
 	        	String pos;
+	        	System.out.println("frc6880: Running task "+(String)obj.get(key));
 	        	switch((String)obj.get(key))
 	        	{
 	        		case "MoveDistance":
 	        			key = JsonReader.getKeyIgnoreCase(obj, "distance");
-	        			double dist = (double)obj.get(key);
+	        			double dist = JsonReader.getDouble(obj, key);
 	        			key = JsonReader.getKeyIgnoreCase(obj, "speed");
-	        			speed = (double)obj.get(key);
+	        			speed = JsonReader.getDouble(obj, key);
 	        			key = JsonReader.getKeyIgnoreCase(obj, "targetYaw");
-	        			targetYaw = (double)obj.get(key);
+	        			targetYaw = JsonReader.getDouble(obj, key);
 	        			tasks.add(new TaskMoveDist(robot, speed, dist, targetYaw));
 	        			break;
 	        		case "SetOrientation":
 	        		    key = JsonReader.getKeyIgnoreCase(obj, "targetYaw");
-	        		    targetYaw = (double)obj.get(key);
+	        		    targetYaw = JsonReader.getDouble(obj, key);
                         key = JsonReader.getKeyIgnoreCase(obj, "speed");
-                        speed = (double)obj.get(key);
+                        speed = JsonReader.getDouble(obj, key);
                         key = JsonReader.getKeyIgnoreCase(obj, "tolerance");
-                        tolerance = (double)obj.get(key);
+                        tolerance = JsonReader.getDouble(obj, key);
                         tasks.add(new TaskSetOrientation(robot, targetYaw, speed, tolerance));
 	        		    break;
 	        		case "LiftForTime":
 	        			key = JsonReader.getKeyIgnoreCase(obj, "power");
-	        			power = (double)obj.get(key);
+	        			power = JsonReader.getDouble(obj, key);
 	        			key = JsonReader.getKeyIgnoreCase(obj, "time");
-	        			timeInSec = (double)obj.get(key);
+	        			timeInSec = JsonReader.getDouble(obj, key);
 	        			tasks.add(new TaskLiftForTime(robot, power, timeInSec));
 	        			break;
 	        		case "LiftToPos":
 	        		    key = JsonReader.getKeyIgnoreCase(obj, "power");
-                        power = (double)obj.get(key);
+                        power = JsonReader.getDouble(obj, key);
                         key = JsonReader.getKeyIgnoreCase(obj, "pos");
                         pos = (String) obj.get(key);
                         key = JsonReader.getKeyIgnoreCase(obj, "tolerance");
-                        tolerance = (double) obj.get(key);
+                        tolerance = JsonReader.getDouble(obj, key);
                         tasks.add(new TaskLiftToPos(robot, power, pos, tolerance));
                         break;
 	        		case "CubeHandle":

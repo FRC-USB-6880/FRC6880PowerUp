@@ -26,9 +26,9 @@
         "DriveTrain" : "CAN-4TalonSRX-2spd-WestCoastDrive",
         "Attachments" : [],
         "Navigation" : "IMU_DriveSysEncoders",
-        "autonomous_position" : "pos2",
-        "autonomous_option" : "switch",
+        "autonomous_position" : "pos1",
+        "autonomous_option" : "scale",
         "comment1" : "possible autonomous options are -- switch, scale, or crossTheLine",
-        "TankDriverStationConfig" : true
+        "TankDriverStationConfig" : false
     }
 }

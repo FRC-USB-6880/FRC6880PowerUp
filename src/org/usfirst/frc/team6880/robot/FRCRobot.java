@@ -54,10 +54,11 @@ public class FRCRobot {
 		SmartDashboard.putString("Robot", "2018-robot");
 		System.out.println("frc6880: Config reader: " + configReader);
 		
+		
 		// TODO Instantiate PneumaticController object before instantiating driveTrain
 		//  or any other attachment.
 		pcmObj = new PneumaticController(20);
-
+		
 		driveTrainName = configReader.getDriveTrainName();
         System.out.println("frc6880: driveTrainName: " + driveTrainName);
         SmartDashboard.putString("Drive train name", driveTrainName);
@@ -70,9 +71,9 @@ public class FRCRobot {
 			driveSys = new TalonSRX2spdDriveSystem(this, driveTrainName);
 			driveSys.setHiSpd();
 		}
-
+		
         navigation = new Navigation(this, configReader.getNavigationOption());
-
+        
         joystick1 = new Joystick(0);
         if(configReader.getDriverStationConfig())
         {
@@ -85,11 +86,11 @@ public class FRCRobot {
         powerMon = new PowerMonitor(this);
         
         lift = new Lift(this);
-//        cubeHandler = new CubeHandler(this);
+        cubeHandler = new CubeHandler(this);
         
-//        CameraServer.getInstance().startAutomaticCapture();
+        CameraServer.getInstance().startAutomaticCapture();
         
-//        stateMachine = new StateMachine(this);
+        stateMachine = new StateMachine(this);
         
         isMoveHeight = false;
 	}
@@ -106,7 +107,7 @@ public class FRCRobot {
 		stateMachine.loop();
 		
 		
-		
+//		System.out.println("frc6880: curpos: "+lift.getCurPos());
 	    
 		if(joystick1.getThrottle()>0)
 		{
@@ -189,7 +190,7 @@ public class FRCRobot {
 			    if(joystick1.getRawButton(10))
 			    	driveSys.setLoSpd();
 			    
-		    	lift.moveWithPower(-gamepad.rightStickY());
+		    	
 			    
 			    if(gamepad.dpadDown())
 			    	cubeHandler.grabCube();
@@ -207,10 +208,12 @@ public class FRCRobot {
 		    		lift.setTargetHeight(lift.getCurPos() - lift.rangeValue);
 		    	}
 		    	
-		    	if(isMoveHeight)
+		    	if(isMoveHeight&&gamepad.rightStickY()==0)
 		    	{
 		    		isMoveHeight = !(lift.moveToHeight(0.5));
 		    	}
+		    	else
+		    		lift.moveWithPower(-gamepad.rightStickY());
 		    }
 		    else if(joystick2 != null)
 		    {
@@ -239,10 +242,12 @@ public class FRCRobot {
 		    		lift.setTargetHeight(lift.getCurPos() - lift.rangeValue);
 		    	}
 		    	
-		    	if(isMoveHeight)
+		    	if(isMoveHeight&&gamepad.rightStickY()==0)
 		    	{
 		    		isMoveHeight = !(lift.moveToHeight(0.5));
 		    	}
+		    	else
+		    		lift.moveWithPower(-gamepad.rightStickY());
 		    }
 		}
 	}
@@ -262,15 +267,17 @@ public class FRCRobot {
 //		String autoPos = SmartDashboard.getString("AutoPos", "none");
 //		String autoOption = SmartDashboard.getString("AutoOption", "none");
 //		boolean scale = SmartDashboard.getBoolean("Scale", false);
-		
+//        System.out.println("frc6880: autopos dashboard: "+SmartDashboard.getString("AutoPos", "none"));
+//		autoPos = SmartDashboard.getString("AutoPos", autoPos);
+//		autoOption = SmartDashboard.getString("AutoOption", autoOption);
 		if (autoPos.equals("pos1")) 
 		{
 		    if (autoOption.equals("scale")) {
 		        // Claim the scale
     		    if(gameData.charAt(1) == 'L') {
     		        autoTask = "scaleL";
-    		    } else if (gameData.charAt(1) == 'R') {
-    		        autoTask = "scaleR";
+    		    } else if (gameData.charAt(1) == 'R' && gameData.charAt(0)=='L') {
+    		        autoTask = "switchL";
     		    } else {
     		        // Something bad happened; just move forward for autoquest
                     autoTask = "crossTheLine";
@@ -280,7 +287,7 @@ public class FRCRobot {
                 if(gameData.charAt(0) == 'L') {
                     autoTask = "switchL";
                 } else if (gameData.charAt(0) == 'R') {
-                    autoTask = "switchR";
+                    autoTask = "crossTheLine";
                 } else {
                     // Something bad happened; just move forward for autoquest
                     autoTask = "crossTheLine";
@@ -307,8 +314,8 @@ public class FRCRobot {
 		{
             if (autoOption.equals("scale")) {
                 // Claim the scale
-                if(gameData.charAt(1) == 'L') {
-                    autoTask = "scaleL";
+                if(gameData.charAt(1) == 'L'&&gameData.charAt(0)=='R') {
+                    autoTask = "switchR";
                 } else if (gameData.charAt(1) == 'R') {
                     autoTask = "scaleR";
                 } else {
@@ -318,14 +325,14 @@ public class FRCRobot {
             } else if (autoOption.equals("switch")) {
                 // Claim the switch or do nothing (just move forward)
                 if(gameData.charAt(0) == 'L') {
-                    autoTask = "switchL";
+                    autoTask = "crossTheLine";
                 } else if (gameData.charAt(0) == 'R') {
                     autoTask = "switchR";
                 } else {
                     // Something bad happened; just move forward for autoquest
                     autoTask = "crossTheLine";
                 }
-            }		    
+            }
 		}
 
 		autonTasks = new AutonomousTasks(this, autoPos, autoTask);
@@ -337,6 +344,7 @@ public class FRCRobot {
 	{
 	    autonTasks.runNextTask();
 //	    powerMon.displayCurrentPower();
+		return;
 	}
 		
 	public boolean isEnabled()
