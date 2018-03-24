@@ -3,7 +3,7 @@
         "switchL" : [
             {"name" : "CubeHandle", "close" : true},
             {"name" : "LiftToPos", "power" : 1.0, "pos" : "mid", "tolerance" : 0.1},
-            {"name" : "MoveDistance", "speed" : 0.7, "distance" : 156.0, "targetYaw" : 0.0},
+            {"name" : "MoveDistance", "speed" : 0.7, "distance" : 135.0, "targetYaw" : 0.0},
             {"name" : "SetOrientation", "speed" : 0.4, "targetYaw" : 90.0, "tolerance" : 3.0},
             {"name" : "MoveDistance", "speed" : 0.7, "distance" : 15.0, "targetYaw" : 90.0},
             {"name" : "CubeHandle", "close" : false}		
@@ -32,9 +32,7 @@
             {"name" : "CubeHandle", "close" : false}		
         ],
         "scaleL_test" : [
-        	{"name" : "LiftToPos", "power" : 1.0, "pos" : "mid", "tolerance" : 0.1},
-        	{"name" : "SetOrientation", "speed" : 0.4, "targetYaw" : 90.0, "tolerance" : 3.0},
-        	{"name" : "SetOrientation", "speed" : 0.4, "targetYaw" : 0.0, "tolerance" : 3.0}
+        	{"name" : "LiftToPos", "power" : 0.5, "pos" : "high", "tolerance" : 0.1}
         ],
         "scaleR" : [
             {"name" : "CubeHandle", "close" : true},
@@ -126,7 +124,7 @@
         "switchR" : [
             {"name" : "CubeHandle", "close" : true},
             {"name" : "LiftToPos", "power" : 1.0, "pos" : "mid", "tolerance" : 0.1},
-            {"name" : "MoveDistance", "speed" : 0.7, "distance" : 156.0, "targetYaw" : 0.0},
+            {"name" : "MoveDistance", "speed" : 0.7, "distance" : 135.0, "targetYaw" : 0.0},
             {"name" : "SetOrientation", "speed" : 0.4, "targetYaw" : -90.0, "tolerance" : 3.0},
             {"name" : "MoveDistance", "speed" : 0.7, "distance" : 15.0, "targetYaw" : -90.0},
             {"name" : "CubeHandle", "close" : false}		
@@ -181,7 +179,7 @@
     },
     "pos_test" : {
         "testing" : [
-            {"name" : "LiftToPos", "power" : 1.0, "pos" : "mid", "tolerance" : 0.1}
+            {"name" : "LiftToPos", "power" : 0.5, "pos" : "high", "tolerance" : 0.1}
         ],
         "testing1" : [
             {"name" : "MoveDistance", "speed" : 0.4, "distance" : 40.0, "targetYaw" : 0.0},
