@@ -52,7 +52,7 @@ public class StateMachine {
 					switchLiftState(LiftStates.MIDRANGE);
 				else
 				{
-					robot.driveSys.changeMultiplier(0.3);
+					robot.driveSys.changeMultiplier(0.7);
 					if(robot.driveSys.getCurGear()==DriveSystem.Gears.HIGH)
 						robot.driveSys.setLoSpd();
 				}

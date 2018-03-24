@@ -27,7 +27,8 @@ public class FRCRobot {
 	RobotConfigReader configReader;
 	private Joystick joystick1;
 	private Joystick joystick2 = null;
-	private LogitechF310 gamepad;
+	private LogitechF310 gamepad2;
+	private LogitechF310 gamepad1;
 	public PowerDistributionPanel pdp;
 	PowerMonitor powerMon;
 	public PneumaticController pcmObj;
@@ -74,14 +75,15 @@ public class FRCRobot {
 		
         navigation = new Navigation(this, configReader.getNavigationOption());
         
-        joystick1 = new Joystick(0);
+//        joystick1 = new Joystick(0);
+        gamepad1 = new LogitechF310(0);
         if(configReader.getDriverStationConfig())
         {
         	joystick2 = new Joystick(1);
-        	gamepad = new LogitechF310(2);
+        	gamepad2 = new LogitechF310(2);
         }
         else
-        	gamepad = new LogitechF310(1);
+        	gamepad2 = new LogitechF310(1);
         
         powerMon = new PowerMonitor(this);
         
@@ -105,151 +107,178 @@ public class FRCRobot {
 		//TODO: Map controller sticks to drive system
 		//Possible: map misc. controller buttons to tasks?
 		stateMachine.loop();
+		driveSys.arcadeDrive(-gamepad1.leftStickY(), gamepad1.rightStickX());
+		if(gamepad1.rightBumper())
+			driveSys.setHiSpd();
+		else if (gamepad1.leftBumper())
+			driveSys.setLoSpd();
+		if(gamepad2.dpadDown())
+	    	cubeHandler.grabCube();
+	    else if(gamepad2.dpadUp())
+	    	cubeHandler.releaseCube();
 		
-		
+		lift.moveWithPower(-gamepad2.rightStickY());
+	    
+//	    if(gamepad2.rightBumper())
+//    	{
+//    		isMoveHeight = true;
+//    		lift.setTargetHeight(lift.getCurPos() + lift.rangeValue);
+//    	}
+//    	else if(gamepad2.leftBumper())
+//    	{
+//    		isMoveHeight = true;
+//    		lift.setTargetHeight(lift.getCurPos() - lift.rangeValue);
+//    	}
+//    	
+//    	if(isMoveHeight&&gamepad2.rightStickY()==0)
+//    	{
+//    		isMoveHeight = !(lift.moveToHeight(0.5));
+//    	}
+//    	else
+//    		lift.moveWithPower(-gamepad2.rightStickY());
 //		System.out.println("frc6880: curpos: "+lift.getCurPos());
 	    
-		if(joystick1.getThrottle()>0)
-		{
-		    if(joystick2 == null)
-		    {
-		    	driveSys.arcadeDrive(-joystick1.getY(), joystick1.getTwist());
-		    	
-		    	if(joystick1.getRawButton(8))
-			    	driveSys.setHiSpd();
-			    if(joystick1.getRawButton(10))
-			    	driveSys.setLoSpd();
-			    
-		    	if(joystick1.getRawButton(6))
-			    	lift.moveWithPower(0.5);
-			    else if(joystick1.getRawButton(4))
-			    	lift.moveWithPower(-0.3);
-			    else
-			    	lift.stop();
-			    
-			    if(joystick1.getTrigger())
-			    	cubeHandler.grabCube();
-			    else if(joystick1.getRawButton(2))
-			    	cubeHandler.releaseCube();
-			    
-			    if(joystick1.getRawButton(7))
-		    	{
-		    		isMoveHeight = true;
-		    		lift.setTargetHeight(lift.getCurPos() + lift.rangeValue);
-		    	}
-		    	else if(joystick1.getRawButton(9))
-		    	{
-		    		isMoveHeight = true;
-		    		lift.setTargetHeight(lift.getCurPos() - lift.rangeValue);
-		    	}
-		    	
-		    	if(isMoveHeight)
-		    	{
-		    		isMoveHeight = !(lift.moveToHeight(0.5));
-		    	}
-		    }
-		    else if(joystick2 != null)
-		    {
-		    	driveSys.tankDrive(-joystick1.getY(), -joystick2.getY());
-		    	
-		    	if(joystick1.getRawButton(2))
-		    		cubeHandler.grabCube();
-		    	else if(joystick2.getRawButton(2))
-		    		cubeHandler.releaseCube();
-		    	
-		    	if(joystick1.getRawButton(5))
-		    		driveSys.setHiSpd();
-		    	else if(joystick1.getRawButton(3))
-		    		driveSys.setLoSpd();
-		    	
-		    	if(joystick1.getTrigger())
-		    	{
-		    		isMoveHeight = true;
-		    		lift.setTargetHeight(lift.getCurPos() + lift.rangeValue);
-		    	}
-		    	else if(joystick2.getTrigger())
-		    	{
-		    		isMoveHeight = true;
-		    		lift.setTargetHeight(lift.getCurPos() - lift.rangeValue);
-		    	}
-		    	
-		    	if(isMoveHeight)
-		    	{
-		    		isMoveHeight = !(lift.moveToHeight(0.5));
-		    	}
-		    }
-		}
-		else
-		{
-			if(joystick2 == null)
-		    {
-		    	driveSys.arcadeDrive(-joystick1.getY(), joystick1.getTwist());
-		    	
-		    	if(joystick1.getRawButton(8))
-			    	driveSys.setHiSpd();
-			    if(joystick1.getRawButton(10))
-			    	driveSys.setLoSpd();
-			    
-		    	
-			    
-			    if(gamepad.dpadDown())
-			    	cubeHandler.grabCube();
-			    else if(gamepad.dpadUp())
-			    	cubeHandler.releaseCube();
-			    
-			    if(gamepad.rightBumper())
-		    	{
-		    		isMoveHeight = true;
-		    		lift.setTargetHeight(lift.getCurPos() + lift.rangeValue);
-		    	}
-		    	else if(gamepad.leftBumper())
-		    	{
-		    		isMoveHeight = true;
-		    		lift.setTargetHeight(lift.getCurPos() - lift.rangeValue);
-		    	}
-		    	
-		    	if(isMoveHeight&&gamepad.rightStickY()==0)
-		    	{
-		    		isMoveHeight = !(lift.moveToHeight(0.5));
-		    	}
-		    	else
-		    		lift.moveWithPower(-gamepad.rightStickY());
-		    }
-		    else if(joystick2 != null)
-		    {
-		    	driveSys.tankDrive(-joystick1.getY(), -joystick2.getY());
-		    	
-		    	if(gamepad.dpadDown())
-			    	cubeHandler.grabCube();
-			    else if(gamepad.dpadUp())
-			    	cubeHandler.releaseCube();
-		    	
-		    	if(joystick1.getTrigger())
-		    		driveSys.setHiSpd();
-		    	else if(joystick2.getTrigger())
-		    		driveSys.setLoSpd();
-		    	
-		    	lift.moveWithPower(-gamepad.rightStickY());
-		    	
-		    	if(gamepad.rightBumper())
-		    	{
-		    		isMoveHeight = true;
-		    		lift.setTargetHeight(lift.getCurPos() + lift.rangeValue);
-		    	}
-		    	else if(gamepad.leftBumper())
-		    	{
-		    		isMoveHeight = true;
-		    		lift.setTargetHeight(lift.getCurPos() - lift.rangeValue);
-		    	}
-		    	
-		    	if(isMoveHeight&&gamepad.rightStickY()==0)
-		    	{
-		    		isMoveHeight = !(lift.moveToHeight(0.5));
-		    	}
-		    	else
-		    		lift.moveWithPower(-gamepad.rightStickY());
-		    }
-		}
+//		if(joystick1.getThrottle()>0)
+//		{
+//		    if(joystick2 == null)
+//		    {
+//		    	driveSys.arcadeDrive(-joystick1.getY(), joystick1.getTwist());
+//		    	
+//		    	if(joystick1.getRawButton(8))
+//			    	driveSys.setHiSpd();
+//			    if(joystick1.getRawButton(10))
+//			    	driveSys.setLoSpd();
+//			    
+//		    	if(joystick1.getRawButton(6))
+//			    	lift.moveWithPower(0.5);
+//			    else if(joystick1.getRawButton(4))
+//			    	lift.moveWithPower(-0.3);
+//			    else
+//			    	lift.stop();
+//			    
+//			    if(joystick1.getTrigger())
+//			    	cubeHandler.grabCube();
+//			    else if(joystick1.getRawButton(2))
+//			    	cubeHandler.releaseCube();
+//			    
+//			    if(joystick1.getRawButton(7))
+//		    	{
+//		    		isMoveHeight = true;
+//		    		lift.setTargetHeight(lift.getCurPos() + lift.rangeValue);
+//		    	}
+//		    	else if(joystick1.getRawButton(9))
+//		    	{
+//		    		isMoveHeight = true;
+//		    		lift.setTargetHeight(lift.getCurPos() - lift.rangeValue);
+//		    	}
+//		    	
+//		    	if(isMoveHeight)
+//		    	{
+//		    		isMoveHeight = !(lift.moveToHeight(0.5));
+//		    	}
+//		    }
+//		    else if(joystick2 != null)
+//		    {
+//		    	driveSys.tankDrive(-joystick1.getY(), -joystick2.getY());
+//		    	
+//		    	if(joystick1.getRawButton(2))
+//		    		cubeHandler.grabCube();
+//		    	else if(joystick2.getRawButton(2))
+//		    		cubeHandler.releaseCube();
+//		    	
+//		    	if(joystick1.getRawButton(5))
+//		    		driveSys.setHiSpd();
+//		    	else if(joystick1.getRawButton(3))
+//		    		driveSys.setLoSpd();
+//		    	
+//		    	if(joystick1.getTrigger())
+//		    	{
+//		    		isMoveHeight = true;
+//		    		lift.setTargetHeight(lift.getCurPos() + lift.rangeValue);
+//		    	}
+//		    	else if(joystick2.getTrigger())
+//		    	{
+//		    		isMoveHeight = true;
+//		    		lift.setTargetHeight(lift.getCurPos() - lift.rangeValue);
+//		    	}
+//		    	
+//		    	if(isMoveHeight)
+//		    	{
+//		    		isMoveHeight = !(lift.moveToHeight(0.5));
+//		    	}
+//		    }
+//		}
+//		else
+//		{
+//			if(joystick2 == null)
+//		    {
+//		    	driveSys.arcadeDrive(-joystick1.getY(), joystick1.getTwist());
+//		    	
+//		    	if(joystick1.getRawButton(8))
+//			    	driveSys.setHiSpd();
+//			    if(joystick1.getRawButton(10))
+//			    	driveSys.setLoSpd();
+//			    
+//		    	
+//			    
+//			    if(gamepad2.dpadDown())
+//			    	cubeHandler.grabCube();
+//			    else if(gamepad2.dpadUp())
+//			    	cubeHandler.releaseCube();
+//			    
+//			    if(gamepad2.rightBumper())
+//		    	{
+//		    		isMoveHeight = true;
+//		    		lift.setTargetHeight(lift.getCurPos() + lift.rangeValue);
+//		    	}
+//		    	else if(gamepad2.leftBumper())
+//		    	{
+//		    		isMoveHeight = true;
+//		    		lift.setTargetHeight(lift.getCurPos() - lift.rangeValue);
+//		    	}
+//		    	
+//		    	if(isMoveHeight&&gamepad2.rightStickY()==0)
+//		    	{
+//		    		isMoveHeight = !(lift.moveToHeight(0.5));
+//		    	}
+//		    	else
+//		    		lift.moveWithPower(-gamepad2.rightStickY());
+//		    }
+//		    else if(joystick2 != null)
+//		    {
+//		    	driveSys.tankDrive(-joystick1.getY(), -joystick2.getY());
+//		    	
+//		    	if(gamepad2.dpadDown())
+//			    	cubeHandler.grabCube();
+//			    else if(gamepad2.dpadUp())
+//			    	cubeHandler.releaseCube();
+//		    	
+//		    	if(joystick1.getTrigger())
+//		    		driveSys.setHiSpd();
+//		    	else if(joystick2.getTrigger())
+//		    		driveSys.setLoSpd();
+//		    	
+//		    	lift.moveWithPower(-gamepad2.rightStickY());
+//		    	
+//		    	if(gamepad2.rightBumper())
+//		    	{
+//		    		isMoveHeight = true;
+//		    		lift.setTargetHeight(lift.getCurPos() + lift.rangeValue);
+//		    	}
+//		    	else if(gamepad2.leftBumper())
+//		    	{
+//		    		isMoveHeight = true;
+//		    		lift.setTargetHeight(lift.getCurPos() - lift.rangeValue);
+//		    	}
+//		    	
+//		    	if(isMoveHeight&&gamepad2.rightStickY()==0)
+//		    	{
+//		    		isMoveHeight = !(lift.moveToHeight(0.5));
+//		    	}
+//		    	else
+//		    		lift.moveWithPower(-gamepad2.rightStickY());
+//		    }
+//		}
 	}
 	
 	public void initAutonomous()

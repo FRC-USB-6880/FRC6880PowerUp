@@ -54,7 +54,7 @@
         	{"name" : "SetOrientation", "speed" : 0.4, "targetYaw" : 0.0, "tolerance" : 3.0}
         ],
         "crossTheLine" : [
-            {"name" : "MoveDistance", "speed" : 0.7, "distance" : 230.0, "targetYaw" : 0.0}
+            {"name" : "MoveDistance", "speed" : 0.7, "distance" : 170.0, "targetYaw" : 0.0}
         ],
         "crossTheLine_test" : [
         	{"name" : "MoveDistance", "speed" : 0.4, "distance" : 12.0, "targetYaw" : 0.0},
@@ -141,8 +141,8 @@
             {"name" : "LiftToPos", "power" : 1.0, "pos" : "mid", "tolerance" : 0.1},
             {"name" : "MoveDistance", "speed" : 0.7, "distance" : 290.0, "targetYaw" : 0.0},
             {"name" : "LiftToPos", "power" : 0.5, "pos" : "high", "tolerance" : 0.05},
-            {"name" : "MoveDistance", "speed" : 0.5, "distance" : 22.0, "targetYaw" : 0.0},
-            {"name" : "SetOrientation", "speed" : 0.4, "targetYaw" : -90.0, "tolerance" : 3.0},
+            {"name" : "MoveDistance", "speed" : 0.5, "distance" : 10.0, "targetYaw" : 0.0},
+            {"name" : "SetOrientation", "speed" : 0.6, "targetYaw" : -90.0, "tolerance" : 3.0},
             {"name" : "CubeHandle", "close" : false}		
         ],
         "scaleR_test" : [

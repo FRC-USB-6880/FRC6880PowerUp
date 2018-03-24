@@ -125,12 +125,13 @@ public class Lift
 //    		liftMotor.set(checkLowerLimit() ? 0.0 : power);
 //    	else if(power>0)
 //    		liftMotor.set(checkUpperLimit() ? 0.0 : power);
+//    	displayCurrentPosition();
     	liftMotor.set(power);
     	curPower = power;
     }
     public void displayCurrentPosition()
     {
-        double value = liftMotor.getSelectedSensorPosition(0);
+        double value = -liftMotor.getSelectedSensorPosition(0);
         System.out.format("frc6880: Current lift encoder value = %f\n", value);
 //        SmartDashboard.putNumber("LiftPos", value);
     }

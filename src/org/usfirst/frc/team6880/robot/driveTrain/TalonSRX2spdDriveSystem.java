@@ -100,7 +100,7 @@ public class TalonSRX2spdDriveSystem implements DriveSystem {
             motorRight = new SpeedControllerGroup(motorR2);
             System.out.println("Leader: Motor_R2, Follower: Motor_R1");
             /* Master is configured to ramp from neutral to full within 2 seconds */
-            motorR2.configOpenloopRamp(2, 0);
+            motorR2.configOpenloopRamp(0, 0);
             motorR1.configOpenloopRamp(0, 0); /* no need since master ramps */
         }
         else if (configReader.isFollower("Motor_R2")) 
@@ -109,14 +109,14 @@ public class TalonSRX2spdDriveSystem implements DriveSystem {
             motorRight = new SpeedControllerGroup(motorR1);
             System.out.println("Leader: Motor_R1, Follower: Motor_R2");
             /* Master is configured to ramp from neutral to full within 2 seconds */
-            motorR1.configOpenloopRamp(2, 0);
+            motorR1.configOpenloopRamp(0, 0);
             motorR2.configOpenloopRamp(0, 0); /* no need since master ramps */
         }
         else
         {
             motorRight = new SpeedControllerGroup(motorR1, motorR2);
-            motorR1.configOpenloopRamp(2, 0); /* ramp from neutral to full within 2 seconds */
-            motorR2.configOpenloopRamp(2, 0); /* ramp from neutral to full within 2 seconds */
+            motorR1.configOpenloopRamp(0, 0); /* ramp from neutral to full within 2 seconds */
+            motorR2.configOpenloopRamp(0, 0); /* ramp from neutral to full within 2 seconds */
         }
 
         drive = new DifferentialDrive(motorLeft, motorRight);
@@ -180,8 +180,8 @@ public class TalonSRX2spdDriveSystem implements DriveSystem {
 
     @Override
     public void arcadeDrive(double speed, double rotationRate) {
-//        drive.arcadeDrive(mult*speed, mult*rotationRate);        
-      drive.arcadeDrive(speed, rotationRate);        
+        drive.arcadeDrive(mult*speed, mult*rotationRate);        
+//      drive.arcadeDrive(speed, rotationRate);        
     }
 
     @Override
