@@ -81,6 +81,7 @@ public class AutonomousTasks {
                         key = JsonReader.getKeyIgnoreCase(obj, "tolerance");
                         tolerance = JsonReader.getDouble(obj, key);
                         tasks.add(new TaskLiftToPos(robot, power, pos, tolerance));
+                        System.out.println("frc6880: Given pos: "+pos+" tolerance: "+tolerance);
                         break;
 	        		case "CubeHandle":
 	        			key = JsonReader.getKeyIgnoreCase(obj, "close");

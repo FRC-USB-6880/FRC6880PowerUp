@@ -346,7 +346,7 @@ public class FRCRobot {
                 if(gameData.charAt(1) == 'L'&&gameData.charAt(0)=='R') {
                     autoTask = "switchR";
                 } else if (gameData.charAt(1) == 'R'&&gameData.charAt(0)=='R') {
-                    autoTask = "switchR";
+                    autoTask = "scaleR";
                 } else if (gameData.charAt(1)=='R'&&gameData.charAt(0)=='L'){
                 	autoTask = "scaleR";
                 } else {

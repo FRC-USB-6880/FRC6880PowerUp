@@ -192,6 +192,7 @@ public class TalonSRX2spdDriveSystem implements DriveSystem {
 
     @Override
     public double getEncoderDist() {
+    	System.out.println("frc6880: leftEncoder = " + leftEnc.getDistance() + ", righeEncooder = " + rightEnc.getDistance());
         return (leftEnc.getDistance() + rightEnc.getDistance()) / 2.0;
     }
     
