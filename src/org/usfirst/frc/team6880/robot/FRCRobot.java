@@ -25,8 +25,6 @@ public class FRCRobot {
 	public DriveSystem driveSys;
 	public Navigation navigation;
 	RobotConfigReader configReader;
-	private Joystick joystick1;
-	private Joystick joystick2 = null;
 	private LogitechF310 gamepad2;
 	private LogitechF310 gamepad1;
 	public PowerDistributionPanel pdp;
@@ -34,9 +32,7 @@ public class FRCRobot {
 	public PneumaticController pcmObj;
 	public Lift lift;
 	public CubeHandler cubeHandler;
-	private double invertMult;
 	private StateMachine stateMachine;
-	private boolean isMoveHeight;
 	
 	
 	AutonomousTasks autonTasks;
@@ -92,9 +88,7 @@ public class FRCRobot {
         
         CameraServer.getInstance().startAutomaticCapture();
         
-        stateMachine = new StateMachine(this);
-        
-        isMoveHeight = false;
+        stateMachine = new StateMachine(this);        
 	}
 	
 	public void initTeleOp()
@@ -119,166 +113,6 @@ public class FRCRobot {
 		
 		lift.moveWithPower(-gamepad2.rightStickY());
 	    
-//	    if(gamepad2.rightBumper())
-//    	{
-//    		isMoveHeight = true;
-//    		lift.setTargetHeight(lift.getCurPos() + lift.rangeValue);
-//    	}
-//    	else if(gamepad2.leftBumper())
-//    	{
-//    		isMoveHeight = true;
-//    		lift.setTargetHeight(lift.getCurPos() - lift.rangeValue);
-//    	}
-//    	
-//    	if(isMoveHeight&&gamepad2.rightStickY()==0)
-//    	{
-//    		isMoveHeight = !(lift.moveToHeight(0.5));
-//    	}
-//    	else
-//    		lift.moveWithPower(-gamepad2.rightStickY());
-//		System.out.println("frc6880: curpos: "+lift.getCurPos());
-	    
-//		if(joystick1.getThrottle()>0)
-//		{
-//		    if(joystick2 == null)
-//		    {
-//		    	driveSys.arcadeDrive(-joystick1.getY(), joystick1.getTwist());
-//		    	
-//		    	if(joystick1.getRawButton(8))
-//			    	driveSys.setHiSpd();
-//			    if(joystick1.getRawButton(10))
-//			    	driveSys.setLoSpd();
-//			    
-//		    	if(joystick1.getRawButton(6))
-//			    	lift.moveWithPower(0.5);
-//			    else if(joystick1.getRawButton(4))
-//			    	lift.moveWithPower(-0.3);
-//			    else
-//			    	lift.stop();
-//			    
-//			    if(joystick1.getTrigger())
-//			    	cubeHandler.grabCube();
-//			    else if(joystick1.getRawButton(2))
-//			    	cubeHandler.releaseCube();
-//			    
-//			    if(joystick1.getRawButton(7))
-//		    	{
-//		    		isMoveHeight = true;
-//		    		lift.setTargetHeight(lift.getCurPos() + lift.rangeValue);
-//		    	}
-//		    	else if(joystick1.getRawButton(9))
-//		    	{
-//		    		isMoveHeight = true;
-//		    		lift.setTargetHeight(lift.getCurPos() - lift.rangeValue);
-//		    	}
-//		    	
-//		    	if(isMoveHeight)
-//		    	{
-//		    		isMoveHeight = !(lift.moveToHeight(0.5));
-//		    	}
-//		    }
-//		    else if(joystick2 != null)
-//		    {
-//		    	driveSys.tankDrive(-joystick1.getY(), -joystick2.getY());
-//		    	
-//		    	if(joystick1.getRawButton(2))
-//		    		cubeHandler.grabCube();
-//		    	else if(joystick2.getRawButton(2))
-//		    		cubeHandler.releaseCube();
-//		    	
-//		    	if(joystick1.getRawButton(5))
-//		    		driveSys.setHiSpd();
-//		    	else if(joystick1.getRawButton(3))
-//		    		driveSys.setLoSpd();
-//		    	
-//		    	if(joystick1.getTrigger())
-//		    	{
-//		    		isMoveHeight = true;
-//		    		lift.setTargetHeight(lift.getCurPos() + lift.rangeValue);
-//		    	}
-//		    	else if(joystick2.getTrigger())
-//		    	{
-//		    		isMoveHeight = true;
-//		    		lift.setTargetHeight(lift.getCurPos() - lift.rangeValue);
-//		    	}
-//		    	
-//		    	if(isMoveHeight)
-//		    	{
-//		    		isMoveHeight = !(lift.moveToHeight(0.5));
-//		    	}
-//		    }
-//		}
-//		else
-//		{
-//			if(joystick2 == null)
-//		    {
-//		    	driveSys.arcadeDrive(-joystick1.getY(), joystick1.getTwist());
-//		    	
-//		    	if(joystick1.getRawButton(8))
-//			    	driveSys.setHiSpd();
-//			    if(joystick1.getRawButton(10))
-//			    	driveSys.setLoSpd();
-//			    
-//		    	
-//			    
-//			    if(gamepad2.dpadDown())
-//			    	cubeHandler.grabCube();
-//			    else if(gamepad2.dpadUp())
-//			    	cubeHandler.releaseCube();
-//			    
-//			    if(gamepad2.rightBumper())
-//		    	{
-//		    		isMoveHeight = true;
-//		    		lift.setTargetHeight(lift.getCurPos() + lift.rangeValue);
-//		    	}
-//		    	else if(gamepad2.leftBumper())
-//		    	{
-//		    		isMoveHeight = true;
-//		    		lift.setTargetHeight(lift.getCurPos() - lift.rangeValue);
-//		    	}
-//		    	
-//		    	if(isMoveHeight&&gamepad2.rightStickY()==0)
-//		    	{
-//		    		isMoveHeight = !(lift.moveToHeight(0.5));
-//		    	}
-//		    	else
-//		    		lift.moveWithPower(-gamepad2.rightStickY());
-//		    }
-//		    else if(joystick2 != null)
-//		    {
-//		    	driveSys.tankDrive(-joystick1.getY(), -joystick2.getY());
-//		    	
-//		    	if(gamepad2.dpadDown())
-//			    	cubeHandler.grabCube();
-//			    else if(gamepad2.dpadUp())
-//			    	cubeHandler.releaseCube();
-//		    	
-//		    	if(joystick1.getTrigger())
-//		    		driveSys.setHiSpd();
-//		    	else if(joystick2.getTrigger())
-//		    		driveSys.setLoSpd();
-//		    	
-//		    	lift.moveWithPower(-gamepad2.rightStickY());
-//		    	
-//		    	if(gamepad2.rightBumper())
-//		    	{
-//		    		isMoveHeight = true;
-//		    		lift.setTargetHeight(lift.getCurPos() + lift.rangeValue);
-//		    	}
-//		    	else if(gamepad2.leftBumper())
-//		    	{
-//		    		isMoveHeight = true;
-//		    		lift.setTargetHeight(lift.getCurPos() - lift.rangeValue);
-//		    	}
-//		    	
-//		    	if(isMoveHeight&&gamepad2.rightStickY()==0)
-//		    	{
-//		    		isMoveHeight = !(lift.moveToHeight(0.5));
-//		    	}
-//		    	else
-//		    		lift.moveWithPower(-gamepad2.rightStickY());
-//		    }
-//		}
 	}
 	
 	public void initAutonomous()
@@ -305,20 +139,20 @@ public class FRCRobot {
 		        // Claim the scale
     		    if(gameData.charAt(1) == 'L') {
     		        autoTask = "scaleL";
-    		    } else if (gameData.charAt(1) == 'R' && gameData.charAt(0)=='L') {
+    		    } else if (gameData.charAt(0)=='L') {
     		        autoTask = "switchL";
     		    } else {
-    		        // Something bad happened; just move forward for autoquest
+    		        // gamedata is "RRR"; just move forward for autoquest
                     autoTask = "crossTheLine";
     		    }
 		    } else if (autoOption.equals("switch")) {
 		        // Claim the switch or do nothing (just move forward)
                 if(gameData.charAt(0) == 'L') {
                     autoTask = "switchL";
-                } else if (gameData.charAt(0) == 'R') {
-                    autoTask = "crossTheLine";
+                } else if (gameData.charAt(1) == 'L') {
+                    autoTask = "scaleL";
                 } else {
-                    // Something bad happened; just move forward for autoquest
+                    // gamedata is "RRR"; just move forward for autoquest
                     autoTask = "crossTheLine";
                 }
 		    }
@@ -343,22 +177,20 @@ public class FRCRobot {
 		{
             if (autoOption.equals("scale")) {
                 // Claim the scale
-                if(gameData.charAt(1) == 'L'&&gameData.charAt(0)=='R') {
+                if(gameData.charAt(1) == 'R') {
+                    autoTask = "scaleR";
+                } else if (gameData.charAt(0)=='R') {
                     autoTask = "switchR";
-                } else if (gameData.charAt(1) == 'R'&&gameData.charAt(0)=='R') {
-                    autoTask = "switchR";
-                } else if (gameData.charAt(1)=='R'&&gameData.charAt(0)=='L'){
-                	autoTask = "scaleR";
                 } else {
                     // Something bad happened; just move forward for autoquest
                     autoTask = "crossTheLine";
                 }
             } else if (autoOption.equals("switch")) {
                 // Claim the switch or do nothing (just move forward)
-                if(gameData.charAt(0) == 'L') {
-                    autoTask = "crossTheLine";
-                } else if (gameData.charAt(0) == 'R') {
+                if(gameData.charAt(0) == 'R') {
                     autoTask = "switchR";
+                } else if (gameData.charAt(1) == 'R') {
+                    autoTask = "scaleR";
                 } else {
                     // Something bad happened; just move forward for autoquest
                     autoTask = "crossTheLine";
