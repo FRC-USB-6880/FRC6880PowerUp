@@ -25,6 +25,8 @@ public class FRCRobot {
 	public DriveSystem driveSys;
 	public Navigation navigation;
 	RobotConfigReader configReader;
+	private Joystick joystick1;
+	private Joystick joystick2 = null;
 	private LogitechF310 gamepad2;
 	private LogitechF310 gamepad1;
 	public PowerDistributionPanel pdp;
