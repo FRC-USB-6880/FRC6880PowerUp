@@ -87,6 +87,11 @@ public class AutonomousTasks {
 	        			boolean close = (boolean)obj.get(key);
 	        			tasks.add(new TaskCubeHandle(robot, close));
 	        			break;
+	        		case "WaitForTime":
+	        		    key = JsonReader.getKeyIgnoreCase(obj, "seconds");
+	        		    double secondsToWait = JsonReader.getDouble(obj, key);
+	        		    tasks.add(new TaskWaitForTime(robot, secondsToWait));
+	        		    break;
 	//        		case "SpinDegrees":
 	//        			key = JsonReader.getKeyIgnoreCase(obj, "angle");
 	//        			double angle = (double)obj.get(key);
