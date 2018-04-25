@@ -8,6 +8,7 @@ import org.usfirst.frc.team6880.robot.jsonReaders.DriveTrainReader;
 import org.usfirst.frc.team6880.robot.jsonReaders.JsonReader;
 import org.usfirst.frc.team6880.robot.jsonReaders.WheelSpecsReader;
 
+import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
 import edu.wpi.first.wpilibj.DoubleSolenoid;
@@ -40,6 +41,8 @@ public class TalonSRX2spdDriveSystem implements DriveSystem {
     private double wheelCircumference;
     private double distancePerCountLoSpd, distancePerCountHiSpd;
     private double mult;
+    
+    double prevSpeed, prevLeftSpeed, prevRightSpeed, speedStep;
 
     /**
      * 
@@ -60,6 +63,7 @@ public class TalonSRX2spdDriveSystem implements DriveSystem {
         motorL2 = new WPI_TalonSRX(configReader.getDeviceID("Motor_L2"));
         motorL1.setInverted(true);
         motorL2.setInverted(true);
+//        motorL1.setNeutralMode(NeutralMode.Coast);
         if (configReader.isFollower("Motor_L1"))
         {
             motorL1.follow(motorL2);
@@ -167,16 +171,34 @@ public class TalonSRX2spdDriveSystem implements DriveSystem {
         curGear = Gears.LOW;
         
         mult = 1.0;
+        prevLeftSpeed = prevRightSpeed = prevSpeed = 0.0;
+        speedStep = 0.01;
     }
 
     @Override
     public void tankDrive(double leftSpeed, double rightSpeed) {
-        drive.tankDrive(mult*leftSpeed, mult*rightSpeed);        
+        // Note: Tank Drive is used only for autonomous; arcade drive is used for Teleop
+        if (leftSpeed > prevLeftSpeed)
+            leftSpeed = Math.min(prevLeftSpeed+speedStep, leftSpeed);
+        else if (leftSpeed < prevLeftSpeed)
+            leftSpeed = Math.max(prevLeftSpeed - (5*speedStep), leftSpeed);
+        if (rightSpeed > prevRightSpeed)
+            rightSpeed = Math.min(prevRightSpeed+speedStep, rightSpeed);
+        else if (rightSpeed < prevRightSpeed)
+            rightSpeed = Math.max(prevRightSpeed - (5*speedStep), rightSpeed);
+
+        drive.tankDrive(mult*leftSpeed, mult*rightSpeed);
+        prevLeftSpeed = leftSpeed;
+        prevRightSpeed = rightSpeed;
     }
 
     @Override
     public void arcadeDrive(double speed, double rotationRate) {
-        drive.arcadeDrive(mult*speed, mult*rotationRate);        
+        // Note: Arcade Drive is used only for Teleop; Tank drive is used for autonomous
+        if (speed > prevSpeed)
+            speed = Math.min(prevSpeed+speedStep, speed);
+        drive.arcadeDrive(mult*speed, mult*rotationRate);
+        prevSpeed = speed;
 //      drive.arcadeDrive(speed, rotationRate);        
     }
 
